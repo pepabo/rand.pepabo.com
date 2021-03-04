@@ -1,0 +1,426 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>GopherCon 2019でOptimization for Number of goroutines Using Feedback Controlについて発表をしました - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所 研究員／プリンシパルエンジニアの三宅(@monochromegane)です。
+2019年7月24日から4日間に渡って開催されたGopherCon 2019で発表を行いましたのでスライドと共に紹介します。
+
+GopherCon" />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="GopherCon 2019でOptimization for Number of goroutines Using Feedback Controlについて発表をしました - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所 研究員／プリンシパルエンジニアの三宅(@monochromegane)です。
+2019年7月24日から4日間に渡って開催されたGopherCon 2019で発表を行いましたのでスライドと共に紹介します。
+
+GopherCon" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-35620c53.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/" class="header__logo-link">      <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+      </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2019/08/20/gophercon2019/">GopherCon 2019でOptimization for Number of goroutines Using Feedback Controlについて発表をしました</a>
+  </h1>
+
+  <time datetime="2019-08-20" class="article__time">
+    2019-08-20
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅(<a href="https://twitter.com/monochromegane">@monochromegane</a>)です。
+2019年7月24日から4日間に渡って開催された<a href="https://www.gophercon.com/home">GopherCon 2019</a>で発表を行いましたのでスライドと共に紹介します。</p>
+
+<h2 id="gophercon">GopherCon</h2>
+
+<p>GopherConはGo関連で最大級の国際カンファレンスです。 6年目となる今年は世界中から1,800名のGopherが参加し、200名以上の応募の中から選ばれた36名がスピーカーとして登壇しました。 今回のGopherConではPre-Conference Workshopと呼ばれるカンファレンス前日に終日行われるワークショップと、カンファレンス期間中に行われる25分のキーノートセッション、そして45分のチュートリアルセッションがありました。 その中で、僕は<a href="https://www.gophercon.com/agenda/speakers/442434">「Optimization for Number of goroutines Using Feedback Control」というタイトルで45分のチュートリアルセッション</a>を務めました。</p>
+
+<h2 id="optimization-for-number-of-goroutines-using-feedback-control">Optimization for Number of goroutines Using Feedback Control</h2>
+
+<p>Go言語では、賢いランタイムと軽量なGoroutineによって効率的に並行処理が実行されます。
+しかしながら、スピードと安定性の両方を達成するために、開発者は経験と地道なチューニングを通してアプリケーションごとに最適なGoroutine起動数を決めなければなりません。
+また、ほとんどの場合、プログラムがチューニングされる環境と実行される環境は異なります。
+そのため、負荷状況やプラットフォームに依存せず高い性能を得るために、並行数は実行時に動的かつ高速に制御されることが望ましいです。
+そこで本セッションでは、フィードバック制御と動的セマフォを用いてGoroutineの起動数を動的に制御する手法を提案しました。</p>
+
+<p>具体的には、並行数を増加しても何らかのボトルネックにより処理性能が改善しなくなる並行数の上限の存在を前提として、これを汎用的に検知する指標を選定します。
+次に、この指標の上限を達成するために必要な並行数をフィードバック制御により継続的に求めます。
+なお、タスクの進行により指標の上限は変化するため、これを検知し制御器の目標値を更新します。
+提案手法ではこれらを実現するための二重ループ構造を持つ制御器を実装しました。</p>
+
+<p>評価では、並行数に対する様々な性能特性をもつタスクに対し、少ない並行数で安定したパフォーマンス向上を実行時に継続的に達成できることが確認できました。
+今後は、制御器に関するパラメタ調整ならびにより効果的な指標を利用する実装を進めることで精度の向上を図りたいと思います。
+また、最適な並行数を動的に求めるアーキテクチャの特性を活かして、クラウドコンピューティングにおける仮想サーバー台数の最適化にも応用を進めていきます。</p>
+
+<h3 id="section">会場の様子</h3>
+
+<div class="parent_iframe" style="position:relative;width:75%;height:0;padding-top:75%;">
+  <iframe class="embed_iframe" src="https://s.insta360.com/p/28b6fbdd988f775d97328c5179e8061a?e=true&amp;locale=en-us" frameborder="0" width="666" height="413" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+</div>
+
+<h3 id="section-1">発表の様子</h3>
+
+<p><img src="/images/2019-08-20-gophercon2019/gophercon2019.jpeg" alt="gophercon2019" /></p>
+
+<h3 id="section-2">スライド</h3>
+
+<script async="" class="speakerdeck-embed" data-id="aa53e4353d9b4efc9064eefba40e13b7" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<h3 id="section-3">スピーカーノート</h3>
+
+<ul>
+  <li><a href="https://blog.monochromegane.com/blog/2019/07/25/gophercon_2019_kaburaya/">GopherCon 2019: Optimization for Number of goroutines Using Feedback Control</a></li>
+</ul>
+
+<h2 id="section-4">まとめ</h2>
+
+<p>今回のGopherConでの発表は、僕にとって初めての国際会議での登壇となりました。
+これまでOSS活動の相棒として付き合ってきたGo言語、ペパボ研究所で研究職についてからの試行錯誤、そしてWeb System Architecture研究会への参加を始めとする継続的かつ長期的な研究との向き合い。
+これらの集大成として挑んだ登壇であり、 幸いにも、発表に対して興味を持ってもらえたこと、一定の反響があったことを、非常に嬉しく思っています。これらの取り組みについては以下のエントリでも紹介していますのでよければご覧ください。</p>
+
+<ul>
+  <li><a href="https://blog.monochromegane.com/blog/2019/08/10/gophercon_2019/">GopherCon 2019で初の海外カンファレンス登壇をしてきました</a></li>
+  <li><a href="https://blog.monochromegane.com/blog/2019/08/11/toward_the_oversea_conference/">初めて海外カンファレンス登壇するためにやったこと</a></li>
+</ul>
+
+<p>GopherConのトークについては、どれも最新の情報だけでなく、スピーカーの方の実際の経験に基づく興味深く、かつ面白いセッションばかりでとてもためになりました。
+また、質疑についても非常に積極的に行われている印象を受けました。
+今後は専門分野での能力だけでなく英語力も一層向上させ、この活発かつ深い議論の輪にもっと入っていけるようにしたいと思います。</p>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2019/08/20/gophercon2019/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          三宅悠介
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員、プリンシパルエンジニア
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2021-03-04" class="article__time">2021-03-04</time></div>
+          <a href="/article/2021/03/04/ipsj-sigse-207/">情報処理学会の第207回SE研究発表会で、IoTアプリケーションの開発効率向上に関する手法の提案と実装について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2020-12-15" class="article__time">2020-12-15</time></div>
+          <a href="/article/2020/12/15/iots2020/">第13回インターネットと運用技術シンポジウム(IOTS2020)で変化検出と要約データ構造を用いた利用者の嗜好の変化に迅速に追従する多腕バンディット手法について発表、優秀プレゼンテーション賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2020-09-09" class="article__time">2020-09-09</time></div>
+          <a href="/article/2020/09/09/iot51/">情報処理学会第51回インターネットと運用技術研究会でインターネットとオープンな無線技術の今後について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2020-07-22" class="article__time">2020-07-22</time></div>
+          <a href="/article/2020/07/22/machine-learning-introduction/">ペパボ研究所による新卒エンジニア向け機械学習研修</a>
+        </li>
+        <li>
+          <div><time datetime="2020-07-14" class="article__time">2020-07-14</time></div>
+          <a href="/article/2020/07/14/morphological-analysis/">Google Cloud Platformを用いた形態素解析</a>
+        </li>
+        <li>
+          <div><time datetime="2020-07-13" class="article__time">2020-07-13</time></div>
+          <a href="/article/2020/07/13/iot50/">情報処理学会第50回インターネットと運用技術研究会で非定常な多腕バンディット問題における変化検出アプローチの線形モデルへの拡張について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2020-06-22" class="article__time">2020-06-22</time></div>
+          <a href="/article/2020/06/22/pepaken-as-a-team/">ペパボ研究所の新しい習慣</a>
+        </li>
+        <li>
+          <div><time datetime="2020-06-16" class="article__time">2020-06-16</time></div>
+          <a href="/article/2020/06/16/bigfoot-migration/">ペパボのログ活用基盤「Bigfoot」を Google Cloud Platform に移設しました</a>
+        </li>
+        <li>
+          <div><time datetime="2020-05-15" class="article__time">2020-05-15</time></div>
+          <a href="/article/2020/05/15/iot49/">情報処理学会第49回インターネットと運用技術研究会でECサイトにおける購買につながる行動の変化検出とハンドメイド作品を対象としたECサイトにおいての稀覯品の検出について発表をしました</a>
+        </li>
+      <li>
+        <a href="/article">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/会議参加報告/" class="tag-color10">会議参加報告</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <p class="credit__logo">ペパボ研究所</p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2021
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+
+    <div class="overlay"></div>
+  </body>
+</html>

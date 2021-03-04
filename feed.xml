@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ペパボ研究所</title>
+  <id>http://rand.pepabo.com/article</id>
+  <link href="http://rand.pepabo.com/article"/>
+  <link href="http://rand.pepabo.com/feed.xml" rel="self"/>
+  <updated>2021-03-03T15:00:00+00:00</updated>
+  <author>
+    <name>GMO Pepabo, Inc.</name>
+  </author>
+  <entry>
+    <title>情報処理学会の第207回SE研究発表会で、IoTアプリケーションの開発効率向上に関する手法の提案と実装について発表しました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2021/03/04/ipsj-sigse-207/"/>
+    <id>http://rand.pepabo.com/article/2021/03/04/ipsj-sigse-207/</id>
+    <published>2021-03-03T15:00:00+00:00</published>
+    <updated>2021-03-04T05:14:57+00:00</updated>
+    <author>
+      <name>栗林健太郎, 力武健次</name>
+    </author>
+    <content type="html">&lt;p&gt;こんにちは、ペパボ研究所所長の栗林健太郎です。いろいろあって、社会人学生をやっています。詳しくは以下をどうぞ。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://kentarokuribayashi.com/journal/2020/07/19/2020-07-19-000747"&gt;北陸先端科学技術大学院大学先端科学技術研究科博士前期課程に入学しました&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://kentarokuribayashi.com/journal/2020/12/03/adult-student-2020"&gt;ある社会人学生の生活と意見（2020年版）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;本エントリでは、&lt;a href="http://www.ipsj.or.jp/kenkyukai/event/se207.html"&gt;情報処理学会の第207回SE研究発表会&lt;/a&gt;で研究報告を発表してきたので、簡単に報告したいとおもいます。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;発表内容について&lt;/h2&gt;
+
+&lt;p&gt;IoTデバイス内で動作するアプリケーションを開発するに際して、開発者が変更したコードをIoTデバイスへ送信・適用して動作確認することに時間がかかるのが、迅速な開発サイクルの妨げになっているでのはないか？そんな問題意識から、先行研究では十分には検討されてこなかった、IoTデバイス上で動作するアプリケーションのコードを動的に書き換える方式を、開発効率の向上という観点からあらためて整理・提案し、実装したものを実験によって評価しました。&lt;/p&gt;
+
+&lt;p&gt;詳細については、以下の予稿と発表資料をご覧いただければと思います。&lt;/p&gt;
+
+&lt;h3 id="section-1"&gt;研究報告予稿&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href="/papers/se207-antipop.pdf"&gt;&lt;img src="/images/2021-03-04-ipsj-sigse-207/paper.png" alt="「IoT デバイス内アプリケーションの開発効率向上のために コードの変更を動的に適用する方式の提案と実装」の表紙" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="/papers/se207-antipop.pdf"&gt;予稿: 「IoT デバイス内アプリケーションの開発効率向上のために コードの変更を動的に適用する方式の提案と実装」&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id="section-2"&gt;発表スライド&lt;/h3&gt;
+
+&lt;script async="" class="speakerdeck-embed" data-id="033fb830975c463c97c8e4eb673bc1a2" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;a href="https://speakerdeck.com/kentaro/ipsj-sigse-207"&gt;スライド: 「IoTデバイス内アプリケーションの開発効率向上のためにコードの変更を動的に適用する方式の提案と実装」&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id="section-3"&gt;おわりに&lt;/h2&gt;
+
+&lt;p&gt;本研究報告における実装は、プログラミング言語&lt;a href="https://elixir-lang.org/"&gt;Elixir&lt;/a&gt;と、ElixirによってIoTデバイスを開発できるプラットフォームである&lt;a href="https://www.nerves-project.org/"&gt;Nerves&lt;/a&gt;を用いています。2021年11月に行われた&lt;a href="https://wsa.connpass.com/event/187128/"&gt;第7回WebSystemArchitecture研究会&lt;/a&gt;におけるNervesに関する発表においてNervesを初めて知り、「これだ！」と感銘を覚えてのめり込み、こうして研究報告を発表するに至りました。出会いを与えてくれた皆様、共著者の皆様、ご助言くださったコミュニティの皆様に感謝いたします。引き続き、ElixirやNervesをからめた研究をしていくつもりです。&lt;/p&gt;
+
+&lt;h2 id="section-4"&gt;共著者からのコメント&lt;/h2&gt;
+
+&lt;p&gt;共著者の力武健次です。以下、本研究発表の背景について説明します。&lt;/p&gt;
+
+&lt;p&gt;IoTデバイスの運用管理やソフトウェア更新は、回線やハードウェアの制約などで、大変難しい課題になっています。これらの課題を解決する上で、Erlang/OTPやElixirを組み込み機器に応用する試みは、&lt;a href="https://www.erlang-factory.com/conference/SFBay2013/university/RaspberryPi"&gt;2013年のErlang Factory SF Bay Areaでのハンズオン&lt;/a&gt;から続いていました。2021年の現在もNervesの他に&lt;a href="https://www.grisp.org"&gt;GRiSP&lt;/a&gt;というErlang/OTPやElixirを直接起動できる組み込みボードなど各種研究開発が続けられています。&lt;/p&gt;
+
+&lt;p&gt;Erlang/OTPでは&lt;a href="http://erlang.org/doc/reference_manual/code_loading.html"&gt;同じモジュールに対して新旧2種類のコードを共存させる仕組み&lt;/a&gt;があり、この仕組みを使うことでコードの更新を円滑に行うことができます。実際にはモジュールや関数の相互依存などに注意が必要ですが、このコード更新機能はErlang/OTPの最初からの開発ターゲットであるEricssonの交換機や、分散データベースである&lt;a href="https://hibari.readthedocs.io/en/latest/index.html"&gt;Hibari&lt;/a&gt;や&lt;a href="https://github.com/basho/riak"&gt;Riak&lt;/a&gt;などのデバッグ等運用の現場で活用されてきた実績があります。ElixirはErlang/OTPの上に作られた言語システムであり、このコード更新機能を含めたErlang/OTPのすべての機能を使うことができます。&lt;/p&gt;
+
+&lt;p&gt;今後組み込み機器で使えるシステム資源の拡大に伴い、コード更新機能などの信頼性確保の仕組みがIoTの世界にも拡充されていくであろうと力武は考えています。信頼性を保ちつつシステムを動的に変更するための技術開発は、ペパボ研究所が掲げてきた「なめらかなシステム」の基礎となるものであり、今後も大いに発展する可能性のある分野といえるでしょう。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>第13回インターネットと運用技術シンポジウム(IOTS2020)で変化検出と要約データ構造を用いた利用者の嗜好の変化に迅速に追従する多腕バンディット手法について発表、優秀プレゼンテーション賞を受賞しました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2020/12/15/iots2020/"/>
+    <id>http://rand.pepabo.com/article/2020/12/15/iots2020/</id>
+    <published>2020-12-14T15:00:00+00:00</published>
+    <updated>2021-02-25T11:40:11+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／プリンシパルエンジニアの三宅(&lt;a href="https://twitter.com/monochromegane"&gt;@monochromegane&lt;/a&gt;)です。
+2020年12月3日から2日間に渡って開催された、&lt;a href="https://www.iot.ipsj.or.jp/symposium/iots2020/"&gt;第13回インターネットと運用技術シンポジウム&lt;/a&gt;(IOTS2020)で、ペパボ研究所から発表を行いましたので論文と発表資料と共に紹介します。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;変化検出と要約データ構造を用いた利用者の嗜好の変化に迅速に追従する多腕バンディット手法&lt;/h2&gt;
+
+&lt;p&gt;Webサービス利用者の情報過多問題を解決するため、推薦システムが導入される一方で、開発運用者は最適な推薦アルゴリズムの選定に多くの時間とコストを割いています。
+今年、我々は状況に応じた推薦アルゴリズムの選定を文脈付き多腕バンディット問題とみなし、線形な解法を用いてこれを解く推薦システムとして実装、導入を行い、結果を発表しました。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://search.ieice.org/bin/summary.php?id=j103-d_11_764"&gt;三宅 悠介, 峯 恒憲, Synapse: 文脈に応じて継続的に推薦手法の選択を最適化する推薦システム, 電子情報通信学会論文誌D, Vol.J103-D, No.11, pp.764-775, Nov 2020.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;しかしながら、従来の線形な解法では、多様かつ継続的に変化する利用者の嗜好の変化への追従性が十分発揮できません。
+そこで、本研究では、このような多様かつ継続的に変化する環境を想定した多腕バンディット問題の解法を提案しています。&lt;/p&gt;
+
+&lt;p&gt;提案手法では、変化検出の手法を用いて腕となる利用者の嗜好の変化を検出し、変化以前に蓄積された情報をクリアすることで、過去の情報にひきづられることなく変化へ追従します。
+また、多様な文脈に対してそれぞれ変化検出を試みることで問題となる、追従性の低下と履歴データサイズの肥大化に対処します。
+まず、追従性の低下について、個々の多様な文脈ではなく、この文脈を構成する要因パラメータを推定し、文脈の数と比べて小さな要因数から算出した二つの代表値の時間変化を監視します。
+これにより全試行回数に対する評価の分散を防ぎ、追従性の課題を解決します。
+次に、履歴データサイズについて、指数ヒストグラムと呼ばれるデータ構造で管理することで、肥大化を防ぎます。
+また、標準的な指数ヒストグラムは1次元の時系列しか扱えないこと、各次元に対してメタデータが必要なことから、本研究では多次元の履歴データを格納するよう小さな拡張を施しています。
+提案手法では、これらの変化検出と要約データ構造を用いることで、利用者の嗜好の変化に迅速に追従します。&lt;/p&gt;
+
+&lt;p&gt;シミュレーションによる評価では、従来の解法と比較して、突発的な要因パラメータの変化にいち早く追従できること、履歴データサイズの肥大化を抑えることを確認しました。&lt;/p&gt;
+
+&lt;p&gt;今後は、同様の問題設定に対する従来手法の調査を深め、実システムでの新規性有用性に関する評価を進めていきます。&lt;/p&gt;
+
+&lt;h3 id="section-1"&gt;論文&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="/papers/iots2020-miyakey.pdf"&gt;三宅 悠介, 栗林 健太郎, 変化検出と要約データ構造を用いた利用者の嗜好の変化に迅速に追従する多腕バンディット手法, インターネットと運用技術シンポジウム論文集, 2020, pp.1-8, Nov 2020.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="section-2"&gt;発表資料&lt;/h3&gt;
+
+&lt;script async="" class="speakerdeck-embed" data-id="898aa35ec68a479198130336b1871da9" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h2 id="section-3"&gt;優秀プレゼンテーション賞&lt;/h2&gt;
+
+&lt;p&gt;本研究の発表で、優秀プレゼンテーション賞を受賞することができました。
+投票していただいたみなさま、誠にありがとうございます。
+研究活動において初めての表彰です。本当に嬉しいです。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2020-12-15-iots2020/iots2020-award-presentation.png" alt="award-presentation" /&gt;&lt;/p&gt;
+
+&lt;h2 id="section-4"&gt;発表を終えて&lt;/h2&gt;
+
+&lt;p&gt;今年はオンラインで行われたシンポジウムでしたが、発表だけでなくポスターセッションや企業展示についてもオフラインの経験をオンラインに再現する様々な工夫がされており、昨年までと同じように様々な意見交換を行うことができ、非常に有意義な時間となりました。&lt;/p&gt;
+
+&lt;p&gt;研究について、昨年のポスター発表に続いて、今年は論文投稿を行い、さらに優秀プレゼンテーション賞を受賞することができました。
+研究を支えてくれた、共著者である研究所の所長(&lt;a href="https://twitter.com/kentaro"&gt;@kentaro&lt;/a&gt;)、ならびに研究所の皆さんに心より感謝します。&lt;/p&gt;
+
+&lt;p&gt;受賞のコメントでも触れましたが、本研究は従来のIOT研究会の分野とは少し離れた研究に思えたかもしれません。
+しかしながら、機械学習や強化学習を用いた運用の判断や自動化は弊社を始め、取り組みが既に始まっていると考えます。
+今回の研究発表が、これらと運用技術との橋渡しの一端として、今後の研究会の発展に少しでも貢献できたのであれば幸いです。&lt;/p&gt;
+
+&lt;p&gt;来年は、優秀論文賞を狙います！&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>情報処理学会第51回インターネットと運用技術研究会でインターネットとオープンな無線技術の今後について発表をしました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2020/09/09/iot51/"/>
+    <id>http://rand.pepabo.com/article/2020/09/09/iot51/</id>
+    <published>2020-09-08T15:00:00+00:00</published>
+    <updated>2020-11-17T09:47:51+00:00</updated>
+    <author>
+      <name>力武健次</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所客員研究員の力武健次（りきたけ・けんじ、&lt;a href="https://twitter.com/jj1bdx"&gt;@jj1bdx&lt;/a&gt;）です。2020年9月3日と4日両日に開催された、&lt;a href="https://www.iot.ipsj.or.jp/meeting/51-program/"&gt;第51回インターネットと運用技術研究会&lt;/a&gt;(IOT51)で、ペパボ研究所として発表を行いました。その内容を論文（研究会予稿）と発表スライドと共に紹介します。&lt;/p&gt;
+
+&lt;p&gt;本発表では、2つの大きなテーマを定めて論じています。具体的には以下の2点です。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;(1) インターネットによりオープン化していく無線技術の現状について筆者の経験に基づく事例の紹介&lt;/li&gt;
+  &lt;li&gt;(2) オープン化の流れに追従できていない日本の電波監理体制を変えていく方法についての筆者の提言&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="section"&gt;インターネットによりオープン化していく無線技術&lt;/h3&gt;
+
+&lt;p&gt;インターネットはさまざまな技術に影響を与えています。無線技術もその例外ではありません。具体的には以下の3点が挙げられます。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;(1) ソフトウェア無線機（SDR）の普及: 無線機の主要機能を構成する要素をアナログな電子部品からコンピュータのソフトウェアに置き換えることにより、機能の精度を向上させて再現性を高めることが容易になりました。その結果後述するFM放送のマルチパス除去フィルタなど高度な機能の実現が容易になりました。&lt;/li&gt;
+  &lt;li&gt;(2) エンドノードからの情報集約によるIoT的な利用の普及: 無線機をセンサとして利用して、それらの情報を位置情報などと関連付けて一元処理することにより、地球全体のグローバルな状況の可視化ができるようになりました。このようなシステムの代表例として&lt;a href="https://www.flightradar24.com/"&gt;FlightRadar24&lt;/a&gt;が挙げられます。&lt;/li&gt;
+  &lt;li&gt;(3) 機能のオープンソースソフトウェア（OSS）化の推進: (1)のソフトウェア化に伴い、それまで熟練した技術者によらなければならなかった無線機の実装技術がより理論的な設計に近いものとなりました。その結果秘伝だった無線技術の開示が進み学習することが容易になりました。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;本発表では、筆者が無線技術のオープン化にかかわった例として、2つの事例を挙げています。&lt;/p&gt;
+
+&lt;p&gt;1つ目はFM放送の受信品質を向上させるためのマルチパス除去フィルタの実装です。マルチパス除去フィルタの原理そのものは1980年代にテレビジョン学会誌（現在の映像情報メディア学会誌）の論文[1]で開示されていますが、筆者はこの原理をFM放送などを受信するSDRのOSSである&lt;a href="https://github.com/jj1bdx/airspy-fmradion/"&gt;airspy-fmradion&lt;/a&gt;に実装し、NHK-FMの時報音の雑音ひずみ率(THD+N)を0.918%から0.242%に低減し改善することに成功しました。この技術については&lt;a href="https://note.com/jj1bdx/n/nf5775b0b7d50?magazine_key=m7e039477aaa8"&gt;筆者のNoteの記事&lt;/a&gt;として本発表とは別に詳細をまとめています。&lt;/p&gt;
+
+&lt;p&gt;2つ目はアマチュア無線を通じた全世界規模でのオープンサイエンス活動への参加です。本発表では微弱信号に対応できるOSSである&lt;a href="https://physics.princeton.edu/pulsar/K1JT/wsjtx.html"&gt;WSJT-X&lt;/a&gt;に実装された通信方式&lt;a href="https://physics.princeton.edu/pulsar/K1JT/wspr.html"&gt;WSPR&lt;/a&gt;などの紹介を行いました。WSPRは音声信号の1/1000以下の電力で通信することが可能なため、短波での電離層の伝搬状態などを分単位で測定するのに用いられています。&lt;/p&gt;
+
+&lt;p&gt;これらの事例によってわかることは、無線技術の進歩にインターネットは欠かせないこと、そしてコンピュータの力でますますオープン化は進んでいくだろうということです。&lt;/p&gt;
+
+&lt;h3 id="section-1"&gt;オープン化の流れに追従できていない日本の電波監理体制をどう変えていくか&lt;/h3&gt;
+
+&lt;p&gt;一方、電波の監理（かんり、法的な権限を持って管理や取り締まりを行うこと）体制は、有害な混信妨害を避けるために目的別に周波数や通信方式を設定して運用することが必要であることから、国際電気通信連合(ITU)の国際法に基づいて世界各国各地域の政府の担当部局が監理する体制が歴史的に取られてきました。日本では1950年に電波法が制定され、電波監理体制の原則を決める法律として現在に至るまで運用されています。&lt;/p&gt;
+
+&lt;p&gt;電波法では、電波を利用したい者は総務大臣からの免許による事前の許可を受け、その免許の範囲内で運用を行うことが前提になっています（電波法第4条）。しかし、無線LANやLTEなどを実装したスマートフォンや各種情報機器が普及した現在、個々に免許を下ろすことは現実的に不可能です。そこで無線LANやLTEなどは現在電波法上では例外の扱いを受けています。一例として、技術基準適合証明（いわゆる「技適」）は、個々の無線機器の工事設計の審査を事前に行うことで、使用者が個別に申請せずに済むための手段ということができます。&lt;/p&gt;
+
+&lt;p&gt;とはいえ、現在の電波監理体制が事前許可を大原則としている点は1950年代からまったく変わっていません。新規技術を実験したい場合は、総務省に申請して許可を受ける必要があり、既存の他業務との調整などで数ヶ月単位の長い時間がかかります。これはオープン化の潮流とは真っ向から対立する状況であり、日本全体の技術的イノベーションを阻害していると筆者は考えます。&lt;/p&gt;
+
+&lt;p&gt;この電波監理体制をどう変えていくかについて、筆者は本発表で以下6点の提言を行いました。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;(1) 事前申請なく自由な利用が可能な電波の帯域を拡充する。&lt;/li&gt;
+  &lt;li&gt;(2) 電波の送信者の認証を適切かつ迅速に行える基盤を整備する。&lt;/li&gt;
+  &lt;li&gt;(3) 電波利用のモニタリング体制を強化する。&lt;/li&gt;
+  &lt;li&gt;(4) 機器の変更ごとに必要な手続の簡略化あるいは廃止を行う。&lt;/li&gt;
+  &lt;li&gt;(5) 実験に限らず運用利用でも世界各国各地域との無線機器の相互認証を進める。&lt;/li&gt;
+  &lt;li&gt;(6) 無線局の免許情報について、紙の免許状を原本としているのを改め、総務省で監理するデータベースを原本とし、紙の免許状を廃止する。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;これらの提言の中で特に(4)や(6)はすでに日本以外の世界各国各地域で広く実行されていることであり、日本でできない理由はないと筆者は考えます。&lt;/p&gt;
+
+&lt;h3 id="section-2"&gt;研究会予稿&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="/papers/iot51-jj1bdx.pdf"&gt;インターネットとオープンな無線技術の今後&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="section-3"&gt;スライド&lt;/h3&gt;
+
+&lt;script async="" class="speakerdeck-embed" data-id="5607767c09d247f3890cf648cc5b27b3" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h2 id="section-4"&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="https://www.iot.ipsj.or.jp/meeting/51-program/"&gt;第51回インターネットと運用技術研究会&lt;/a&gt;(IOT51)では、インターネットとオープンな無線技術の今後についてペパボ研究所から発表を行いました。
+当日の発表では、日本での法整備にはどんなことが必要なのか、そして電波法が厳しくなっている結果どんな問題が出てきているのかについての議論を活発に行うことができました。&lt;/p&gt;
+
+&lt;p&gt;本発表は、電波の利用というインターネットの今後の発展に不可欠な内容について筆者の研究事例の発表と社会的な観点からの議論を同時に行ったものであり、今後ペパボ研究所が「なめらかなシステム」に基づく研究を進める上での課題の1つを考察したものといえます。筆者が過去46年あまりにわたって追求してきた無線技術がインターネット社会の重要な課題であることを、研究報告を行うことであらためて実感することができました。
+今後は2020年12月に&lt;a href="https://www.iot.ipsj.or.jp/symposium/iots2020/"&gt;第13回インターネットと運用技術シンポジウム&lt;/a&gt;(IOTS2020)がオンラインで開催されます。エンジニアの皆様もぜひご参加ください。&lt;/p&gt;
+
+&lt;h2 id="section-5"&gt;参考文献&lt;/h2&gt;
+
+&lt;p&gt;[1] 望月 孝志, 羽鳥 光俊, 適応ディジタルフィルタによるFMマルチパスひずみ自動除去の一方式, テレビジョン学会誌, 1985, 39巻, 3号, p. 228-234, 公開日 2011/03/14, Online ISSN 1884-9652, Print ISSN 0386-6831, &lt;a href="https://doi.org/10.3169/itej1978.39.228"&gt;https://doi.org/10.3169/itej1978.39.228&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>ペパボ研究所による新卒エンジニア向け機械学習研修</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2020/07/22/machine-learning-introduction/"/>
+    <id>http://rand.pepabo.com/article/2020/07/22/machine-learning-introduction/</id>
+    <published>2020-07-21T15:00:00+00:00</published>
+    <updated>2020-11-17T09:47:51+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／プリンシパルエンジニアの三宅(&lt;a href="https://twitter.com/monochromegane"&gt;@monochromegane&lt;/a&gt;)です。
+ペパボ研究所では、新卒のエンジニア研修の一環として、2020年7月13日から5日間に渡って機械学習入門の研修を担当しました。
+本エントリでは、研修内容をスライドと共に紹介します。&lt;/p&gt;
+
+&lt;h2 id="gmo"&gt;GMOペパボの新卒エンジニア研修における機械学習研修の位置付け&lt;/h2&gt;
+
+&lt;p&gt;GMOペパボの新卒エンジニア研修は、5月のGMOインターネットグループでの合同研修プログラム（GMO Tech Bootcamp）と、6〜7月のGMOペパボでの研修プログラムから構成されています。 
+6月以降の研修では、Webアプリケーション、フロントエンド、セキュリティ、コンテナとデプロイなど様々な技術要素についてプログラムが組まれており、今年から機械学習研修がこれに連なることになりました。&lt;/p&gt;
+
+&lt;p&gt;VP of Engineering 兼技術部長の &lt;a href="https://twitter.com/hsbt"&gt;@hsbt&lt;/a&gt; の言葉を借りると「GMOペパボの新卒エンジニア研修は、サービスを作るための技術要素や観点について、現時点で一番良いやり方を一通り学ぶことをゴールとして設計」されています。
+機械学習研修もこの要件を満たすよう、機械学習の初学者が、その手法のコンセプトを学び、手法を用いる際の設計や手順が研修前と比較して具体化できるカリキュラムが必要です。&lt;/p&gt;
+
+&lt;p&gt;ペパボ研究所では、&lt;a href="https://rand.pepabo.com/"&gt;なめらかなシステム&lt;/a&gt;のコンセプトのもと、&lt;a href="https://rand.pepabo.com/archive/"&gt;様々な研究開発&lt;/a&gt;に取り組んでいます。
+これらの研究では、情報システムと利用者の関係を把握し最適なサービスを提供するため、機械学習の手法も採用しています。
+加えて、ペパボ研究所はミッションとして「事業を差別化する技術を生み出す」を掲げており、機械学習の手法や観念の浸透がとても重要だと考えています。
+これらの理由から、ペパボ研究所でカリキュラムの作成を含む、機械学習研修を担当することになりました。&lt;/p&gt;
+
+&lt;p&gt;しかしながら、広く深い機械学習の分野を5日間（それぞれ午前のみ）で全てを理解することは困難です。
+そのため、入門として最も基礎的な部分である、機械学習のコンセプト、そして機械が学習するということに対する技術的な解像度の向上、そして機械学習の手法を用いたタスク解決の幾つかの例に触れることを通して、研修完了後に自走できる状態になってもらいたいと考えました。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;機械学習研修のカリキュラム&lt;/h2&gt;
+
+&lt;p&gt;この機械学習入門を実現する教材について、自作も検討しましたが、Googleの公開している、機械学習の独習用短期集中コースである&lt;a href="https://developers.google.com/machine-learning/crash-course"&gt;Crash Course&lt;/a&gt;が、コンセプトへの言及、演習の充実さ、学習時間について適していたため、こちらを主体に進めることとしました。
+また、上述の目的を果たすために、研究員による機械学習入門のミニ座学を毎日追加することにしました。
+Crash Courseでは、機械学習のコンセプトを理解するため、非常に手厚く概念レベルについての説明や挙動の可視化が行われており初学者が直感的に学習を進めることができます。
+そこで、ミニ座学でTensorFlowやKerasで華麗に隠蔽されている詳細な部分について補足することで両面から一層理解を深めてもらいたいという狙いです。&lt;/p&gt;
+
+&lt;p&gt;最後に研修中のサポート体制では、疑問の即時解決をモットーにしました。
+機械学習の初学者にとってつまづく点はたくさんあります。
+これらを早い段階で解消していくことが効率的な学習に重要だと考えたためです。
+頼もしいことに、新卒のパートナーはこれまでの研修を通して、疑問や不明点をSlack等のツールを用いてアウトプットすることに慣れており、この面では五月雨式にくる質問に対してなるべく早く回答するだけでこれを達成できたと思っています。&lt;/p&gt;
+
+&lt;h2 id="section-1"&gt;機械学習研修のスケジュール&lt;/h2&gt;
+
+&lt;p&gt;上述の位置付けとカリキュラム、サポート体制の構想を元に2020年度は下記のスケジュールで研修を実施しました。&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;## 7/13(月)
+
+### デイリーオリエンテーション（10:00-10:30）
+
+- 自己紹介
+  - 機械学習を習得したらやってみたいことを教えてもらう
+- 機械学習イントロダクション（10min）@miyakey
+
+### 機械学習コース受講（10:30-12:45）
+
+- Framing(15min)
+- Descending into ML(20min)
+- Reducing Loss(60min)
+- First Steps with TF(65min)
+
+### デイリーサマリー（12:45-13:00）
+
+- 当日学んだこと、不明点を自分なりに要約する
+- 「機械学習を習得したらやってみたいこと」に対して学んだ知識を適用する
+
+## 7/14(火)
+
+### デイリーオリエンテーション（10:00-10:15）
+
+- 昨日の軽いおさらい（不明点などに答える）
+- 勾配降下法の学習について（5min）@miyakey
+  - TensorFlowで隠蔽されている学習の挙動について理解を深めてもらう
+
+### 機械学習コース受講（10:15-12:45）
+
+- Generalization(15min)
+- Training and Test Sets(25min)
+- Validation Set(35min)
+- Representation(35min)
+
+### デイリーサマリー（12:45-13:00）
+
+同じ
+
+## 7/15(水)
+
+### デイリーオリエンテーション（10:00-10:15）
+
+- 昨日の軽いおさらい（不明点などに答える）
+- Kerasによるモデル構築について（5min）@komei
+  - 予め実装されていたモデルについてコンポーネントやオプションについて理解を深めてもらう
+
+### 機械学習コース受講（10:15-12:45）
+
+- Feature Crosses(70min)
+- Regularization for Simplicity(40min)
+- Logistic Regression(20min)
+- Classification(90min) の Precision and Recall まで
+
+### デイリーサマリー（12:45-13:00）
+
+同じ
+
+## 7/16(木)
+
+### デイリーオリエンテーション（10:00-10:15）
+
+- 昨日の軽いおさらい（不明点などに答える）
+- 正則化について（5min）@zaimy
+  - TensorFlowで隠蔽されている正則化の挙動について理解を深めてもらう
+- ロジスティック回帰について（5min）@zaimy
+  - TensorFlowで隠蔽されている学習の挙動について理解を深めてもらう
+
+### 機械学習コース受講（10:15-12:45）
+
+- Classification(90min) ROC Curve and AUCから
+- regularization: Sparsity(20min)
+- Neural Networks(65min)
+- Training Neural Networks(10min)
+
+### デイリーサマリー（12:45-13:00）
+
+同じ
+
+## 7/17(金)
+
+### デイリーオリエンテーション（10:00-10:15）
+
+- 昨日の軽いおさらい（不明点などに答える）
+- 誤差逆伝播法について（5min）@miyakey
+  - TensorFlowで隠蔽されているニューラルネットワークの学習の挙動について理解を深めてもらう
+
+### 機械学習コース受講（10:15-12:45）
+
+- Multi-Class Neural Networks(45min)
+- Embeddings(50min)
+
+### デイリーサマリー（12:45-13:00）
+
+同じ
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="section-2"&gt;ミニ座学&lt;/h2&gt;
+
+&lt;p&gt;また、ミニ座学については下記の資料を元に行いました。&lt;/p&gt;
+
+&lt;h3 id="section-3"&gt;機械学習イントロダクション&lt;/h3&gt;
+
+&lt;script async="" class="speakerdeck-embed" data-id="a2e90e3d3dc0452ebabbf2589a98df55" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h3 id="section-4"&gt;勾配降下法&lt;/h3&gt;
+
+&lt;script async="" class="speakerdeck-embed" data-id="7384d6c4792744f4b5eb6b1e1efb67f5" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h3 id="keras"&gt;Kerasによるモデル構築&lt;/h3&gt;
+
+&lt;script async="" class="speakerdeck-embed" data-id="ed7548cccaab4cdea0f605eacb11809c" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h3 id="section-5"&gt;正則化、ロジスティック回帰&lt;/h3&gt;
+
+&lt;script async="" class="speakerdeck-embed" data-id="b50a76f3982e45e4af76c560e3136536" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h3 id="section-6"&gt;誤差逆伝播法&lt;/h3&gt;
+
+&lt;script async="" class="speakerdeck-embed" data-id="379320e9996440f282fa69627eebb7a8" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h2 id="section-7"&gt;機械学習研修を終えて&lt;/h2&gt;
+
+&lt;p&gt;今年からペパボ研究所が担当することとなった、機械学習の入門に関する研修について、位置付けと研修内容を紹介しました。
+研修の振り返りでは、研修のボリュームについて、それから研修の前提知識について課題が見えました。
+ボリュームについては、実施時間の予備評価は行ったものの、Crash Course完遂には研修期間が不足することが分かったため、より必要な部分までで範囲を区切る、またミニ座学の時間を短縮するなどの改善が必要になりそうです。
+またミニ座学についての数学的な前提知識についてももう少しヒアリングなどを通して補足説明を先んじて行うこともできたなあと思います。
+それでも、新卒研修自体は、受講する新卒パートナーが積極的に不明点をアウトプットしてくれたことでコミュニケーションによってこれらの課題を乗り越え、当初目標である、機械学習という手法を用いることに対するイメージの具体化を進めてもらえたのではないかと思います。&lt;/p&gt;
+
+&lt;p&gt;今後は、来年以降の研修も行っていくと共に、新卒以外であってもペパボのエンジニアが常に受講できる方式の検討を進めていきたいと思います。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Google Cloud Platformを用いた形態素解析</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2020/07/14/morphological-analysis/"/>
+    <id>http://rand.pepabo.com/article/2020/07/14/morphological-analysis/</id>
+    <published>2020-07-13T15:00:00+00:00</published>
+    <updated>2020-11-17T09:47:51+00:00</updated>
+    <author>
+      <name>野村孔命</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員の野村（&lt;a href="https://twitter.com/Komei5296"&gt;@komei&lt;/a&gt;）です。
+ペパボでは、自社が運用するウェブサービスのユーザの行動ログや属性情報などを収集・分析・活用するための基盤として「Bigfoot」を運用しており、&lt;a href="https://rand.pepabo.com/article/2020/06/16/bigfoot-migration/"&gt;今年Google Cloud Platform（GCP）を使った構成への移設&lt;/a&gt;を行いました。
+本記事では、Bigfootの移設先であるGCPを用いて形態素解析を行う方法についてお話しします。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;形態素解析を行う動機&lt;/h2&gt;
+
+&lt;p&gt;ペパボでは、ユーザの行動ログや属性情報だけでなく、ユーザからのお問い合わせや商品情報など様々なデータをBigfootに蓄積しています。
+これらのデータの中には、ユーザからのお問い合わせの文書や商品の説明文などの日本語の文書データも多く含まれています。
+このような文書データから意味のある情報を抽出し活用するためには、まず文書に含まれている単語を把握する必要があります。
+そして、TF-IDFやword2vecなどの手法を用いて文書の特徴を求めることで、推薦やサービスの改善など様々な方面での利用が行えるようになります。
+具体的には、筆者が&lt;a href="https://rand.pepabo.com/article/2020/05/15/iot49/"&gt;情報処理学会 第49回インターネットと運用技術研究会（IOT49）で発表した「ハンドメイド作品を対象としたECサイトにおける単語の出現頻度を用いた稀覯品検出」&lt;/a&gt;がその一例として挙げられます。
+また、今後はユーザからのお問い合わせの傾向を解析し、サービスの改善に役立てていくことも一つの応用例として考えることができます。
+ここまでに挙げたサービスの各種改善を行う上で、GCP上で形態素解析を行える環境を構築することは有用であると筆者は考えました。&lt;/p&gt;
+
+&lt;h2 id="kuromoji-for-bigquery"&gt;kuromoji-for-bigquery&lt;/h2&gt;
+
+&lt;p&gt;GCP上で形態素解析を行うために、&lt;a href="https://github.com/yu-iskw/kuromoji-for-bigquery"&gt;kuromoji-for-bigquery&lt;/a&gt;というオープンソースソフトウェアを利用しました。
+kuromoji-for-bigqueryは、BigQueryの指定したテーブルにある文書データを入力として、&lt;a href="https://www.atilika.com/ja/kuromoji/"&gt;kuromoji&lt;/a&gt;（日本語の形態素解析エンジン）による形態素解析の結果を、BigQueryの指定したテーブルに出力します。&lt;/p&gt;
+
+&lt;p&gt;kuromoji-for-bigqueryは、Javaと&lt;a href="https://beam.apache.org/"&gt;Apache Beam&lt;/a&gt;で実装されています。
+Apache Beamは、バッチもしくはストリーミングのデータ処理のパイプラインを定義するためのフレームワークです。
+Apache Beamによって実装されたデータ処理のパイプラインは、ローカルもしくはGCPのCloud DataflowのようなApache Beamがサポートしている分散処理バックエンドで実行可能です。
+kuromoji-for-bigqueryには、以下のようなデータ処理のパイプラインが実装されています。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;BigQueryからのデータの取得&lt;/li&gt;
+  &lt;li&gt;kuromojiを用いた形態素解析の処理&lt;/li&gt;
+  &lt;li&gt;形態素解析の結果をBigQueryのテーブルに出力&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;このデータ処理のパイプラインの実行環境は、&lt;code&gt;--runner&lt;/code&gt;という引数で指定することができます。
+本記事ではGCP上で形態素解析の処理を実行するため、&lt;code&gt;--runner=DataflowRunner&lt;/code&gt;を指定しました。このときのkuromoji-for-bigqueryの動作の流れを示します。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2020-07-10-morphological-analysis/abst-kuromoji-for-bigquery.png" alt="kuromoji-for-bigqueryの実行フロー" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;--runner=DataflowRunner&lt;/code&gt;を指定し実行を開始すると、まず、データ処理のパイプラインが記述された実行ファイルをCloud Storageにアップロードし、その後、Cloud Dataflowにジョブの実行要求が送られます。
+ジョブの実行要求を受けたCloud Dataflowは、Cloud Storageに保管された実行ファイルを参照し、ジョブを生成し実行を開始します。
+そして、Cloud Dataflowは、kuromoji-for-bigqueryのデータ処理のパイプラインに従ってジョブを実行するので、BigQueryからデータを取得し、形態素解析の結果をBigQueryに出力します。
+また、実際に生成されたジョブは、Cloud Dataflowのコンソール画面から確認することができます。これについては後述します。&lt;/p&gt;
+
+&lt;h3 id="section-1"&gt;形態素解析の結果&lt;/h3&gt;
+
+&lt;p&gt;形態素解析の結果は指定したBigQueryのテーブルに保存されます。実際にkuromoji-for-bigqueryを使って形態素解析を行った結果を以下に示します。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2020-07-10-morphological-analysis/result-kuromoji-for-bigquery.png" alt="形態素解析の結果" /&gt;&lt;/p&gt;
+
+&lt;p&gt;このように入力として与えたテーブルに保存された各文書を形態素解析した結果がテーブルに出力されます。
+形態素解析の結果はBigQuery上のテーブルに出力されているため、クエリを書くことでTF-IDFの計算もBigQuery上で行うことができます。&lt;/p&gt;
+
+&lt;h3 id="cloud-dataflow"&gt;Cloud Dataflowで生成されたジョブ&lt;/h3&gt;
+
+&lt;p&gt;実際に生成されたジョブは、Cloud Dataflowのコンソール画面から確認することができます。以下に実際に生成されたジョブを示します。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2020-07-10-morphological-analysis/dataflow-job.png" alt="Cloud Dataflowのジョブ" /&gt;&lt;/p&gt;
+
+&lt;p&gt;このジョブは、100件の文書を形態素解析したときのものです。
+このジョブの実行グラフからBigQueryの読み書きや形態素解析の処理に要した時間を確認できます。
+また、形態素解析などの処理とは別に、ジョブを実行するために必要なインスタンスの立ち上げなどに要する時間があるため、ジョブの全体の実行時間は5分28秒となっていました。&lt;/p&gt;
+
+&lt;h3 id="section-2"&gt;データ数による実行時間の変化&lt;/h3&gt;
+
+&lt;p&gt;データ数による形態素解析とジョブの実行時間の変化について調査を行いました。以下にデータ数に対する形態素解析にかかる実行時間とジョブの実行時間を示します。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;データ数&lt;/th&gt;
+      &lt;th&gt;形態素解析の実行時間&lt;/th&gt;
+      &lt;th&gt;ジョブの実行時間&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;100&lt;/td&gt;
+      &lt;td&gt;2秒&lt;/td&gt;
+      &lt;td&gt;5分28秒&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1000&lt;/td&gt;
+      &lt;td&gt;2秒&lt;/td&gt;
+      &lt;td&gt;5分9秒&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;10000&lt;/td&gt;
+      &lt;td&gt;6秒&lt;/td&gt;
+      &lt;td&gt;4分46秒&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;上記の結果から、データ数1万件でも形態素解析にかかった時間は6秒と高速に処理できていることが分かります。
+また、調査を行ったデータ数では、ジョブの実行に必要なインスタンスの立ち上げなど、形態素解析の前後の処理に要する時間がジョブの実行時間の殆どを占めており、形態素解析そのものに掛かる時間はごく一部であることが確認できました。
+そのため、ジョブの実行時間は、ジョブの実行時に発生する前後の処理に要する時間である約5分をベースにして、データ数に応じた形態素解析にかかる時間の分増加すると予想されます。&lt;/p&gt;
+
+&lt;h3 id="section-3"&gt;実際の運用での注意点&lt;/h3&gt;
+
+&lt;p&gt;kuromoji-for-bigqueryは、入力テーブルに保存された全ての文書に対して形態素解析を行います。
+言い換えると、kuromoji-for-bigqueryは、入力テーブル内の一部のデータを形態素解析して、出力テーブル内の該当データを更新することができません。
+しかし、実際の運用では、入力テーブルの一部のデータが更新される、もしくは新しいデータが追加されることがあるため、入力テーブル内で変更があったデータのみに形態素解析を実行したい場面があります。
+このように変更が加えられたデータのみ形態素解析の結果を更新する場合は、別途差分の更新を行う実装が必要となります。&lt;/p&gt;
+
+&lt;h2 id="section-4"&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;kuromoji-for-bigqueryを使いGCP上で形態素解析をする方法を紹介し、出力されるBigQuery上のテーブルの確認やCloud Dataflowでのデータ数に対する実行時間の調査と考察を行いました。
+データ数に対する実行時間の計測結果は、Cloud Dataflowでkuromoji-for-bigqueryを実行する場合の実行時間の見積もりに役立てることができると思います。&lt;/p&gt;
+
+&lt;p&gt;今後は、形態素解析の結果を利用して、筆者が進めている研究「ハンドメイド作品を対象としたECサイトにおける単語の出現頻度を用いた稀覯品検出」のプロダクト実装を進めていくとともに、その他にもサービス改善につながるような用途を探していきたいと考えています。
+また、更新が発生したデータのみに対して再度形態素解析を適用するような実装も考えていきたいと思っています。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>情報処理学会第50回インターネットと運用技術研究会で非定常な多腕バンディット問題における変化検出アプローチの線形モデルへの拡張について発表をしました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2020/07/13/iot50/"/>
+    <id>http://rand.pepabo.com/article/2020/07/13/iot50/</id>
+    <published>2020-07-12T15:00:00+00:00</published>
+    <updated>2020-11-17T09:47:51+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／プリンシパルエンジニアの三宅(&lt;a href="https://twitter.com/monochromegane"&gt;@monochromegane&lt;/a&gt;)です。
+2020年7月10日に開催された、&lt;a href="https://www.iot.ipsj.or.jp/meeting/50-program/"&gt;第50回インターネットと運用技術研究会&lt;/a&gt;(IOT50)で、ペパボ研究所から発表を行いましたので論文(研究会予稿)とスライドと共に紹介します。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;非定常な多腕バンディット問題における変化検出アプローチの線形モデルへの拡張&lt;/h2&gt;
+
+&lt;p&gt;ECサイトなどのWebサービスにおける情報過多問題を解決するため、多くのWebサービスでは推薦システムが導入されています。
+推薦を受ける側である利用者の嗜好は未知であることから、推薦システムには、利用者の嗜好を蓄積し、その時点で有用と考えられる情報を活用した提案を行う一方で、より有用な提案につながる情報の探索が求められます。
+この活用と探索のトレードオフの最適な解を求める問題は、多腕バンディット問題として知られており、同問題の解法の推薦システムへの応用が報告されています。
+多腕バンディット問題は、ある確率分布に従い報酬を生成する腕と呼ばれる複数の候補から得られる報酬を最大化する問題ですが、基本的な多腕バンディット問題では、報酬の確率分布が常に同じであるという仮定が置かれています。
+推薦システムにおいて腕となる、利用者の商品に対する嗜好傾向は様々な要因によって変化することから、できるだけ多くの文脈と報酬分布の変化を考慮できることが望ましいと考えられます。&lt;/p&gt;
+
+&lt;p&gt;本研究では、従来の多腕バンディット問題の解法が個別に考慮していた文脈と報酬分布の変化に対して、同時に対応できるよう、これらの解法を拡張します。
+また、解法を単純に拡張した場合に発生する課題について改善を図りました。
+提案手法では、報酬分布の変化に対する従来解法であるS-TS-ADWINを複数の文脈に対しても利用できるように拡張します。
+ここで、要因の組み合わせ数によらない単一の値の推移のみから報酬分布の変化を検出・追従することで、
+従来の解法を利用可能でありながら、汎用的でメモリ効率に優れた解法としています。
+また、記録された観測値の数の減少に合わせて探索が重視されるよう動的にハイパーパラメータを調整することで、従来の解法と比較して積極的な活用と探索の切り替えを行えるようになりました。&lt;/p&gt;
+
+&lt;p&gt;評価では、文脈と報酬分布の変化が発生する状況のシミュレーションを行い、従来解法と比較して性能が向上することを確認しました。&lt;/p&gt;
+
+&lt;h3 id="section-1"&gt;研究会予稿&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="/papers/iot50-miyakey.pdf"&gt;非定常な多腕バンディット問題における変化検出アプローチの線形モデルへの拡張&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="section-2"&gt;スライド&lt;/h3&gt;
+
+&lt;script async="" class="speakerdeck-embed" data-id="be6d88db167e4a029e1775009947fd45" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h2 id="section-3"&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="https://www.iot.ipsj.or.jp/meeting/50-program/"&gt;第50回インターネットと運用技術研究会&lt;/a&gt;(IOT50)では、推薦システムの利用者の嗜好の変化への追従性を向上する研究についてペパボ研究所から発表を行いました。
+当日の発表では、和を用いた単一の値の利用について、理論的な裏付けや情報の欠落に関する議論を活発に行うことができました。
+正規化を行い方向データの変化として扱ってはどうかという有意義な意見もいただくことができ、早速検討を開始しているところです。&lt;/p&gt;
+
+&lt;p&gt;研究報告を行うことで、区切りがつきにくい研究において、現時点までの考えをまとめ、その内容を土台にじっくり議論することができるため、今後も積極的に報告していくとともに他の報告に対してなるべくフィードバックができるようにしたいと思える有意義な会でした。
+今後も、&lt;a href="https://www.iot.ipsj.or.jp/meeting/51-cfp/"&gt;第51回インターネットと運用技術研究会&lt;/a&gt;(IOT51)がオンラインで開催されますので、エンジニアの皆様もぜひご参加ください。&lt;/p&gt;
+
+</content>
+  </entry>
+</feed>
