@@ -1,0 +1,447 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>コンテナ時代のWebサービス基盤モデル - FastContainerの研究発表をしてきました - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所主席研究員の松本です。Twitter上ではまつもとりー(@matsumotory)と呼ばれています。2017年の6月24日に開催された、第38回インターネットと運用技術研究会で、「FastContainer: Webアプリ..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="コンテナ時代のWebサービス基盤モデル - FastContainerの研究発表をしてきました - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所主席研究員の松本です。Twitter上ではまつもとりー(@matsumotory)と呼ばれています。2017年の6月24日に開催された、第38回インターネットと運用技術研究会で、「FastContainer: Webアプリ..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2017/06/28/iot38-matsumotory/">コンテナ時代のWebサービス基盤モデル - FastContainerの研究発表をしてきました</a>
+  </h1>
+
+  <time datetime="2017-06-28" class="article__time">
+    2017-06-28
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所主席研究員の松本です。Twitter上ではまつもとりー(<a href="https://twitter.com/matsumotory">@matsumotory</a>)と呼ばれています。2017年の6月24日に開催された、<a href="http://www.iot.ipsj.or.jp/news/iot38-program">第38回インターネットと運用技術研究会</a>で、「<strong>FastContainer: Webアプリケーションコンテナの状態をリアクティブに決定するコンテナ管理アーキテクチャ</strong>」について研究発表してきました。</p>
+
+<p>論文(研究会予稿)とスライドを以下に公開します（論文画像をクリックするとPDFで読むことが出来ます）。</p>
+
+<h3 id="section">論文(研究会予稿)</h3>
+
+<p><a href="/papers/iot38-proceeding-matsumotory.pdf"><img src="/images/2017-06-24-iot38/abst-iot38-matsumotory.png" alt="FastContainer: Webアプリケーションコンテナの状態をリアクティブに決定するコンテナ管理アーキテクチャ" /></a></p>
+
+<h3 id="section-1">スライド</h3>
+
+<script async="" class="speakerdeck-embed" data-id="8ad8604919354d15bd9972a40bcedd1c" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>FastContainerを一言で表現すると、コンテナの状態遷移（停止・起動・複製・資源割り当ての変更処理など）の速度を効率化することに着目し、システム全体として恒常性を持ち、コンテナが高速に循環可能なWebサービス基盤を実現することによって、突発的なアクセス集中やライブラリのバージョンアップのような運用について効率的に対処する変化に強いアーキテクチャです。詳しくはスライドや論文をご覧ください。</p>
+
+<h2 id="web">本研究の立ち位置とコンテナ時代のWebサービス基盤モデル</h2>
+
+<p>FastContainerの研究をしていくなかで、FastContainerアーキテクチャとその実装は、これから増えていくであろうコンテナ技術に基づくWebサービスにおいて、どこを立ち位置にしているのかという点について、研究会でも議論が行われました。その中で、Webサービス基盤の研究開発を専門としているものとして、コンテナ時代のWebサービス基盤モデルを考えてみました。それが以下の図になります。</p>
+
+<p><a href="/images/2017-06-24-iot38/container-infra-model.png"><img src="/images/2017-06-24-iot38/container-infra-model.png" alt="コンテナ時代のWebサービス基盤モデル" /></a></p>
+
+<p>図のように上から、</p>
+
+<ul>
+  <li>サービス層
+    <ul>
+      <li>実際のWebアプリやWebサービスのコンテンツ層</li>
+    </ul>
+  </li>
+  <li>ストラテジー層
+    <ul>
+      <li>Webサービスの特性に合わせてコンテナ基盤をより特徴的に制御する層(FastContainerはここに属する)</li>
+    </ul>
+  </li>
+  <li>オーケストレーション層
+    <ul>
+      <li>コンテナ群や収容ホスト群のモニタリングやリソース管理等によってCRIを介してコンテナを制御する層</li>
+    </ul>
+  </li>
+  <li>コンテナランタイム層
+    <ul>
+      <li>コンテナそのものの制御層</li>
+    </ul>
+  </li>
+  <li>インフラストラクチャ層
+    <ul>
+      <li>ハードウェアやVM、ベアメタル等のコンテナのリソースプールを実現する層</li>
+    </ul>
+  </li>
+</ul>
+
+<p>に大きく分類できるのではないかと考えています。ただし、ツール名やサービス名として具体的にあげているのは思いついたものを書いているだけで、他にも該当するツールはあるかと思います。</p>
+
+<p>特に、オーケストレーション層の上のストラテジー層は、コンテナのオーケストレーションツール基盤の上に、さらにそれぞれのWebサービスの特性に合わせた戦略の層として位置するのではないかと考えました。例えば、今回はホスティングサービスのスケーリングや運用効率化に基づいた戦略としてFastContainerアーキテクチャを提案し、その上にのるWebアプリケーションのホスティング環境を改善していくことが目的でした。そういう意味では、ホスティングサービスにより特化した基盤として__FastContainerはストラテジー層に位置__し、オーケストレーション層に位置する各種ツールで実装可能であり、k8sやMarathonによって実現することも可能でしょう。ただ、現時点では、FastContainerアーキテクチャをより最適にオーバーヘッドなく実現するために、ペパボではHaconiwaと各種連携ツールによって構成される自社開発のNHHM Stackによって実装しています。</p>
+
+<p>このようにコンテナ時代のWebサービス基盤をモデル化した時に、Haconiwaの実装においても、当然ながらContainer Runtime Interface(CRI)やOpen Container Initiative(OCI)に準拠した動きを将来的にできるようにすべきであることが明確になりますし、k8sのCRI APIにHaconiwaを対応させる未来も見えてくるでしょう。また、同様に、自社開発のNHHM Stackについても、その他のコンテナランタイムや、ここまでの議論ではストラテジー層に相当するRancherで動作するように対応すべきだといえますし、CRIに対応したコンテナランタイムは動作可能にすべきでしょう。このように、FastContainerアーキテクチャやHaconiwaのような新しいソフトウェアを自社や個人で開発していく中で、きちんとそのソフトウェアの立ち位置と比較対象を明確化し、各層の連携をより汎用化していくためにも、その他のツールとの連携や技術的背景を無視せずに、ツール開発者と議論しながら研究開発を続けていく必要があります。そういったことが、本研究会の中で明確になりましたので、引き続き広い視野を持つつつも、自分達の貢献の立ち位置を明確化して取り組んでいく予定です。</p>
+
+<p>このように、私はWebサービス基盤技術について、__ユーザ体感と技術者体感を改善する__ことをテーマに継続的に研究開発しておりますので、是非興味をお持ちの方はご連絡下さい。以下が私の研究テーマになります。</p>
+
+<script async="" class="speakerdeck-embed" data-id="12da008a98394e8193475b84ef1d380b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2017/06/28/iot38-matsumotory/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/2b692bd83f4418103142a053ecf5ff59?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          松本亮介
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/matsumotory" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+<a href="https://www.facebook.com/matsumotory" class="article__author-link article__author-link--facebook" target="_blank">              <i class="fa fa-facebook-square fa-fw"></i>
+</a>
+<a href="https://github.com/matsumotory" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所主席研究員、京都大学博士（情報学）、シニア・プリンシパルエンジニア、第9回日本OSS奨励賞、2014年度情報処理学会山下記念研究賞、IPSJ-ONE登壇、情報処理学会IOT研究会運営委員
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

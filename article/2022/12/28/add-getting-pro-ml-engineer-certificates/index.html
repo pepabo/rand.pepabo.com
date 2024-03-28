@@ -1,0 +1,493 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所 研究員の酒井（@tossy）です。
+先日、同じく研究員である三宅（@monochromegane）、黒瀧（@kurotaky）、渡辺（@ae14watanabe）の計3名がGoogle Cloudの認定資格であるGCP Professional..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所 研究員の酒井（@tossy）です。
+先日、同じく研究員である三宅（@monochromegane）、黒瀧（@kurotaky）、渡辺（@ae14watanabe）の計3名がGoogle Cloudの認定資格であるGCP Professional..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+  </h1>
+
+  <time datetime="2022-12-28" class="article__time">
+    2022-12-28
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所 研究員の酒井（<a href="https://twitter.com/tshk_sakai">@tossy</a>）です。
+先日、同じく研究員である三宅（<a href="https://twitter.com/monochromegane">@monochromegane</a>）、黒瀧（<a href="https://twitter.com/kurotaky">@kurotaky</a>）、渡辺（<a href="https://twitter.com/ae14watanabe">@ae14watanabe</a>）の計3名がGoogle Cloudの認定資格である<a href="https://cloud.google.com/certification/guides/machine-learning-engineer?hl=ja">GCP Professional Machine Learning Engineer</a>を取得し、本ブログで<a href="https://rand.pepabo.com/article/2022/11/23/getting-pro-ml-engineer-certificates/">報告</a>しました。</p>
+
+<p>今回、新たに所長の栗林(<a href="https://twitter.com/kentaro">@kentaro</a>)と研究員の酒井（<a href="https://twitter.com/tshk_sakai">@tossy</a>）が同資格を取得しました。
+本エントリでは、合格までに具体的に取り組んだことについてご紹介します。
+今回、合格までに取り組んだことをまとめると以下の通りです。</p>
+
+<ul>
+  <li>2022/8~: Courseraでの学習</li>
+  <li>2022/11~: Udemyでの学習</li>
+  <li>2022/11/9: 1回目の受験「Fail」</li>
+  <li>2022/11/10~12/20: Google Cloudのプロダクト理解や問題演習を繰り返し実施</li>
+  <li>2022/12/21: 2回目の受験「Pass」</li>
+  <li>2022/12/23: 合格通知</li>
+</ul>
+
+<h2 id="section">受験までの流れ</h2>
+
+<p>まずは、Courseraで提供されているGoogle Cloudの機械学習の教材で学習しました。
+本教材は動画や演習問題、学習用教材（Google Cloudのドキュメントへのリンク集）に加え、ハンズオン形式で学べるQwiklabsがついています。
+具体的には、以下の5コースを修了しました。</p>
+
+<ul>
+  <li><a href="https://jp.coursera.org/learn/gcp-big-data-ml-fundamentals-jp">Google Cloud Big Data and Machine Learning Fundamentals 日本語版</a></li>
+  <li><a href="https://jp.coursera.org/learn/google-machine-learning-jp">How Google does Machine Learning 日本語版</a></li>
+  <li><a href="https://jp.coursera.org/learn/launching-machine-learning-jp/">Launching into Machine Learning 日本語版</a></li>
+  <li><a href="https://jp.coursera.org/learn/feature-engineering-jp">Feature Engineering 日本語版</a></li>
+  <li><a href="https://jp.coursera.org/learn/sequence-models-tensorflow-gcp">Natural Language Processing on Google Cloud</a></li>
+</ul>
+
+<p>Courseraの教材は、ボリュームは多いですが、動画で学びたい方やハンズオン形式で手を動かしながら学びたい方にとって、とても役に立つ教材だと思います。日本語版は日本語の字幕もあります。</p>
+
+<p>続いて、問題の形式に慣れるため、Udemyで<a href="https://www.udemy.com/course/google-cloud-professional-machine-learning-engineer-2022/">Google Cloud Professional Machine Learning Engineer 2022</a>を購入し、問題演習を行いました。
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSeYmkCANE81qSBqLW0g2X7RoskBX9yGYQu-m1TtsjMvHabGqg/viewform">公式で提供されている簡易模試</a>もありますが、受験前には、問題演習ができる教材を一つは解いて、どのような形式の問題が出題されるか把握すると良いと思います。
+この教材では、50問の模試が4つ用意されており、各設問の解説では、解説の根拠となるGoogle Cloudのドキュメントが載っています。私の場合は、模試を2つ解き、復習をきちんと行った状態で本番に望みました。</p>
+
+<h2 id="section-1">1回目の受験</h2>
+
+<p>1回目は、2022/11/9の午後に受験しました。会場は<a href="https://www.pccollege.jp/testcenter-osaka/">PCカレッジ東梅田校</a>で受験しました。試験自体は全て英語であり、60問を2時間で解く必要があります。
+試験中問題を解いている際にあまり手応えが無かったこともあり、結果は「Fail」でした。</p>
+
+<p>受験した後の反省点としては、以下がありました。</p>
+
+<ul>
+  <li>Google Cloudのプロダクトの理解が不足していた</li>
+  <li>英語の問題形式に慣れていなかった</li>
+  <li>途中、集中力が切れてしまうことがあった</li>
+</ul>
+
+<h2 id="section-2">不合格後にやったこと</h2>
+
+<p>上記の反省点を踏まえ、次の受験で合格するために、以下を行いました。</p>
+
+<ul>
+  <li>Google Cloudのプロダクトを理解する</li>
+</ul>
+
+<p>Google Cloudのプロダクトについて体系的な理解が必要であると考えたため、「<a href="https://gihyo.jp/book/2021/978-4-297-11948-5">Google Cloudではじめる実践データエンジニアリング入門[業務で使えるデータ基盤構築]</a>」を読んで、Google Cloudのプロダクトの理解に努めました。
+特に、章末のコラムにプロダクトの違いが書かれており、参考になりました。</p>
+
+<ul>
+  <li>Google Cloudのドキュメントをきちんと読む</li>
+</ul>
+
+<p>Udemyの解説やCourseraで記載されているGoogle Cloudのドキュメントを読み、理解することに努めました。ドキュメントをきちんと読むことでGoogle Cloudのプロダクトが実際に機械学習のどのような場面で利用されているかの理解が進んだと思います。</p>
+
+<ul>
+  <li>英語の問題形式に慣れる</li>
+</ul>
+
+<p>英語の問題形式に慣れるため、Udemyでの模試を全て解き、解説をきちんと理解するようにしました。実際の試験時間を意識して、1問2分以内で解けるように心がけました。ドキュメントを読む際や設問中にわからない英単語がある場合は、都度意味を調べるようにしました。</p>
+
+<p>上記事項を約1ヶ月半、業務時間の前後や土日を活用して、学習を進めました。</p>
+
+<h2 id="section-3">2回目の受験</h2>
+
+<p>2回目は、2022/12/21の午前に受験しました。会場は1回目と同じです。
+受験時に集中力を持続させるために、受験の時間帯を頭が冴えている午前中にしました。
+また、受験1回目では、暖房が効いていて、暑ったことから、集中力が途切れることがあったため、2回目は着脱のしやすい服装で望むようにしました。
+2回目は前回の反省を踏まえて、学習を行っていたため、1回目よりは心に余裕を持って受験することができました。
+前回よりも学習や対策を進めていたことで、全問回答後、回答を見直す時間も確保することができました。</p>
+
+<p>回答を終えて提出すると、結果は「Pass」でした。受験後は、2022/12/23に、メールで正式な合格通知が届きました。</p>
+
+<h2 id="section-4">終わりに</h2>
+
+<p>今回の受験は、Google Cloudにおけるプロダクトの理解や機械学習のベストプラクティスについて学ぶ良い機会になりました。
+これでペパボ研究所の<a href="https://cloud.google.com/certification/guides/machine-learning-engineer?hl=ja">GCP Professional Machine Learning Engineer</a>の取得者は計5名となりました。
+これからも機械学習で「事業を差別化」するための技術を生むスキルの底上げを、ペパボ研究所やペパボ全体で、引き続き取り組んでいきたいと思います！</p>
+
+<p>所長の試験合格までの流れについては、以下で紹介しております。</p>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=Jii08MHXfK8">Google CloudのProfessional Machine Learning Engineer試験を受けて合格しました（手動編集字幕付き）</a></li>
+</ul>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Jii08MHXfK8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>動画の中で紹介されているScrapboxは以下です。</p>
+
+<ul>
+  <li><a href="https://scrapbox.io/kentaro/Professional_Machine_Learning_Engineer%E8%AA%8D%E5%AE%9A%E8%B3%87%E6%A0%BC">Professional Machine Learning Engineer認定資格</a></li>
+</ul>
+
+<p>また、ペパボのパートナーが取得した他の認定資格についても、ブログ記事があるので、よろしければご覧ください。</p>
+
+<ul>
+  <li><a href="https://tech.pepabo.com/2022/12/23/passed-gcp-certification/">Google Cloud認定Professional Cloud Developerを取得しました</a></li>
+</ul>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/beaabf8cbdb4078dbb3f3fc1247057d1?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          酒井敏彦
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/tshk_sakai" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/ToshihikoSakai" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員。自然言語処理に関する研究を進めている。2022年12月、Google Cloud Certified Professional Machine Learning Engineerを取得。
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

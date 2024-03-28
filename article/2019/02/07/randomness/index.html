@@ -1,0 +1,485 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>コンピュータとランダムネスの現状 - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所客員研究員の力武健次（りきたけ・けんじ）です。この記事では、ここ10年ほど力武が研究対象の1つとしてきた、コンピュータで扱うランダムネス（乱雑さ）と物理乱数の扱い方について述べます。（文中敬称略）
+
+コンピュータとランダム..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="コンピュータとランダムネスの現状 - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所客員研究員の力武健次（りきたけ・けんじ）です。この記事では、ここ10年ほど力武が研究対象の1つとしてきた、コンピュータで扱うランダムネス（乱雑さ）と物理乱数の扱い方について述べます。（文中敬称略）
+
+コンピュータとランダム..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+      <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2019/02/07/randomness/">コンピュータとランダムネスの現状</a>
+  </h1>
+
+  <time datetime="2019-02-07" class="article__time">
+    2019-02-07
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+      <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所客員研究員の力武健次（りきたけ・けんじ）です。この記事では、ここ10年ほど力武が研究対象の1つとしてきた、コンピュータで扱うランダムネス（乱雑さ）と物理乱数の扱い方について述べます。（文中敬称略）</p>
+
+<h2 id="section">コンピュータとランダムネスは相性が悪い</h2>
+
+<p>ランダムネス（randomness）は日本語では「乱雑さ」と訳され、一切の法則性を持たず、予測が不可能な状態のことを指します。コンピュータは基本的に<strong>人間がプログラムした通りに動き、それ以外の動作をしないことが前提となっている機械</strong>ですから、ランダムネスから最も遠い存在です。</p>
+
+<p>しかし、あらゆるものが事前にプログラムされ、予定調和となっている決定的なアルゴリズム手法だけでは、現実の問題には対応できません。いくら周到に準備しても予定外や想定外のことが起こるのは不可避である以上、これらに対して可能な限り備えてプログラムを書く必要があります。そのためには、プログラムの中に予想不可能な要素を組み入れる必要があり、そのために<strong>ランダムネスを定式化かつ定量化してプログラムの中に組み込む</strong>という、本質的に矛盾した作業をしなければならなくなります。いわば必要に応じてサイコロを振れる仕組みをコンピュータの中に作っておく必要があるのです。</p>
+
+<h2 id="section-1">物理乱数によるランダムネスの定量化とエントロピー</h2>
+
+<p>自然現象の中には本質的にランダムネスの要素を持つものがあり、それらを観測して数値化することで、ランダムネスを定量化して、ランダムな（ランダムネスを持つ）数列を作ることができます。これらを<strong>物理乱数</strong>と呼びます。</p>
+
+<p>物理乱数の作り方の一例としては、電子回路は電子の不規則な運動によって生じる<strong>熱雑音</strong>を発生するため、これを増幅して測定することで予測不能な数列を作ることができます。発振回路も熱雑音の影響を受けるため、特に周波数制御を行わない自励発振回路の出力を一定間隔で測定すれば予測不可能なビット列を得ることができます。最近のCPUやマイクロコントローラ（MCU）内部での物理乱数発生回路の多くがこの自励発振の技術を使っています。</p>
+
+<p>ランダムネスの定量化の他の方法としては、半導体のダイオードに逆方向接続で一定以上の電圧をかけたときに急激に電流が不規則に流れることによって発生する<strong>なだれ降伏雑音</strong>を測定したり、放射性元素の放射性崩壊に伴い放出される電離放射線の発生時間間隔をガイガーカウンターなどで測定する方法などがあります。さらに高速なものとしては、光そのものの量子的な不確定性を利用したレーザーを使った生成装置[1]などがあります。</p>
+
+<p>物理乱数は自然現象の産物であり、アルゴリズムを使って作り出すことはできません。そのため、一定時間内に得られる量には限りがあります。この乱雑さを示す量を、情報科学では<strong>エントロピー</strong>と呼ぶことがあります（単位はビット）[2]。パスワードや暗号鍵の生成など予測不能性を重視する情報セキュリティの分野では、単位時間あたりのエントロピーをどれだけ使えるかが、性能の基準の1つとなります。</p>
+
+<h2 id="section-2">普通の環境ではエントロピーを得ることは極めて難しい</h2>
+
+<p>現在のコンピュータの中からランダムネスを得ることは容易ではありません。乱雑に見える動作でも一定のパターン、つまり予測可能性が見られるためです。それでもいくつかの動作にはばらつきつまりランダムネスがあるので、OSではこれらの情報を積極的に取得してエントロピー源としています。</p>
+
+<p>しかし、サーバのように人間が直接触れることが想定されていない機器や、仮想マシンのように物理的な差異を吸収して管理しやすくした動作環境では、十分なエントロピー源を得ることは難しくなります。昨年力武が測定しBuilderscon 2018 Tokyoで発表した際の実験結果（<a href="https://speakerdeck.com/jj1bdx/safe-randomness-theory-and-practice">スライドはこちら</a>）では、わずか0.62ビット/秒のエントロピーしかLinuxサーバから得ることはできませんでした。同様の報告は10年前のBlack Hat USA 2009カンファレンスでの発表[3]でもなされており、ブロックデバイスのアクセス毎に1.03ビットのエントロピーしか収集できないとの推定結果が報告されています。</p>
+
+<p>もちろん、キーボードやマウスが接続されている機器であれば、人間のタイピングやマウス移動の動作にまつわるタイミングや動かし方のばらつきを使うことは可能でしょう。また、物理的な円盤であるハードディスクが接続されていればそのアクセスタイムにばらつきがあるでしょうし、ネットワークパケットが到着する時間にもばらつきがあります。しかし、定期的に暗号通信用の鍵を生成するなどより多くのエントロピーが必要なアプリケーションの場合、これらのエントロピー源だけではおよそ十分とはいえません。</p>
+
+<h2 id="section-3">エントロピー不足の対処と安全なエントロピー源の問題</h2>
+
+<p>このエントロピー源を得ることが困難であることについての対処法として、OSの多くではこれらのエントロピー源から暗号論的強度の高い方法、つまり予測可能性はゼロではないが極めて小さい方法で数列を作り出す暗号用疑似乱数アルゴリズムを使っています。実際にプログラマが使う予測性の少ない疑似乱数デバイス<code>/dev/urandom</code>の出力は、この暗号用疑似乱数のアルゴリズムが生成したものです。</p>
+
+<p>しかし、暗号用疑似乱数アルゴリズムを使ったとしても、毎秒1ビットに満たないエントロピー源では実用上十分というにはおよそほど遠い状態であると言わざるを得ません。また、<strong>数列の持つランダムネスが本当に予測不能であるかどうかはアルゴリズムでは検証できない</strong>ことを考えると、もっと高速あるいは大量にエントロピーを得られるエントロピー源をコンピュータの中に用意することは急務といえます。</p>
+
+<p>このエントロピー源の問題はすでに周知の事実であり、IntelはRDRAND命令など物理乱数発生器をCPUから直接使えるようにして対応しました。しかし、RDRAND命令の出力をそのまま信頼して使うことはバックドアなど製造者の介入が可能な脆弱性の存在の可能性を考えると適切ではないという判断がFreeBSDの開発者によってすでになされています（<a href="https://arstechnica.com/information-technology/2013/12/we-cannot-trust-intel-and-vias-chip-based-crypto-freebsd-developers-say/">2013年12月のArsTechnicaの関連記事</a>）。このような観点からも、<strong>製造過程と手法が信頼できる物理乱数発生器をコンピュータの中に持つこと</strong>が今後のコンピュータのセキュリティ確保、そして各種応用分野の発展には重要だといえます。</p>
+
+<h2 id="section-4">力武がやってきたこと</h2>
+
+<p>力武は2009年ごろからランダムネスのコンピュータでの実現についてどのような手法があるかの実証実験に取り組んできました。この実験そのものは一般的なテーマですが、力武の目標として、現実にある問題をどうやって解いていくかについて注力するようにしています。</p>
+
+<h3 id="avrhwrng">avrhwrng</h3>
+
+<p>2008年ごろからArduino Duemilanove、そして現在販売されているArduino UNOを使って、<a href="https://github.com/jj1bdx/avrhwrng">avrhwrng</a>という物理乱数発生器の実装を作り検証しました。汎用のトランジスタを使ったなだれ降伏雑音生成の回路を使っています。物理乱数の生成速度は10kバイト/秒程度です。実装は回路図やコードも含めすべてGitHubで公開しています。Arduino UNO等を新規で入手しても1台数千円程度の部品代で作れます。</p>
+
+<p>avrhwrngの実装については以下の成果発表を行っています。</p>
+
+<ul>
+  <li><a href="https://makezine.jp/blog/2009/04/random_number.html">オライリージャパンのMake:ブログにて2009年に記事にしていただきました</a>。</li>
+  <li><a href="https://ipsj.ixsq.nii.ac.jp/ej/index.php?action=pages_view_main&amp;active_action=repository_action_common_download&amp;item_id=146029&amp;item_no=1&amp;attribute_id=1&amp;file_no=1&amp;page_id=13&amp;block_id=8">情報処理学会インターネットと運用技術シンポジウム IOTS2015のWIPセッションにて、「手頃な価格で作れるハードウェア乱数発生器の製作と評価」として研究報告を発表しています(PDF)</a>。</li>
+  <li><a href="https://makezine.jp/event/makers2016/rikakyouikukenkyuuforum/">Maker Faire Tokyo 2016にて「理科教育研究フォーラム」の展示の一部として出展しました</a>。</li>
+  <li><a href="http://gihyo.jp/magazine/SD/archive/2016/201609">技術評論社のSoftware Design誌の2016年8月号〜2016年10月号の連載「乱数を使いこなす」の第2回（2016年9月号分）</a>にて回路図等を掲載しました。</li>
+</ul>
+
+<h3 id="neug-">飛石技術 NeuG 乱数発生器</h3>
+
+<p>2015年に<a href="http://www.gniibe.org/memo/development/gnuk/rng/neug.html">飛石技術の物理乱数発生ソフトウェアNeuG</a>の評価を行いました。このソフトウェアは<a href="http://www.gniibe.org/category/fst-01.html">飛石技術のハードウェアFST-01</a>の内蔵MCUであるSTM32F103の中の熱雑音を利用して物理乱数を生成するものです。力武は<a href="https://qiita.com/jj1bdx/items/2f32d8c8649d7825a9a3">汎用のSTM32F103ボードを使うための実装方法を発表しています</a>。物理乱数の生成速度は600kビット/秒程度となっています。</p>
+
+<h3 id="infinite-noise-trng">Infinite noise TRNG</h3>
+
+<p>2014年に発表された<a href="https://github.com/waywardgeek/infnoise">Infinite noise TRNG</a>は、熱雑音をMCUに頼らずに生成でき、実装のライセンスがパブリックドメインで公開されているため、再実験が容易であり透明性の高い方法です。<a href="https://www.crowdsupply.com/13-37/infinite-noise-trng">これを13-37.orgが製品化した製品がCrowd Supplyから2018年に入手できるようになったため</a>、力武も<a href="https://github.com/jj1bdx/infnoise-linux">Linux</a>, <a href="https://github.com/jj1bdx/infnoise-freebsd">FreeBSD</a>, <a href="https://github.com/jj1bdx/infnoise-windows">Windows</a>での評価を行っています。これらのソフトウェアは元のライセンスに従いパブリックドメインで公開しています。13-37.orgの製品の物理乱数の生成速度は300kビット/秒となっており、価格も米ドルで35ドルと手頃に購入できます。回路図等も開示されているので、さらに高速なバージョンを作ることも不可能ではないでしょう。</p>
+
+<h3 id="erlangotprand">関連研究: Erlang/OTPの疑似乱数に関する脆弱性の指摘と疑似乱数モジュールrandの設計</h3>
+
+<p>物理乱数と直接関連はしていませんが、関連研究としてErlang/OTPの疑似乱数に関する各種研究活動も行ってきました。以下に成果を列挙します。</p>
+
+<ul>
+  <li><a href="https://dl.acm.org/citation.cfm?id=2034669">ACM SIGPLAN Erlang Workshop 2011での周期の長いSFMTベースの疑似乱数モジュールの提案</a>。</li>
+  <li><a href="https://github.com/jj1bdx/as183-c">従前の疑似乱数モジュールrandomの使っている生成アルゴリズムは一般的なコンピュータを使えば数時間以内で全数検査ができてしまうことを2014年に実証</a>。</li>
+  <li><a href="http://erlang.org/doc/man/rand.html">現在の疑似乱数モジュールrand</a>の基礎設計。</li>
+</ul>
+
+<h2 id="section-5">おわりに: 物理乱数生成器の利用に伴う今後の課題</h2>
+
+<p>物理乱数発生器にはすでに複数の実用的な実装があり（<a href="https://en.everybodywiki.com/Comparison_of_hardware_random_number_generators">実装の一部を示したリスト</a>）、技術的にも成熟しているといえます。生成速度も毎秒数十〜数百kビット/秒あれば、現在の主要OSのエントロピープールを満たすには十分です。しかし、現実に物理乱数生成器を使う上では、以下の課題が残っています。</p>
+
+<ul>
+  <li>各種OSにエントロピー源を供給する方法が開示されていない。LinuxやFreeBSDではシステムコールがあり外部のエントロピー源をOSの暗号用疑似乱数生成器に供給できるが、WindowsやmacOS、AndroidやiOSではこれらの方法が開示されていない。</li>
+  <li>標準ハードウェアとしてはIntelのRDRAND命令等CPUに実装したものしか存在しないため、実装の多様性と透明性が担保できない。</li>
+  <li>ハイパーバイザを前提とした仮想化環境での各仮想マシンへのエントロピー供給の仕組みが十分開示されているとは言い難く、クラウド環境での問題になり得る。</li>
+</ul>
+
+<p>コンピュータの中のランダムな現象をサンプリングするだけではランダムネスの問題は実用的には解決しないことが明らかになっている現在、スマートフォンからタブレット、デスクトップパソコン、そしてサーバやスーパーコンピュータに至るまで、どのように各種コンピュータの実装OSに必要なエントロピーを確保し、かつエントロピー源の多様性と透明性を確保するかを考えることは今後の重要な課題といえるかと思います。</p>
+
+<h2 id="section-6">公開後の訂正履歴</h2>
+
+<ul>
+  <li>2019年2月7日: 「飛石技術」の名前が間違っていたのを訂正しました。また、オライリージャパンのMake:ブログへのリンクを正しいものに訂正しました。</li>
+</ul>
+
+<h2 id="section-7">参考文献</h2>
+
+<p>[1] 内田 淳史, 光のランダム現象を応用した超高速物理乱数生成器の研究開発の最新動向, レーザー研究, 2011, 39 巻, 7 号, p. 508-514, 公開日 2015/09/03, Online ISSN 1349-6603, Print ISSN 0387-0200, <a href="https://doi.org/10.2184/lsj.39.508">https://doi.org/10.2184/lsj.39.508</a>, <a href="https://www.jstage.jst.go.jp/article/lsj/39/7/39_508/_article/-char/ja">https://www.jstage.jst.go.jp/article/lsj/39/7/39_508/_article/-char/ja</a>, 抄録: The recent development of ultra-fast physical random number generators based on optical random</p>
+
+<p>[2] 池田 信行, 乱数とエントロピー, 応用統計学, 1971-1972, 1 巻, 2 号, p. 61-75, 公開日 2009/06/12, Online ISSN 1883-8081, Print ISSN 0285-0370, <a href="https://doi.org/10.5023/jappstat.1.61">https://doi.org/10.5023/jappstat.1.61</a>, <a href="https://www.jstage.jst.go.jp/article/jappstat1971/1/2/1_2_61/_article/-char/ja">https://www.jstage.jst.go.jp/article/jappstat1971/1/2/1_2_61/_article/-char/ja</a>, 抄録: 乱数に関する情報理論の立場からの最近の研究のいくつかについて紹介する.内容はすでに諸外国で論文として発表されているものを集め2,3の解説をつけたものである.1.まえがき,2.”複雑さ”,3.”複雑さ”の性質,4.乱数,5.まとめ,附記よりなっている.</p>
+
+<p>[3] Alex Stamos, Andrew Becherer, and Nathan Wilcox: “Cloud Computing Security”, スライドPDF: <a href="https://www.nccgroup.trust/globalassets/resources/us/presentations/cloud-blackhat-2009-isec.pdf">https://www.nccgroup.trust/globalassets/resources/us/presentations/cloud-blackhat-2009-isec.pdf</a> / ブロックデバイスから得られるエントロピーの量についてはスライドの65ページを参照。</p>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2019/02/07/randomness/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/fc3b290038a97f5df6fec7660c357ef4?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          力武健次
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/jj1bdx" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+<a href="https://www.facebook.com/jj1bdx" class="article__author-link article__author-link--facebook" target="_blank">              <i class="fa fa-facebook-square fa-fw"></i>
+</a>
+<a href="https://github.com/jj1bdx" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所客員研究員。2008年よりErlang/OTPユーザ。Erlang/OTPやElixirでのソフトウェア開発をOSS活動として行っている。2015年にはErlang/OTPのrand疑似乱数モジュールを共著者としてリリースした。
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

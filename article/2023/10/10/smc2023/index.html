@@ -1,0 +1,454 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所 研究員／プリンシパルエンジニアの三宅(@monochromegane)です。
+2023年10月1日から4日に渡ってハワイで開催されたIEEE SMC 2023において、Contextual and Nonstationary..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所 研究員／プリンシパルエンジニアの三宅(@monochromegane)です。
+2023年10月1日から4日に渡ってハワイで開催されたIEEE SMC 2023において、Contextual and Nonstationary..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+  </h1>
+
+  <time datetime="2023-10-10" class="article__time">
+    2023-10-10
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅(<a href="https://twitter.com/monochromegane">@monochromegane</a>)です。
+2023年10月1日から4日に渡ってハワイで開催された<a href="https://ieeesmc2023.org/">IEEE SMC 2023</a>において、<strong>Contextual and Nonstationary Multi-armed Bandits Using the Linear Gaussian State Space Model for the Meta-Recommender System</strong>という標題で発表を行ってきました。発表資料と共に内容を紹介します。</p>
+
+<h2 id="ieee-smc-2023">IEEE SMC 2023</h2>
+
+<p><img src="/images/2023-10-10-smc2023/smc2023.jpg" alt="smc2023" /></p>
+
+<p>IEEE SMCは、IEEEのSystems, Man, and Cyberneticsソサイエティにおけるフラッグシップ国際会議です。
+自律適応システムや人間と機械のインタラクション、知能システムのような幅広い分野の研究を扱うのが特徴で、ペパボ研究所におけるコンセプトである、情報システムとこれに関わる人々の間とでのコンテキストの創出・認識を通した相互継続的な自動適応を目指す機構、すなわち「なめらかなシステム」の研究分野に合致する部分が多い国際会議です。</p>
+
+<p>なお、今年のSMC 2023は、1,400以上の投稿があり採択率は56%だったとのことです。</p>
+
+<h2 id="section">発表概要</h2>
+
+<p>ECサイトにおいて利用者の情報過多問題を解決するため、数多ある推薦手法の中から、適用先に適したものを選定することは重要です。
+一方で、それらの推薦手法の有用性は実環境に応じた様々な要因によって異なるため、実環境での評価が欠かせません。
+ただし、判断の遅延や誤った判断によって生じる機会損失は避けねばなりません。
+このような推薦手法の選定の仕組みにおいて、機会損失を考慮した実環境での評価を多腕バンディット問題として扱う、メタ推薦システムが研究されています。</p>
+
+<p>本研究では、このメタ推薦システムに適した多腕バンディットの方策を提案しました。
+提案では、候補となる推薦手法自体の特性を整理し、時間変化、文脈の考慮、応答速度という要件を満たすような方策を検討しています。
+具体的には、推薦手法の有用性の変化を状態空間モデルで表現することで時間変化と文脈を考慮し、軽量な線形カルマンフィルタを用いて状態を推定することで応答速度の要件を満たします。
+詳細は以下の発表資料もしくは公開後の論文をご覧ください。</p>
+
+<p>評価では、実際のECサイトから取得した複数の推薦手法に関する時間経過、文脈ごとに異なる有用性のデータを用いて提案手法を適用した際のクリック数をシミュレーションしました。
+シミュレーションでは、本設定においては、ベースラインの他の方策に対し、機会損失を減らしながら適した推薦手法を自動的継続的に選定することが可能という結果を得ることができました。</p>
+
+<p>今後は非線形な報酬モデルへの拡張を目指しつつ、実システムへの積極的な展開を進めていきます。</p>
+
+<p><img src="/images/2023-10-10-smc2023/smc2023_talk.jpg" alt="smc2023-talk" /></p>
+
+<h2 id="section-1">発表資料</h2>
+
+<script defer="" class="speakerdeck-embed" data-id="53686322dcea424d83e96fb36d9945a5" data-ratio="1.7777777777777777" src="//speakerdeck.com/assets/embed.js"></script>
+
+<h2 id="section-2">発表を終えて</h2>
+
+<p>今回のSMC 2023は（プログラミング言語系を除いて）初の国際会議での発表となりました。
+博士課程に入ってから8度目の投稿にしてようやく採択された論文であったため、発表は非常に感慨深いものでした。</p>
+
+<p>実際の発表では以下の学びがあったと考えています。</p>
+
+<h3 id="section-3">提案を端的に伝える</h3>
+
+<p>発表資料の通り、今回の自身の発表では、提案の具体的な内容まできちんと説明を試みています。
+一方で、他の方の発表では、いわゆるイントロダクション相当の内容での発表が多かったように思えます。
+国内の研究会との違いから最初は違和感がありましたが、広い分野に対する発表をたくさん聞く中では、細かい部分よりも端的にまとめられた大枠の説明で興味に合うかを判断し、詳細は論文を読んだり質問するというのが良さそうだと感じました。
+提案の手法を含むストーリー全体が共有できていない中での詳細説明は、興味関心を持ってもらう機会を逃すのかもしれません。
+興味関心を持ってもらえなければ、その後の議論の機会が失われてしまうので大変勿体無いことです。</p>
+
+<p>実際に自身の発表に対する質疑は残念ながらゼロであり、ここは次回改善していければと思います。
+また、これは論文自体の執筆方針にも関わることだと思うので、今後の執筆でも伝わりやすさの観点を改めて大事にしていきたいと思えました。</p>
+
+<h3 id="section-4">とにかく質問する</h3>
+
+<p>国際会議やセッションの興味関心が非常に近しいこともあり、とても面白い発表がいくつもありました。
+英語力としてはまだまだ不足していますが、とにかく質問はできるだけしました。
+拙い英語であっても分野が同じであれば雰囲気は伝わるもので、たくさんの返答をいただけ、理解も深まりました。
+この辺りは物怖じしてもしょうがないのでどんどんやって正解だったなと思います。
+帰りの空港のセキュリティチェックポイントの列で質問した方とすれ違って雑談できたのもいい思い出になりました。</p>
+
+<h3 id="section-5">一度参加しておく</h3>
+
+<p>今回、初めての国際会議への参加となりましたが、雰囲気や求められているものはやはり参加しなければわからないなあと思えました。
+参加することで、採択論文やその発表の水準を体感したり研究のモチベーションにも繋がるので、国内で開催される国際会議にでも先に一度参加しておけばよかったかなあと今になれば思えます。</p>
+
+<p>以上、専門分野に関するもの以外にも多くの学びを得た国際会議での発表となりました。
+今後は専門分野での能力だけでなく英語力も一層向上させ、活発かつ深い議論の輪にもっと入っていけるようにしたいと思います。</p>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2023/10/10/smc2023/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          三宅悠介
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員、プリンシパルエンジニア
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

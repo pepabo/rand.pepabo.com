@@ -1,0 +1,492 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>Google Cloud Platformを用いた形態素解析 - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所 研究員の野村（@komei）です。
+ペパボでは、自社が運用するウェブサービスのユーザの行動ログや属性情報などを収集・分析・活用するための基盤として「Bigfoot」を運用しており、今年Google Cloud Platform..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="Google Cloud Platformを用いた形態素解析 - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所 研究員の野村（@komei）です。
+ペパボでは、自社が運用するウェブサービスのユーザの行動ログや属性情報などを収集・分析・活用するための基盤として「Bigfoot」を運用しており、今年Google Cloud Platform..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2020/07/14/morphological-analysis/">Google Cloud Platformを用いた形態素解析</a>
+  </h1>
+
+  <time datetime="2020-07-14" class="article__time">
+    2020-07-14
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所 研究員の野村（<a href="https://twitter.com/Komei5296">@komei</a>）です。
+ペパボでは、自社が運用するウェブサービスのユーザの行動ログや属性情報などを収集・分析・活用するための基盤として「Bigfoot」を運用しており、<a href="https://rand.pepabo.com/article/2020/06/16/bigfoot-migration/">今年Google Cloud Platform（GCP）を使った構成への移設</a>を行いました。
+本記事では、Bigfootの移設先であるGCPを用いて形態素解析を行う方法についてお話しします。</p>
+
+<h2 id="section">形態素解析を行う動機</h2>
+
+<p>ペパボでは、ユーザの行動ログや属性情報だけでなく、ユーザからのお問い合わせや商品情報など様々なデータをBigfootに蓄積しています。
+これらのデータの中には、ユーザからのお問い合わせの文書や商品の説明文などの日本語の文書データも多く含まれています。
+このような文書データから意味のある情報を抽出し活用するためには、まず文書に含まれている単語を把握する必要があります。
+そして、TF-IDFやword2vecなどの手法を用いて文書の特徴を求めることで、推薦やサービスの改善など様々な方面での利用が行えるようになります。
+具体的には、筆者が<a href="https://rand.pepabo.com/article/2020/05/15/iot49/">情報処理学会 第49回インターネットと運用技術研究会（IOT49）で発表した「ハンドメイド作品を対象としたECサイトにおける単語の出現頻度を用いた稀覯品検出」</a>がその一例として挙げられます。
+また、今後はユーザからのお問い合わせの傾向を解析し、サービスの改善に役立てていくことも一つの応用例として考えることができます。
+ここまでに挙げたサービスの各種改善を行う上で、GCP上で形態素解析を行える環境を構築することは有用であると筆者は考えました。</p>
+
+<h2 id="kuromoji-for-bigquery">kuromoji-for-bigquery</h2>
+
+<p>GCP上で形態素解析を行うために、<a href="https://github.com/yu-iskw/kuromoji-for-bigquery">kuromoji-for-bigquery</a>というオープンソースソフトウェアを利用しました。
+kuromoji-for-bigqueryは、BigQueryの指定したテーブルにある文書データを入力として、<a href="https://www.atilika.com/ja/kuromoji/">kuromoji</a>（日本語の形態素解析エンジン）による形態素解析の結果を、BigQueryの指定したテーブルに出力します。</p>
+
+<p>kuromoji-for-bigqueryは、Javaと<a href="https://beam.apache.org/">Apache Beam</a>で実装されています。
+Apache Beamは、バッチもしくはストリーミングのデータ処理のパイプラインを定義するためのフレームワークです。
+Apache Beamによって実装されたデータ処理のパイプラインは、ローカルもしくはGCPのCloud DataflowのようなApache Beamがサポートしている分散処理バックエンドで実行可能です。
+kuromoji-for-bigqueryには、以下のようなデータ処理のパイプラインが実装されています。</p>
+
+<ol>
+  <li>BigQueryからのデータの取得</li>
+  <li>kuromojiを用いた形態素解析の処理</li>
+  <li>形態素解析の結果をBigQueryのテーブルに出力</li>
+</ol>
+
+<p>このデータ処理のパイプラインの実行環境は、<code>--runner</code>という引数で指定することができます。
+本記事ではGCP上で形態素解析の処理を実行するため、<code>--runner=DataflowRunner</code>を指定しました。このときのkuromoji-for-bigqueryの動作の流れを示します。</p>
+
+<p><img src="/images/2020-07-10-morphological-analysis/abst-kuromoji-for-bigquery.png" alt="kuromoji-for-bigqueryの実行フロー" /></p>
+
+<p><code>--runner=DataflowRunner</code>を指定し実行を開始すると、まず、データ処理のパイプラインが記述された実行ファイルをCloud Storageにアップロードし、その後、Cloud Dataflowにジョブの実行要求が送られます。
+ジョブの実行要求を受けたCloud Dataflowは、Cloud Storageに保管された実行ファイルを参照し、ジョブを生成し実行を開始します。
+そして、Cloud Dataflowは、kuromoji-for-bigqueryのデータ処理のパイプラインに従ってジョブを実行するので、BigQueryからデータを取得し、形態素解析の結果をBigQueryに出力します。
+また、実際に生成されたジョブは、Cloud Dataflowのコンソール画面から確認することができます。これについては後述します。</p>
+
+<h3 id="section-1">形態素解析の結果</h3>
+
+<p>形態素解析の結果は指定したBigQueryのテーブルに保存されます。実際にkuromoji-for-bigqueryを使って形態素解析を行った結果を以下に示します。</p>
+
+<p><img src="/images/2020-07-10-morphological-analysis/result-kuromoji-for-bigquery.png" alt="形態素解析の結果" /></p>
+
+<p>このように入力として与えたテーブルに保存された各文書を形態素解析した結果がテーブルに出力されます。
+形態素解析の結果はBigQuery上のテーブルに出力されているため、クエリを書くことでTF-IDFの計算もBigQuery上で行うことができます。</p>
+
+<h3 id="cloud-dataflow">Cloud Dataflowで生成されたジョブ</h3>
+
+<p>実際に生成されたジョブは、Cloud Dataflowのコンソール画面から確認することができます。以下に実際に生成されたジョブを示します。</p>
+
+<p><img src="/images/2020-07-10-morphological-analysis/dataflow-job.png" alt="Cloud Dataflowのジョブ" /></p>
+
+<p>このジョブは、100件の文書を形態素解析したときのものです。
+このジョブの実行グラフからBigQueryの読み書きや形態素解析の処理に要した時間を確認できます。
+また、形態素解析などの処理とは別に、ジョブを実行するために必要なインスタンスの立ち上げなどに要する時間があるため、ジョブの全体の実行時間は5分28秒となっていました。</p>
+
+<h3 id="section-2">データ数による実行時間の変化</h3>
+
+<p>データ数による形態素解析とジョブの実行時間の変化について調査を行いました。以下にデータ数に対する形態素解析にかかる実行時間とジョブの実行時間を示します。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>データ数</th>
+      <th>形態素解析の実行時間</th>
+      <th>ジョブの実行時間</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>100</td>
+      <td>2秒</td>
+      <td>5分28秒</td>
+    </tr>
+    <tr>
+      <td>1000</td>
+      <td>2秒</td>
+      <td>5分9秒</td>
+    </tr>
+    <tr>
+      <td>10000</td>
+      <td>6秒</td>
+      <td>4分46秒</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>上記の結果から、データ数1万件でも形態素解析にかかった時間は6秒と高速に処理できていることが分かります。
+また、調査を行ったデータ数では、ジョブの実行に必要なインスタンスの立ち上げなど、形態素解析の前後の処理に要する時間がジョブの実行時間の殆どを占めており、形態素解析そのものに掛かる時間はごく一部であることが確認できました。
+そのため、ジョブの実行時間は、ジョブの実行時に発生する前後の処理に要する時間である約5分をベースにして、データ数に応じた形態素解析にかかる時間の分増加すると予想されます。</p>
+
+<h3 id="section-3">実際の運用での注意点</h3>
+
+<p>kuromoji-for-bigqueryは、入力テーブルに保存された全ての文書に対して形態素解析を行います。
+言い換えると、kuromoji-for-bigqueryは、入力テーブル内の一部のデータを形態素解析して、出力テーブル内の該当データを更新することができません。
+しかし、実際の運用では、入力テーブルの一部のデータが更新される、もしくは新しいデータが追加されることがあるため、入力テーブル内で変更があったデータのみに形態素解析を実行したい場面があります。
+このように変更が加えられたデータのみ形態素解析の結果を更新する場合は、別途差分の更新を行う実装が必要となります。</p>
+
+<h2 id="section-4">まとめ</h2>
+
+<p>kuromoji-for-bigqueryを使いGCP上で形態素解析をする方法を紹介し、出力されるBigQuery上のテーブルの確認やCloud Dataflowでのデータ数に対する実行時間の調査と考察を行いました。
+データ数に対する実行時間の計測結果は、Cloud Dataflowでkuromoji-for-bigqueryを実行する場合の実行時間の見積もりに役立てることができると思います。</p>
+
+<p>今後は、形態素解析の結果を利用して、筆者が進めている研究「ハンドメイド作品を対象としたECサイトにおける単語の出現頻度を用いた稀覯品検出」のプロダクト実装を進めていくとともに、その他にもサービス改善につながるような用途を探していきたいと考えています。
+また、更新が発生したデータのみに対して再度形態素解析を適用するような実装も考えていきたいと思っています。</p>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2020/07/14/morphological-analysis/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/ec3fcf78fa2ad21dcc48478df80e0dc4?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          野村孔命
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/Komei5296" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+<a href="https://www.facebook.com/Komei22" class="article__author-link article__author-link--facebook" target="_blank">              <i class="fa fa-facebook-square fa-fw"></i>
+</a>
+        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

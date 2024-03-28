@@ -1,0 +1,440 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>国際会議COMPSAC2018 Workshop ADMNETでLarge-scale Certificate Management on Multi-tenant Web Serversについて発表しました - ペパボ研究所ブログ</title>
+    <meta property="description" content="チーフエンジニア兼主席研究員の松本(まつもとりー)(@matsumotory) です。2018年7月23日から5日間に渡って開催された、COMPSAC 2018: The 42nd IEEE International Conference..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="国際会議COMPSAC2018 Workshop ADMNETでLarge-scale Certificate Management on Multi-tenant Web Serversについて発表しました - ペパボ研究所ブログ" />
+    <meta property="og:description" content="チーフエンジニア兼主席研究員の松本(まつもとりー)(@matsumotory) です。2018年7月23日から5日間に渡って開催された、COMPSAC 2018: The 42nd IEEE International Conference..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2018/07/27/compsac2018/">国際会議COMPSAC2018 Workshop ADMNETでLarge-scale Certificate Management on Multi-tenant Web Serversについて発表しました</a>
+  </h1>
+
+  <time datetime="2018-07-27" class="article__time">
+    2018-07-27
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>チーフエンジニア兼主席研究員の松本(まつもとりー)(<a href="https://twitter.com/matsumotory">@matsumotory</a>) です。2018年7月23日から5日間に渡って開催された、<a href="https://ieeecompsac.computer.org/2018/">COMPSAC 2018: The 42nd IEEE International Conference on Computers, Software &amp; Applications Staying Smarter in a Smarting World</a>において併設で開催された<a href="https://ieeecompsac.computer.org/2018/admnet/">ADMNET 2018: The 6th IEEE International COMPSAC Workshop on Architecture, Design, Deployment and Management of Networks and Applications</a>で、ペパボ研究所の松本が1件の発表を行いましたので、論文(国際会議予稿)とスライドと共に簡単に紹介します。その後、COMPSAC2018に参加した感想を述べます。</p>
+
+<p>ペパボ研究所としては、残念ながらCOMPSAC2018のメインシンポジウムにおいてのacceptには至りませんでしたが、併設の国際ワークショップに登壇するという、初の国際会議での発表となりました。ペパボ研究所として国際化を進めながら、我々の研究開発している技術の正しさと広がり、そしてその普遍性をグローバルな水準で問うという意味では、我々にとっての大きな一歩になりました。</p>
+
+<hr />
+
+<h2 id="large-scale-certificate-management-on-multi-tenant-web-servers">Large-scale Certificate Management on Multi-tenant Web Servers</h2>
+
+<p>高集積マルチテナント方式によるWebホスティングサービスでは、高集積にホストを収容することで、ハードウェアコストや運用コストを低減し低価格化を実現するために、単一のサーバプロセス群で複数のホストを管理する必要があります。
+ここでいう単一のサーバプロセス群とは、ホスト毎にサーバプロセスを起動させるわけではなく、複数のホストでサーバプロセスを共有することを示します。
+実際にサーバプロセスの処理を行うプロセスは、ホスト数には依存しないものの、Web サーバの実装によっては数十から数百存在することがあります。
+従来のWebサーバソフトウェアはHTTPSで通信を行うために、サーバ起動時に、サーバ証明書とペアとなる秘密鍵をホストごとに読み込んでおく必要があります。
+しかし、そのような仕組みでは、高集積マルチテナント方式でのメリットである性能と低価格化の両立が難しくなります。
+なぜなら、高集積にホストを収容すると、大量のサーバ証明書の読み込みによってサーバプロセスの起動に多くの時間を要したり、サーバプロセスのメモリ使用量がホスト数に依存して増加したりするからです。
+また、サーバ証明書をファイルで管理する必要があり、複数のWebサーバによる処理の分散や可用性の担保にも支障をきたします。</p>
+
+<p>本論文では、高集積マルチテナント方式によるWebサーバにおいて、Webサーバプロセス起動時にサーバ証明書と秘密鍵を読み込んでおくのではなく、SSL/TLSハンドシェイク時において、リクエストのあったホスト名を元に、リクエスト単位で対応するサーバ証明書と秘密鍵のデータをデータベースから動的に取得することで、Webサーバプロセスのメモリ消費量を大幅に低減する効率的なサーバ証明書の管理アーキテクチャを提案しました。
+SSL/TLSハンドシェイク時における証明書と秘密鍵の動的な読み込みは、筆者らが開発したnginxをmrubyで拡張できるngx_mrubyに、証明書の取り扱いを制御できる機能追加を行うことで対応しました。
+サーバ証明書と秘密鍵はKVSの一種であるRedisに保存しておき、mrubyのコードによってホスト名に対応した証明書と秘密鍵を取得するようにしました。
+本手法は、HTTPS通信を終端するWebサーバとして広く使われているnginxに対して、ngx_mrubyを用いることによりnginx本体を変更することなく簡単に組み込めるため、実用的であるといえます。
+また、実装は既にOSSとして公開済みです。</p>
+
+<p>実験から、TLSのハンドシェイク時のCPU使用時間のコストと比較し、動的に証明書を読み込む処理はコストの低い処理となるため、実用上問題にならない性能がでることを示しました。
+さらに、プロダクション環境で実験を行い、メモリ32GBytes 搭載したサーバであれば、今後証明書数が20万以上になった場合に、前述したメモリ使用量の観点では計算上、500GBytes 以上のメモリが追加で必要であることから、32GBytes メモリを搭載したサーバも追加で 15 台以上必要です。
+一方で、提案手法では、メモリ使用量が証明書数にほとんど依存していないことから、メモリ使用量の観点では、1 台でも処理できると見積もることができました。提案手法によって、今後のHTTPS通信が当たり前となる状況において、必要なサーバ台数も大幅に削減できることがわかりました。</p>
+
+<h3 id="proceeding">Proceeding</h3>
+
+<ul>
+  <li><a href="/papers/compsac2018-admnet-matsumotory.pdf">Large-scale Certificate Management on Multi-tenant Web Servers</a></li>
+</ul>
+
+<h3 id="section">スライド</h3>
+
+<script async="" class="speakerdeck-embed" data-id="271fa08e946a424da4df04a335b1819b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<h4 id="section-1">過去に日本語で発表したスライドはこちらです</h4>
+
+<ul>
+  <li><a href="https://speakerdeck.com/matsumoto_r/ckp-qgpop-2milions-tls">200万ドメインのHTTPS化を見据えた大規模証明書管理アーキテクチャ</a></li>
+</ul>
+
+<hr />
+
+<h2 id="compsac2018">COMPSAC2018に参加して思ったこと</h2>
+
+<p>ペパボ研究所としてCOMPSAC2018に参加し、併設のワークショップとはいえ、きちんと英語で論文を書いて査読を通し、英語で発表をしながら全ての質疑を英語で行えたということはとても良い経験になりました。質疑の中では、プロダクションにおける従来手法の実験で、証明書数がほとんど増えていない理由や、提案手法がTLSハンドシェイク単位で証明書を読み込んだ後のメモリ保持期間やその扱いにおける議論が行われました。とはいえ、まだまだ正しい英語ですばやく回答をできていなかったので、セッション終了後にも質問頂いた先生に改めて説明するなどしました。これらの経験からも、明確に英語で議論を行うスキルが、研究の成長に対して足かせになっていることは明白なので、これからもっと論文を英語で書いて英語で発表し、最も重要である英語の質疑応答を積極的に行っていきたいと思います。</p>
+
+<p>5日間参加する中で最も印象に残ったセッションは、IEEEの歴代Presidentによるパネルディスカッションでした。その中で「IEEEコミュニテイの良いところは、会社や大学、あるいは一般的な社会においては、何かと立場や役職等があるけれど、COMPSACのようなカンファレンスに世界中から研究者や技術者が集まった時には、彼らは皆平等で何の壁もなく、立場など気にせず自由に研究開発に対して議論し、研究を育て、研究を広げていくことができる。自分たちはそういうコミュニティが好きだし、だから自分はここにいる。」と仰っていて、ああ、なんて自分は小さな世界にいたんだ、と改めて思わされ、非常に感銘を受けました。もっともっと、そのような壁を気にすることなく、グローバルな基準でコンピュータ・サイエンスに関する技術、ひいては科学を育てていく場所が今ここに、目の前にあって、自分はそこにいるんだ、ということを身をもって実感することができました。</p>
+
+<p>本エントリの最初に、国際化に向けての大きな一歩を踏み出したと述べました。しかし、自分はCOMPSAC2018のメインシンポジウムにおいてはrejectされたことを、今も昨日のことのように覚えていて、悔しい気持ちしかありません。また、COMPSACのメインシンポジウムで登壇している皆さんの研究内容の高度さ、そして質疑応答での高度な掛け合いは、その思いを更に強くさせられました。ペパボ研究所の国際化に向けて、ペパボのプロダクトをグローバルな水準でより素晴らしいものにするべく技術の正しさと広がりを進めていくためには、僕自身の今のスキルが上限になってしまってはペパボ研究所の先なんてありえません。もっと正確に英語で論文を書けるようにし、もっと学び、もっと手を動かし、もっと深く思考し、我々の技術をトップカンファレンスのようなグローバルな水準で問い続け育てていく、これらを進めるためにも、これからもただひたすら自分のエンジニア・研究者としてのスキルを高めていくと改めて心に誓うきっかけになりました。</p>
+
+<p>世界は広い。でも、ようやくそこに一歩踏み出せそうな気がします。</p>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2018/07/27/compsac2018/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/2b692bd83f4418103142a053ecf5ff59?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          松本亮介
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/matsumotory" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+<a href="https://www.facebook.com/matsumotory" class="article__author-link article__author-link--facebook" target="_blank">              <i class="fa fa-facebook-square fa-fw"></i>
+</a>
+<a href="https://github.com/matsumotory" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所主席研究員、京都大学博士（情報学）、チーフエンジニア、第9回日本OSS奨励賞、2014年度情報処理学会山下記念研究賞、IPSJ-ONE登壇、情報処理学会IOT研究会運営委員
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

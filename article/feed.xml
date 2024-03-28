@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ペパボ研究所</title>
+  <id>http://rand.pepabo.com/article</id>
+  <link href="http://rand.pepabo.com/article"/>
+  <link href="http://rand.pepabo.com/article/feed.xml" rel="self"/>
+  <updated>2024-03-27T15:00:00+00:00</updated>
+  <author>
+    <name>GMO Pepabo, Inc.</name>
+  </author>
+  <entry>
+    <title>AIを前提とした体験の実現に向けての勉強会を開催しました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2024/03/28/ai/"/>
+    <id>http://rand.pepabo.com/article/2024/03/28/ai/</id>
+    <published>2024-03-27T15:00:00+00:00</published>
+    <updated>2024-03-28T09:24:27+00:00</updated>
+    <author>
+      <name>三宅悠介, 渡辺龍二, 酒井敏彦</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／プリンシパルエンジニアの三宅(&lt;a href="https://twitter.com/monochromegane"&gt;@monochromegane&lt;/a&gt;)です。
+2024年3月27日に、AIを前提とした体験の実現に向けての社内勉強会を開催しました。
+発表資料と共に内容を紹介します。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;背景&lt;/h2&gt;
+
+&lt;p&gt;ペパボではAIを前提とした新しい体験の実現に向けて、全社的な取り組みが加速しています&lt;sup id="fnref:1" role="doc-noteref"&gt;&lt;a href="#fn:1" class="footnote" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;。
+この動きに伴い、ペパボ研究所はAIを前提とした体験、すなわちAI体験について、職種を超えた共通理解を醸成することの重要性を認識しています。
+そのため、社内外の実践例や最新の動向を調査し、整理分類を通して、「AI体験」の理解を深めるための資料を作成しました。
+さらに、この資料を活用して社内勉強会を開催しました。&lt;/p&gt;
+
+&lt;p&gt;なお、本資料では、任意のタスクを解くための振る舞いをデータから記述するような、機械学習ベースの方式全般をAIと定義しています。&lt;/p&gt;
+
+&lt;h2 id="section-1"&gt;発表概要&lt;/h2&gt;
+
+&lt;p&gt;資料ではまず、2つの主要な概念である「AI Transformation」と「AI eXperience」を整理しています。
+AI体験を提供するためには、AI活用による組織やシステムの変革を伴うAI Transformationが不可欠であることを述べています。
+次に、AI体験の分類と実践例について紹介しています。
+ここでは、ペパボのEC事業の主たる形態であるTwo-sided marketを例に、「商品を通したAI体験」と「システムを通したAI体験」に分類しています。
+特に、DXにおけるデジタイゼーションとデジタルトランスフォーメーションの違いを示しながら、AIによる組織（運用）やシステムの変容を伴うインパクトの大きな体験の重要性を確認します。
+さらに、システムを通したAI体験において着目すべき点の感覚を養うため、システムのあり方の変化と具体的な実践例を示しています。
+最後に、AI体験の実現に向けて、その効果とAIプロジェクト推進における注意事項をまとめています。&lt;/p&gt;
+
+&lt;h2 id="section-2"&gt;発表資料&lt;/h2&gt;
+
+&lt;script defer="" class="speakerdeck-embed" data-id="cc819e57deca4886a3b118087d93ff23" data-ratio="1.7772511848341233" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h2 id="section-3"&gt;勉強会を終えて&lt;/h2&gt;
+
+&lt;p&gt;勉強会には多くの方が参加してくれました。
+参加者の皆さんからの積極的な質問や意見交換があり、非常に有意義な時間となりました。
+質疑応答の時間では、AIだけでなく導入に向けた評価指標の設計についても熱心に議論されました。
+本勉強会が、AI体験の実現に向けた共通認識の醸成と、取り組みの加速に寄与すれば嬉しいです。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;ペパボ研究所では、AI体験の実現に向けて「&lt;a href="https://rand.pepabo.com/"&gt;なめらかなシステム&lt;/a&gt;」というビジョンで研究開発に取り組んでいます。
+以下の資料に興味を持たれた方は、ぜひ声をかけてください。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://speakerdeck.com/monochromegane/the-turn-to-recursive-system"&gt;再帰化への認知的転回&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://speakerdeck.com/monochromegane/dicomo2021-coherently-fittable-system"&gt;なめらかなシステムと運用維持の未来&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+  &lt;ol&gt;
+    &lt;li id="fn:1" role="doc-endnote"&gt;
+      &lt;p&gt;&lt;a href="https://pdf.pepabo.com/presentation/20240213p.pdf#_ga=2.175524006.520693016.1711528469-1998267041.1707217613"&gt;GMOペパボ 2023年12月期 通期 決算説明会資料&lt;/a&gt; p.35,36 &lt;a href="#fnref:1" class="reversefootnote" role="doc-backlink"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <title>IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2023/10/25/wfiot2023/"/>
+    <id>http://rand.pepabo.com/article/2023/10/25/wfiot2023/</id>
+    <published>2023-10-24T15:00:00+00:00</published>
+    <updated>2024-03-28T09:24:27+00:00</updated>
+    <author>
+      <name>栗林健太郎</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所所長の栗林（あんちぽ）です。&lt;/p&gt;
+
+&lt;p&gt;2023年10月12日からポルトガルとのハイブリッドで開催された&lt;a href="https://wfiot2023.iot.ieee.org/"&gt;IEEE WFIoT 2023&lt;/a&gt;において、&lt;strong&gt;Dynamic IoT Applications and Isomorphic IoT Systems Using WebAssembly&lt;/strong&gt;という標題で発表を行ってきました。&lt;/p&gt;
+
+&lt;p&gt;発表資料と共に内容を紹介します。&lt;/p&gt;
+
+&lt;h2 id="ieee-wfiot-2023"&gt;IEEE WFIoT 2023&lt;/h2&gt;
+
+&lt;p&gt;IEEE WFIoTは、IEEEにおけるIoT領域の複数ソサエティが主導するIEEE IoT Technical Communityの国際会議です。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;発表概要&lt;/h2&gt;
+
+&lt;p&gt;IoTデバイスの適用領域が拡大していく中で、開発者は多様で急速に変わるユーザー要件に迅速に応じる必要が出てきています。そのため、IoTデバイスを迅速かつ頻繁に更新できる方法が要求されています。また、近年のクラウド/エッジコンピューティングの進展を考慮すると、複数の階層を通じて構成されるIoTシステムに適した形での、新しいアプローチが必要とされていると考えます。&lt;/p&gt;
+
+&lt;p&gt;本研究では、WebAssembly（Wasm）を活用して、動的に更新が可能なIoTデバイスの構築方法を提案します。提案方式では、IoTデバイス内のアプリケーションを実装するのに、メインのアプリケーションを実装するプログラム言語に加えてWasmランタイムを組み合わせて構成します。この組み合わせにより、デバイスの更新やメンテナンスが容易になることが期待されます。&lt;/p&gt;
+
+&lt;p&gt;さらに、本研究では、各システムの各レイヤーで共通のコードベースから構築される同一のWasmバイナリを使用したisomorphic（同型的）なIoTシステムの提案も行っています。IoTデバイスのみならずIoTシステムの全レイヤーを通じて、同一の技術ベースで開発できる手法です。具体例として、画像認識と分類のための機械学習モデルをWasmバイナリに変換する使用例を示しました。&lt;/p&gt;
+
+&lt;p&gt;提案手法の効果を検証するため、定量的な評価を実施しました。この評価から、提案手法がアプリケーションからWasm関数を呼び出す際のオーバーヘッドを導入するものの、その影響は限られていることが確認しました。さらに、広く使用される画像認識と分類のモデル、ResNet-50とMobileNetV2を用いて、提案手法の実際の性能を測定しました。これにより、提案手法が現行の環境で十分実用的であり、また将来の発展にも適していることを確認しました。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2023-10-25-wfiot2023/wfiot2023.jpg" alt="wfiot2023" /&gt;&lt;/p&gt;
+
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/IGAfZATbgnQ?si=fwf6LE5Y_OkDv-R0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""&gt;&lt;/iframe&gt;
+
+&lt;h2 id="section-1"&gt;発表資料&lt;/h2&gt;
+
+&lt;script defer="" class="speakerdeck-embed" data-id="5f0e309fd8a5482ca0ef9ce6a412b783" data-ratio="1.7772511848341233" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h2 id="section-2"&gt;発表を終えて&lt;/h2&gt;
+
+&lt;p&gt;ポルトガルに行ってみたい気持ちはあったのですが、色々と都合がつかずリモートでのオンライン発表をしてきました。アカデミックな国際会議での発表は初めてでしたが、オーガナイザーやモデレータによるホスピタリティあふれる運営によって、特に問題なく終えることができました。共著者の皆様、カンファレンスの運営をしてくださっている皆様、本当にありがとうございました。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2023/10/10/smc2023/"/>
+    <id>http://rand.pepabo.com/article/2023/10/10/smc2023/</id>
+    <published>2023-10-09T15:00:00+00:00</published>
+    <updated>2024-03-28T09:24:27+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／プリンシパルエンジニアの三宅(&lt;a href="https://twitter.com/monochromegane"&gt;@monochromegane&lt;/a&gt;)です。
+2023年10月1日から4日に渡ってハワイで開催された&lt;a href="https://ieeesmc2023.org/"&gt;IEEE SMC 2023&lt;/a&gt;において、&lt;strong&gt;Contextual and Nonstationary Multi-armed Bandits Using the Linear Gaussian State Space Model for the Meta-Recommender System&lt;/strong&gt;という標題で発表を行ってきました。発表資料と共に内容を紹介します。&lt;/p&gt;
+
+&lt;h2 id="ieee-smc-2023"&gt;IEEE SMC 2023&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src="/images/2023-10-10-smc2023/smc2023.jpg" alt="smc2023" /&gt;&lt;/p&gt;
+
+&lt;p&gt;IEEE SMCは、IEEEのSystems, Man, and Cyberneticsソサイエティにおけるフラッグシップ国際会議です。
+自律適応システムや人間と機械のインタラクション、知能システムのような幅広い分野の研究を扱うのが特徴で、ペパボ研究所におけるコンセプトである、情報システムとこれに関わる人々の間とでのコンテキストの創出・認識を通した相互継続的な自動適応を目指す機構、すなわち「なめらかなシステム」の研究分野に合致する部分が多い国際会議です。&lt;/p&gt;
+
+&lt;p&gt;なお、今年のSMC 2023は、1,400以上の投稿があり採択率は56%だったとのことです。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;発表概要&lt;/h2&gt;
+
+&lt;p&gt;ECサイトにおいて利用者の情報過多問題を解決するため、数多ある推薦手法の中から、適用先に適したものを選定することは重要です。
+一方で、それらの推薦手法の有用性は実環境に応じた様々な要因によって異なるため、実環境での評価が欠かせません。
+ただし、判断の遅延や誤った判断によって生じる機会損失は避けねばなりません。
+このような推薦手法の選定の仕組みにおいて、機会損失を考慮した実環境での評価を多腕バンディット問題として扱う、メタ推薦システムが研究されています。&lt;/p&gt;
+
+&lt;p&gt;本研究では、このメタ推薦システムに適した多腕バンディットの方策を提案しました。
+提案では、候補となる推薦手法自体の特性を整理し、時間変化、文脈の考慮、応答速度という要件を満たすような方策を検討しています。
+具体的には、推薦手法の有用性の変化を状態空間モデルで表現することで時間変化と文脈を考慮し、軽量な線形カルマンフィルタを用いて状態を推定することで応答速度の要件を満たします。
+詳細は以下の発表資料もしくは公開後の論文をご覧ください。&lt;/p&gt;
+
+&lt;p&gt;評価では、実際のECサイトから取得した複数の推薦手法に関する時間経過、文脈ごとに異なる有用性のデータを用いて提案手法を適用した際のクリック数をシミュレーションしました。
+シミュレーションでは、本設定においては、ベースラインの他の方策に対し、機会損失を減らしながら適した推薦手法を自動的継続的に選定することが可能という結果を得ることができました。&lt;/p&gt;
+
+&lt;p&gt;今後は非線形な報酬モデルへの拡張を目指しつつ、実システムへの積極的な展開を進めていきます。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2023-10-10-smc2023/smc2023_talk.jpg" alt="smc2023-talk" /&gt;&lt;/p&gt;
+
+&lt;h2 id="section-1"&gt;発表資料&lt;/h2&gt;
+
+&lt;script defer="" class="speakerdeck-embed" data-id="53686322dcea424d83e96fb36d9945a5" data-ratio="1.7777777777777777" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h2 id="section-2"&gt;発表を終えて&lt;/h2&gt;
+
+&lt;p&gt;今回のSMC 2023は（プログラミング言語系を除いて）初の国際会議での発表となりました。
+博士課程に入ってから8度目の投稿にしてようやく採択された論文であったため、発表は非常に感慨深いものでした。&lt;/p&gt;
+
+&lt;p&gt;実際の発表では以下の学びがあったと考えています。&lt;/p&gt;
+
+&lt;h3 id="section-3"&gt;提案を端的に伝える&lt;/h3&gt;
+
+&lt;p&gt;発表資料の通り、今回の自身の発表では、提案の具体的な内容まできちんと説明を試みています。
+一方で、他の方の発表では、いわゆるイントロダクション相当の内容での発表が多かったように思えます。
+国内の研究会との違いから最初は違和感がありましたが、広い分野に対する発表をたくさん聞く中では、細かい部分よりも端的にまとめられた大枠の説明で興味に合うかを判断し、詳細は論文を読んだり質問するというのが良さそうだと感じました。
+提案の手法を含むストーリー全体が共有できていない中での詳細説明は、興味関心を持ってもらう機会を逃すのかもしれません。
+興味関心を持ってもらえなければ、その後の議論の機会が失われてしまうので大変勿体無いことです。&lt;/p&gt;
+
+&lt;p&gt;実際に自身の発表に対する質疑は残念ながらゼロであり、ここは次回改善していければと思います。
+また、これは論文自体の執筆方針にも関わることだと思うので、今後の執筆でも伝わりやすさの観点を改めて大事にしていきたいと思えました。&lt;/p&gt;
+
+&lt;h3 id="section-4"&gt;とにかく質問する&lt;/h3&gt;
+
+&lt;p&gt;国際会議やセッションの興味関心が非常に近しいこともあり、とても面白い発表がいくつもありました。
+英語力としてはまだまだ不足していますが、とにかく質問はできるだけしました。
+拙い英語であっても分野が同じであれば雰囲気は伝わるもので、たくさんの返答をいただけ、理解も深まりました。
+この辺りは物怖じしてもしょうがないのでどんどんやって正解だったなと思います。
+帰りの空港のセキュリティチェックポイントの列で質問した方とすれ違って雑談できたのもいい思い出になりました。&lt;/p&gt;
+
+&lt;h3 id="section-5"&gt;一度参加しておく&lt;/h3&gt;
+
+&lt;p&gt;今回、初めての国際会議への参加となりましたが、雰囲気や求められているものはやはり参加しなければわからないなあと思えました。
+参加することで、採択論文やその発表の水準を体感したり研究のモチベーションにも繋がるので、国内で開催される国際会議にでも先に一度参加しておけばよかったかなあと今になれば思えます。&lt;/p&gt;
+
+&lt;p&gt;以上、専門分野に関するもの以外にも多くの学びを得た国際会議での発表となりました。
+今後は専門分野での能力だけでなく英語力も一層向上させ、活発かつ深い議論の輪にもっと入っていけるようにしたいと思います。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2023/09/20/appsscript-cloudrun-certification/"/>
+    <id>http://rand.pepabo.com/article/2023/09/20/appsscript-cloudrun-certification/</id>
+    <published>2023-09-19T15:00:00+00:00</published>
+    <updated>2024-03-28T09:24:27+00:00</updated>
+    <author>
+      <name>酒井敏彦</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員の酒井（&lt;a href="https://twitter.com/tshk_sakai"&gt;@tshk_sakai&lt;/a&gt;）です。
+今回は、Google Sheets（以下、スプレッドシートと書きます）でCloud Runを活用するため、&lt;a href="https://openid.net/developers/how-connect-works/"&gt;OpenID Connect&lt;/a&gt;仕様のIDトークンを用いて、Google Apps Script（以下、Apps Scriptと書きます）からCloud Runへの認証を行う方法についてご紹介します。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;背景&lt;/h2&gt;
+
+&lt;p&gt;業務において、スプレッドシートの情報を元に、処理を行い、その処理結果をシートへ反映したいことがあります。
+この場合、スプレッドシート内で処理が完結することが望ましいですが、スプレッドシート単体では実現が難しいこともあります。
+そこで、スプレッドシート内の情報を入力として、外部で処理を実施し、その結果をシートへ出力する方法を検討しました。&lt;/p&gt;
+
+&lt;h2 id="section-1"&gt;構成&lt;/h2&gt;
+
+&lt;p&gt;スプレッドシート内の情報を入力として、外部で処理を行うには、外部にAPIサーバを構築する方法があります。
+その場合、実装を可能な限り最小限とし、コストをかけずに構築することが望ましいです。
+そこで、今回はCloud RunにAPIサーバを立て、Apps ScriptでCloud Runへアクセスするアーキテクチャを構築することにしました。&lt;/p&gt;
+
+&lt;p&gt;構成は以下の通りです。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2023-09-20-appsscript-cloudrun/architecture.png" alt="構成" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Apps Scriptのコードからスプレッドシートの情報を取得した上で、Cloud Runへ認証及びhttpsアクセスを行い、処理結果をスプレッドシートへ追記します。
+本記事では、Apps ScriptからCloud Runへの認証方法について説明します。&lt;/p&gt;
+
+&lt;h2 id="apps-scriptcloud-run"&gt;Apps ScriptからCloud Runへの認証&lt;/h2&gt;
+
+&lt;p&gt;Apps ScriptからCloud Runへの認証を行うには、以下が必要となります。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;（Apps Script）: OpenID Connectの仕様に準拠したIDトークンの取得&lt;/li&gt;
+  &lt;li&gt;（Apps Script）: OAuthスコープの設定&lt;/li&gt;
+  &lt;li&gt;（Google Cloud）: OAuth同意画面の設定&lt;/li&gt;
+  &lt;li&gt;（Apps Script）: Cloudプロジェクトの変更&lt;/li&gt;
+  &lt;li&gt;（Cloud Run）: OAuthクライアント情報の反映&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ここからは具体的な手順について説明します。&lt;/p&gt;
+
+&lt;h3 id="openid-connectid"&gt;OpenID Connectの仕様に準拠したIDトークンの取得&lt;/h3&gt;
+
+&lt;p&gt;Cloud Runでは、IAMのCloud Run起動元ロールとして&lt;code&gt;allUsers&lt;/code&gt;を付与すると、認証を行わずにアクセス可能です。
+しかし、今回は、Cloud Runへのアクセスを特定のアカウントに限定したかったため、アクセスを行うアカウントに&lt;code&gt;roles/run.invoker&lt;/code&gt;ロールを付与しました。&lt;/p&gt;
+
+&lt;p&gt;Cloud Runでは、Googleによって署名された&lt;a href="https://cloud.google.com/docs/authentication/token-types?hl=ja#id"&gt;IDトークン&lt;/a&gt;を&lt;code&gt;Authorization: Bearer &lt;/code&gt;ヘッダーの後に付与することで、&lt;a href="https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja#acquire-token"&gt;認証&lt;/a&gt;を行います。IDトークンは、OpenID Connectの仕様に準拠したJWT（JSON Web Token）です。
+例えば、Cloud StorageのJSON APIに対するリクエストは、&lt;a href="https://cloud.google.com/storage/docs/authentication?hl=ja#apiauth"&gt;OAuth2.0アクセストークンで認証が可能&lt;/a&gt;ですが、Cloud RunはOAuth2.0アクセストークンではなくIDトークンを利用します。
+Apps Scriptでは、&lt;a href="https://developers.google.com/apps-script/reference/script/script-app?hl=ja#getIdentityToken()"&gt;ScriptApp.getIdentityToken()&lt;/a&gt;でOpenID Connectに準拠したIDトークンを取得することができます。しかし、そのまま&lt;code&gt;ScriptApp.getIdentityToken()&lt;/code&gt;を用いるだけでは、まだCloud Runへの認証は通りません。&lt;/p&gt;
+
+&lt;h3 id="oauth"&gt;OAuthスコープの設定&lt;/h3&gt;
+
+&lt;p&gt;Apps Scriptの実行に必要な権限をOAuthスコープとして定義します。
+Apps Scriptの設定画面からappsscript.jsonを編集可能にする&lt;a href="appsscript.jsonを編集可能にする設定"&gt;設定&lt;/a&gt;及びappsscript.jsonの編集を行います。
+具体的には、appsscript.jsonの&lt;code&gt;oauthScopes&lt;/code&gt;は以下のように設定します。&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;
+  "oauthScopes": [
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/spreadsheets"
+  ]
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;それぞれのスコープの設定理由について、以下で説明します。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;openid&lt;/code&gt;: &lt;a href="https://developers.google.com/apps-script/reference/script/script-app?hl=ja#getidentitytoken"&gt;getIdentityToken()でOpenID Connectに準拠したIDトークンを取得するため&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;https://www.googleapis.com/auth/userinfo.email&lt;/code&gt;: &lt;a href="https://developers.google.com/apps-script/reference/script/script-app?hl=ja#getidentitytoken"&gt;getIdentityToken()でユーザ情報をトークンに含めるため&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;https://www.googleapis.com/auth/script.external_request&lt;/code&gt;: &lt;a href="https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app?hl=ja#fetchurl,-params"&gt;UrlFetchApp.fetchを実行するため&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;https://www.googleapis.com/auth/spreadsheets&lt;/code&gt;: &lt;a href="https://developers.google.com/identity/protocols/oauth2/scopes?hl=ja#script"&gt;Googleスプレッドシートの参照、編集、作成、削除を行うため&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="oauth-1"&gt;OAuth同意画面の設定&lt;/h3&gt;
+
+&lt;p&gt;Apps ScriptのCloudプロジェクトを変更するためには、CloudプロジェクトでOAuth同意画面の設定を終わらせておく必要があります。
+OAuth同意画面では、ユーザへ表示する情報を設定することができます。今回であれば、Apps Scriptを実行するユーザへ表示する情報を設定します。表示する情報を&lt;a href="https://developers.google.com/apps-script/guides/cloud-platform-projects?hl=ja#complete_the_oauth_consent_screen"&gt;手順&lt;/a&gt;に従って、作成しておきます。このOAuth同意画面の設定を終えていないと、Apps ScriptのCloudプロジェクト変更時にOAuth同意画面を設定しなければならない旨のエラー(&lt;code&gt;In order to change your project, you will need to configure the OAuth consent screen. Configure your OAuth Consent details.&lt;/code&gt;)が表示されます。&lt;/p&gt;
+
+&lt;h3 id="apps-scriptcloud"&gt;Apps ScriptのCloudプロジェクト変更&lt;/h3&gt;
+
+&lt;p&gt;Apps Scriptプロジェクトを作成すると&lt;a href="https://developers.google.com/apps-script/guides/cloud-platform-projects?hl=ja#default"&gt;デフォルトのCloudプロジェクト&lt;/a&gt;が作成されます。しかし、今回は既存にあるCloudプロジェクトに作成したCloud RunとApps Scriptを紐づけたいため、デフォルトのCloudプロジェクトではなく既存のCloudプロジェクト(標準のCloudプロジェクト)への変更が必要となります。まだCloudプロジェクトを作成していない場合は、新規作成し、&lt;a href="https://developers.google.com/apps-script/guides/cloud-platform-projects?hl=ja#activate_an_api_in_a_standard"&gt;APIの有効化&lt;/a&gt;を行います。既存のCloudプロジェクトへの変更自体はApps Scriptの設定画面で行います。
+Apps Scriptの設定画面の「Google Cloud Platform(GCP) Project」で行うことができます。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2023-09-20-appsscript-cloudrun/google-cloud-platform-project.png" alt="Cloudプロジェクト変更画面" /&gt;&lt;/p&gt;
+
+&lt;p&gt;この画面で変更させたいCloudプロジェクトの番号を入力してください。入力後に(&lt;code&gt;Project does not exist or you need edit access to it.&lt;/code&gt;)のエラーが出る場合は、Cloudプロジェクト自体が存在しないか、連携可能な権限がアカウントに付与されていません。権限の問題であれば、&lt;code&gt;roles/editor&lt;/code&gt;ロールを持つアカウントであれば、変更可能です。&lt;/p&gt;
+
+&lt;p&gt;Apps ScriptのCloudプロジェクトをデフォルトから変更することで、Cloudプロジェクトの、APIとサービス&amp;gt;認証情報のOAuth2.0クライアントIDの項目に新しくOAuth認証情報が作成されます。
+Cloudプロジェクトの変更前後で&lt;code&gt;ScriptApp.getIdentityToken()&lt;/code&gt;のbodyの値をデコード&lt;sup id="fnref:1" role="doc-noteref"&gt;&lt;a href="#fn:1" class="footnote" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;した値を見ると、&lt;code&gt;audクレーム&lt;/code&gt;の値が変化します。Cloudプロジェクト変更後は、&lt;code&gt;audクレーム&lt;/code&gt;の値が新しく作成されたOAuth2.0クライアントIDの値と一致します。&lt;/p&gt;
+
+&lt;h3 id="cloud-runoauth"&gt;Cloud RunへのOAuthクライアント情報の反映&lt;/h3&gt;
+
+&lt;p&gt;ここまでで&lt;code&gt;ScriptApp.getIdentityToken()&lt;/code&gt;で有効なOpenID Connectに準拠したIDトークンが取得できるようになりました。しかし、まだApps ScriptからCloud Runへの認証は通りません。最後に新規作成したOAuth2.0クライアントIDの情報をCloud Runに反映する必要があります。（この後にCloud Runを新規に作成する場合は本手順は不要です）&lt;/p&gt;
+
+&lt;p&gt;反映するためにはCloud Runのリビジョン更新やインスタンスの新規作成を行う必要があります。以下のいずれかの方法で反映されることを確認済みです。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Terraformでの削除（&lt;code&gt;terraform destroy&lt;/code&gt;）、作成（&lt;code&gt;terraform apply&lt;/code&gt;）※ TerraformでCloud Runを構築している場合&lt;/li&gt;
+  &lt;li&gt;設定変更（&lt;code&gt;gcloud run services update&lt;/code&gt;）&lt;/li&gt;
+  &lt;li&gt;インスタンスの削除（&lt;code&gt;gcloud run services delete&lt;/code&gt;）、作成（&lt;code&gt;gcloud run deploy&lt;/code&gt;、&lt;code&gt;gcloud run services add-iam-policy-binding&lt;/code&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以上を行うことで、Apps ScriptからCloud Runへの認証を通すことができます。&lt;/p&gt;
+
+&lt;h2 id="section-2"&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;本記事では、スプレッドシートでCloud Runを活用するため、OpenID Connect仕様のIDトークンを用いたApps ScriptからCloud Runへの認証方法についてご紹介しました。&lt;/p&gt;
+
+&lt;p&gt;Apps Scriptで、OpenID Connect仕様のIDトークンを取得するためには、OAuthスコープの設定やCloudプロジェクトの変更が必要となります。
+Cloudプロジェクトの変更には、Google Cloudで、OAuth同意画面の設定が必要となります。
+上記設定後、Cloud RunへOAuthクライアント情報の反映を行うことで、Apps ScriptからCloud Runへの認証が通るようになります。&lt;/p&gt;
+
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+  &lt;ol&gt;
+    &lt;li id="fn:1" role="doc-endnote"&gt;
+      &lt;p&gt;デコードするためのコードは、&lt;a href="https://developers.google.com/apps-script/reference/script/script-app?hl=ja#getidentitytoken"&gt;getIdentityToken()&lt;/a&gt;のドキュメントに記載されています。 &lt;a href="#fnref:1" class="reversefootnote" role="doc-backlink"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <title>新卒エンジニア向け機械学習研修2023を実施しました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2023/06/15/ml-training-report-2023/"/>
+    <id>http://rand.pepabo.com/article/2023/06/15/ml-training-report-2023/</id>
+    <published>2023-06-14T15:00:00+00:00</published>
+    <updated>2024-03-28T09:24:27+00:00</updated>
+    <author>
+      <name>渡辺龍二</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員の渡辺（&lt;a href="https://twitter.com/ae14watanabe"&gt;@ae14watanabe&lt;/a&gt;）です。&lt;/p&gt;
+
+&lt;p&gt;先日、ペパボ研究所（以降、ペパ研）が社内で実施した新卒エンジニア向け機械学習研修についてご紹介します。
+ペパボでは毎年新卒エンジニア向けの研修を実施していますが、2020年からその研修の一環としてペパ研が機械学習研修を担当しています。
+毎年、その時々の社内外の状況を考慮しつつ研修コンテンツをアップデートしているのですが、今年はChatGPTを始めとする大規模言語モデル（Large Language Model: LLM）の発展と普及の勢いを鑑みて、研修目的やコンテンツを設定し、実施しました。このエントリでは研修の概要について述べるとともに、本研修オリジナルの資料を公開します。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;本研修の目的&lt;/h2&gt;
+
+&lt;p&gt;現在、多くのWebサービスが高度な自然言語処理機能を次々とリリースしているように感じます。我々GMOペパボでも例外ではなく、例えばロリポップ!レンタルサーバーのWebサイト自動作成&lt;sup id="fnref:1" role="doc-noteref"&gt;&lt;a href="#fn:1" class="footnote" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;、カラーミーショップの商品説明文自動生成&lt;sup id="fnref:2" role="doc-noteref"&gt;&lt;a href="#fn:2" class="footnote" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;、SUZURIのキャラクターチャットbot&lt;sup id="fnref:3" role="doc-noteref"&gt;&lt;a href="#fn:3" class="footnote" rel="footnote"&gt;3&lt;/a&gt;&lt;/sup&gt;などがその事例として挙げられます。&lt;/p&gt;
+
+&lt;p&gt;この流れの大きな要因として、OpenAIが今年3月にChatGPTのAPIを公開&lt;sup id="fnref:4" role="doc-noteref"&gt;&lt;a href="#fn:4" class="footnote" rel="footnote"&gt;4&lt;/a&gt;&lt;/sup&gt;したことがあると思います。このAPIの公開によって、機械学習を利用しなければ実現できないような高度な機能を導入するハードルが大幅に下がりました。その理由は、ChatGPTを始めとするLLMが、自然言語によるプロンプトの指定により様々なタスクを処理可能な汎用性を持ち、それらのモデルがAPIを通じて簡単に利用可能になったためです。&lt;/p&gt;
+
+&lt;p&gt;しかし、OpenAIのAPIのような外部サービスだけを利用するのではなく、自社で機械学習モデルの構築・運用が有益である場合もあります。具体的には、必要な機能が外部サービスのモデルと完全にマッチしない、性能を更に高めたい、ランニングコストを抑えたい、などの場合です。&lt;/p&gt;
+
+&lt;p&gt;したがって、機械学習を自社のサービスに導入したいと思ったとき、外部サービスの利用と自社での構築・運用という2つのアプローチを適切に比較検討する必要があります。そのためには、機械学習の基本的な知識と、外部サービス（今回はOpenAIのAPIや他のLLMのAPIを想定）が何を実現でき、何を実現できないかを理解することが重要となります。&lt;/p&gt;
+
+&lt;p&gt;そのため、今年の研修の目的を「サービスへの機械学習導入に向けて、機械学習の基本と、2023年現在の汎用的なモデル（大規模言語モデル）の知識を身につけること」と設定しました。実際のサービス導入のスキルを身につける手前の段階として、この研修ではサービス導入を検討する際の主要なポイントを理解できるようになることを目指しました。&lt;/p&gt;
+
+&lt;h2 id="section-1"&gt;コンテンツ&lt;/h2&gt;
+
+&lt;h3 id="openai-chat-completions-apiweb"&gt;OpenAI Chat Completions APIを利用して自由にWebアプリケーションを作ってみる（演習）&lt;/h3&gt;
+
+&lt;p&gt;研修の最初のコンテンツとして、OpenAIのLLMのAPI（&lt;a href="https://platform.openai.com/docs/guides/gpt/chat-completions-api"&gt;Chat Completions API&lt;/a&gt;）を活用したWebアプリケーションの開発を自由に行うという演習を設定しました。この演習の目的は2つあります。1つ目は、LLMが自然な応答を生成し、多種多様なタスクを処理できることを体験してもらうこと。2つ目は、受講生にLLMという最先端の機械学習に触れてもらうことで、これから機械学習を学ぶモチベーションを高めてもらうことです。&lt;/p&gt;
+
+&lt;p&gt;演習時間は約3時間を想定しましたが、アプリをゼロから作成するには時間が足りない可能性があったため、Ruby on Railsを使用したシンプルなサンプルアプリを提供しました。さらに、本研修の前に行われたRails Tutorial研修&lt;sup id="fnref:5" role="doc-noteref"&gt;&lt;a href="#fn:5" class="footnote" rel="footnote"&gt;5&lt;/a&gt;&lt;/sup&gt;で作成したWebアプリに機能を追加する形式も選択可能にしました。&lt;/p&gt;
+
+&lt;h3 id="machine-learning-crash-course"&gt;Machine Learning Crash Course（演習）&lt;/h3&gt;
+&lt;p&gt;Googleが提供しているMachine Learning Crash Course&lt;sup id="fnref:6" role="doc-noteref"&gt;&lt;a href="#fn:6" class="footnote" rel="footnote"&gt;6&lt;/a&gt;&lt;/sup&gt;は、ソフトウェアエンジニア向けに機械学習を短期集中で学べるハンズオン形式のコースです。業務における機械学習の導入の意義を理解しながら、その基本的な理論やTensorFlowを用いた実装について学ぶことができる教材となっています。今回の研修の目的に合致すると判断し、昨年に引き続きこのコースを採用しました。&lt;/p&gt;
+
+&lt;p&gt;ただし、全編が英語で記述されているという特性上、初めて機械学習という新しい概念に触れる際の敷居が高いかもしれないと懸念しました。そこで、「何を目指して機械学習を行うのか」や「目標を実現するためにどのような手段をとるのか」といった基本的な考え方を理解するための助けとなるよう、イントロダクションとして座学を提供しました。以下にその資料を公開しますので、ぜひご一読ください。&lt;/p&gt;
+
+&lt;script defer="" class="speakerdeck-embed" data-id="e6eb031ee09b4e329e91225e49b4a8b4" data-ratio="1.77725118483412" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;p&gt;受講生にハンズオンに取り組んでもらっている最中には、私とペパ研研究員の酒井（&lt;a href="https://twitter.com/tshk_sakai"&gt;@tshk_sakai&lt;/a&gt;）の2人体制でこまめなフィードバックを行いました。ハンズオン中に受講生の皆さんにSlackで分報をつけてもらうことで、自分の理解や疑問をこまめにアウトプットしてもらいました。 そのアウトプットに対して、講師陣がすぐさまコメントするという体制を取ることで、ハンズオンの更なる理解をサポートしました。&lt;/p&gt;
+
+&lt;h3 id="section-2"&gt;大規模言語モデルの中身を覗いてみよう（座学）&lt;/h3&gt;
+&lt;p&gt;Machine Learning Crash Courseで習得した機械学習の基本知識に基づき、研修冒頭の演習で触れたLLMについて学ぶための座学を実施しました。このコンテンツでは、そもそも「言語モデル」とは何か、LLMではどのようにテキストを生成するのか、LLMをどのように学習するのかといった、LLMの基礎的な原理を解説しました。LLMの学習はせずにAPI経由で利用するだけにしても、その裏側の原理を理解することを通して、LLMの可能性と制約をより正確に把握することは重要だと考えたためです。&lt;/p&gt;
+
+&lt;p&gt;こちらのコンテンツについても資料も公開しています。基本的に教師あり学習などの機械学習の基本的な知識を持つ人を対象としており、具体的なモデルの詳細には踏み込まずに解説しているため、LLMに関心があり原理的な概要を知りたい方はぜひご覧いただきたいと思います。&lt;/p&gt;
+
+&lt;script defer="" class="speakerdeck-embed" data-id="16bbfe58356c46cfadf35664987e87cc" data-ratio="1.77725118483412" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+
+&lt;h3 id="section-3"&gt;自社サービスへの機械学習導入事例（座学）&lt;/h3&gt;
+
+&lt;p&gt;これまでのコンテンツを通じて、受講生たちは機械学習のモデルについてしっかりと理解を深めました。それらの理論的な学びから一歩進めて、実際のサービスに機械学習を導入する際の具体的な視点や注意点を把握してもらうため、ペパ研研究員でありプリンシパルエンジニアの三宅(&lt;a href="https://twitter.com/monochromegane"&gt;@monochromegane&lt;/a&gt;)による座学を実施しました。ここでは、現在進行中の自社サービスへの機械学習導入事例についての紹介を行いました。&lt;/p&gt;
+
+&lt;h2 id="section-4"&gt;研修を終えて&lt;/h2&gt;
+
+&lt;p&gt;LLMの急速な発展を踏まえた昨年からの研修コンテンツの更新は、個人的に大きな挑戦でしたが。受講生からはポジティブな反応を得られ、その試みが成功したと安堵しています。機械学習に初めて触れた受講生から「これをきっかけに少しだけわかるようになって嬉しかった」という感想や、既に経験のある受講生から「LLMの話が興味深かった」「ハンズオンも楽しんでどんどん進めることができた」との声をいただき、非常に喜ばしいと感じています。&lt;/p&gt;
+
+&lt;p&gt;今回の研修がペパボのサービスへの機械学習導入をさらに進展させるきっかけになることを願っていますし、我々ペパボ研究所も事業部と連携しながら導入を進めていきたいと思います。このブログでもその成果を報告できるよう努めていきます。&lt;/p&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+  &lt;ol&gt;
+    &lt;li id="fn:1" role="doc-endnote"&gt;
+      &lt;p&gt;&lt;a href="https://pepabo.com/news/press/202304051300/"&gt;GMOペパボ、AI活用の第二弾としてWebサイトを自動作成しワンストップ公開できる機能などを提供開始～機能のリリースを記念したSNSキャンペーンも4/5（水）より開催～&lt;/a&gt; &lt;a href="#fnref:1" class="reversefootnote" role="doc-backlink"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id="fn:2" role="doc-endnote"&gt;
+      &lt;p&gt;&lt;a href="https://pepabo.com/news/press/202303221400/"&gt;GMOペパボ、AI（ChatGPT）を活用したマーケティング支援機能をEC関連3サービスにて提供開始 ～AIテクノロジーを活用した研究・開発を加速～ &lt;/a&gt; &lt;a href="#fnref:2" class="reversefootnote" role="doc-backlink"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id="fn:3" role="doc-endnote"&gt;
+      &lt;p&gt;&lt;a href="https://suzuri.jp/media/journal-surisuri-ai-chat-beta/"&gt;AI（ChatGPT）を搭載したスリスリくんと会話が楽しめる「スリスリAIチャット（β）」を公開しました！&lt;/a&gt; &lt;a href="#fnref:3" class="reversefootnote" role="doc-backlink"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id="fn:4" role="doc-endnote"&gt;
+      &lt;p&gt;&lt;a href="https://openai.com/blog/introducing-chatgpt-and-whisper-apis"&gt;Introducing ChatGPT and Whisper APIs&lt;/a&gt; &lt;a href="#fnref:4" class="reversefootnote" role="doc-backlink"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id="fn:5" role="doc-endnote"&gt;
+      &lt;p&gt;Rails Tutorial演習については昨年の紹介記事をご参照ください。&lt;a href="https://tech.pepabo.com/2022/12/02/newbie-training-2022/#rails-tutorial%E7%A0%94%E4%BF%AE"&gt;GMOペパボのエンジニア研修2022の資料を公開します - Pepabo Tech Portal&lt;/a&gt; &lt;a href="#fnref:5" class="reversefootnote" role="doc-backlink"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id="fn:6" role="doc-endnote"&gt;
+      &lt;p&gt;&lt;a href="https://developers.google.com/machine-learning/crash-course"&gt;Machine Learning Crash Course with TensorFlow APIs&lt;/a&gt; &lt;a href="#fnref:6" class="reversefootnote" role="doc-backlink"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2022/12/28/add-getting-pro-ml-engineer-certificates/"/>
+    <id>http://rand.pepabo.com/article/2022/12/28/add-getting-pro-ml-engineer-certificates/</id>
+    <published>2022-12-27T15:00:00+00:00</published>
+    <updated>2024-03-28T09:24:27+00:00</updated>
+    <author>
+      <name>酒井敏彦</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員の酒井（&lt;a href="https://twitter.com/tshk_sakai"&gt;@tossy&lt;/a&gt;）です。
+先日、同じく研究員である三宅（&lt;a href="https://twitter.com/monochromegane"&gt;@monochromegane&lt;/a&gt;）、黒瀧（&lt;a href="https://twitter.com/kurotaky"&gt;@kurotaky&lt;/a&gt;）、渡辺（&lt;a href="https://twitter.com/ae14watanabe"&gt;@ae14watanabe&lt;/a&gt;）の計3名がGoogle Cloudの認定資格である&lt;a href="https://cloud.google.com/certification/guides/machine-learning-engineer?hl=ja"&gt;GCP Professional Machine Learning Engineer&lt;/a&gt;を取得し、本ブログで&lt;a href="https://rand.pepabo.com/article/2022/11/23/getting-pro-ml-engineer-certificates/"&gt;報告&lt;/a&gt;しました。&lt;/p&gt;
+
+&lt;p&gt;今回、新たに所長の栗林(&lt;a href="https://twitter.com/kentaro"&gt;@kentaro&lt;/a&gt;)と研究員の酒井（&lt;a href="https://twitter.com/tshk_sakai"&gt;@tossy&lt;/a&gt;）が同資格を取得しました。
+本エントリでは、合格までに具体的に取り組んだことについてご紹介します。
+今回、合格までに取り組んだことをまとめると以下の通りです。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2022/8~: Courseraでの学習&lt;/li&gt;
+  &lt;li&gt;2022/11~: Udemyでの学習&lt;/li&gt;
+  &lt;li&gt;2022/11/9: 1回目の受験「Fail」&lt;/li&gt;
+  &lt;li&gt;2022/11/10~12/20: Google Cloudのプロダクト理解や問題演習を繰り返し実施&lt;/li&gt;
+  &lt;li&gt;2022/12/21: 2回目の受験「Pass」&lt;/li&gt;
+  &lt;li&gt;2022/12/23: 合格通知&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="section"&gt;受験までの流れ&lt;/h2&gt;
+
+&lt;p&gt;まずは、Courseraで提供されているGoogle Cloudの機械学習の教材で学習しました。
+本教材は動画や演習問題、学習用教材（Google Cloudのドキュメントへのリンク集）に加え、ハンズオン形式で学べるQwiklabsがついています。
+具体的には、以下の5コースを修了しました。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://jp.coursera.org/learn/gcp-big-data-ml-fundamentals-jp"&gt;Google Cloud Big Data and Machine Learning Fundamentals 日本語版&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://jp.coursera.org/learn/google-machine-learning-jp"&gt;How Google does Machine Learning 日本語版&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://jp.coursera.org/learn/launching-machine-learning-jp/"&gt;Launching into Machine Learning 日本語版&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://jp.coursera.org/learn/feature-engineering-jp"&gt;Feature Engineering 日本語版&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://jp.coursera.org/learn/sequence-models-tensorflow-gcp"&gt;Natural Language Processing on Google Cloud&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Courseraの教材は、ボリュームは多いですが、動画で学びたい方やハンズオン形式で手を動かしながら学びたい方にとって、とても役に立つ教材だと思います。日本語版は日本語の字幕もあります。&lt;/p&gt;
+
+&lt;p&gt;続いて、問題の形式に慣れるため、Udemyで&lt;a href="https://www.udemy.com/course/google-cloud-professional-machine-learning-engineer-2022/"&gt;Google Cloud Professional Machine Learning Engineer 2022&lt;/a&gt;を購入し、問題演習を行いました。
+&lt;a href="https://docs.google.com/forms/d/e/1FAIpQLSeYmkCANE81qSBqLW0g2X7RoskBX9yGYQu-m1TtsjMvHabGqg/viewform"&gt;公式で提供されている簡易模試&lt;/a&gt;もありますが、受験前には、問題演習ができる教材を一つは解いて、どのような形式の問題が出題されるか把握すると良いと思います。
+この教材では、50問の模試が4つ用意されており、各設問の解説では、解説の根拠となるGoogle Cloudのドキュメントが載っています。私の場合は、模試を2つ解き、復習をきちんと行った状態で本番に望みました。&lt;/p&gt;
+
+&lt;h2 id="section-1"&gt;1回目の受験&lt;/h2&gt;
+
+&lt;p&gt;1回目は、2022/11/9の午後に受験しました。会場は&lt;a href="https://www.pccollege.jp/testcenter-osaka/"&gt;PCカレッジ東梅田校&lt;/a&gt;で受験しました。試験自体は全て英語であり、60問を2時間で解く必要があります。
+試験中問題を解いている際にあまり手応えが無かったこともあり、結果は「Fail」でした。&lt;/p&gt;
+
+&lt;p&gt;受験した後の反省点としては、以下がありました。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Google Cloudのプロダクトの理解が不足していた&lt;/li&gt;
+  &lt;li&gt;英語の問題形式に慣れていなかった&lt;/li&gt;
+  &lt;li&gt;途中、集中力が切れてしまうことがあった&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="section-2"&gt;不合格後にやったこと&lt;/h2&gt;
+
+&lt;p&gt;上記の反省点を踏まえ、次の受験で合格するために、以下を行いました。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Google Cloudのプロダクトを理解する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Google Cloudのプロダクトについて体系的な理解が必要であると考えたため、「&lt;a href="https://gihyo.jp/book/2021/978-4-297-11948-5"&gt;Google Cloudではじめる実践データエンジニアリング入門[業務で使えるデータ基盤構築]&lt;/a&gt;」を読んで、Google Cloudのプロダクトの理解に努めました。
+特に、章末のコラムにプロダクトの違いが書かれており、参考になりました。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Google Cloudのドキュメントをきちんと読む&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Udemyの解説やCourseraで記載されているGoogle Cloudのドキュメントを読み、理解することに努めました。ドキュメントをきちんと読むことでGoogle Cloudのプロダクトが実際に機械学習のどのような場面で利用されているかの理解が進んだと思います。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;英語の問題形式に慣れる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;英語の問題形式に慣れるため、Udemyでの模試を全て解き、解説をきちんと理解するようにしました。実際の試験時間を意識して、1問2分以内で解けるように心がけました。ドキュメントを読む際や設問中にわからない英単語がある場合は、都度意味を調べるようにしました。&lt;/p&gt;
+
+&lt;p&gt;上記事項を約1ヶ月半、業務時間の前後や土日を活用して、学習を進めました。&lt;/p&gt;
+
+&lt;h2 id="section-3"&gt;2回目の受験&lt;/h2&gt;
+
+&lt;p&gt;2回目は、2022/12/21の午前に受験しました。会場は1回目と同じです。
+受験時に集中力を持続させるために、受験の時間帯を頭が冴えている午前中にしました。
+また、受験1回目では、暖房が効いていて、暑ったことから、集中力が途切れることがあったため、2回目は着脱のしやすい服装で望むようにしました。
+2回目は前回の反省を踏まえて、学習を行っていたため、1回目よりは心に余裕を持って受験することができました。
+前回よりも学習や対策を進めていたことで、全問回答後、回答を見直す時間も確保することができました。&lt;/p&gt;
+
+&lt;p&gt;回答を終えて提出すると、結果は「Pass」でした。受験後は、2022/12/23に、メールで正式な合格通知が届きました。&lt;/p&gt;
+
+&lt;h2 id="section-4"&gt;終わりに&lt;/h2&gt;
+
+&lt;p&gt;今回の受験は、Google Cloudにおけるプロダクトの理解や機械学習のベストプラクティスについて学ぶ良い機会になりました。
+これでペパボ研究所の&lt;a href="https://cloud.google.com/certification/guides/machine-learning-engineer?hl=ja"&gt;GCP Professional Machine Learning Engineer&lt;/a&gt;の取得者は計5名となりました。
+これからも機械学習で「事業を差別化」するための技術を生むスキルの底上げを、ペパボ研究所やペパボ全体で、引き続き取り組んでいきたいと思います！&lt;/p&gt;
+
+&lt;p&gt;所長の試験合格までの流れについては、以下で紹介しております。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=Jii08MHXfK8"&gt;Google CloudのProfessional Machine Learning Engineer試験を受けて合格しました（手動編集字幕付き）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/Jii08MHXfK8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""&gt;&lt;/iframe&gt;
+
+&lt;p&gt;動画の中で紹介されているScrapboxは以下です。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://scrapbox.io/kentaro/Professional_Machine_Learning_Engineer%E8%AA%8D%E5%AE%9A%E8%B3%87%E6%A0%BC"&gt;Professional Machine Learning Engineer認定資格&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;また、ペパボのパートナーが取得した他の認定資格についても、ブログ記事があるので、よろしければご覧ください。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://tech.pepabo.com/2022/12/23/passed-gcp-certification/"&gt;Google Cloud認定Professional Cloud Developerを取得しました&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+</feed>

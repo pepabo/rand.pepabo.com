@@ -1,0 +1,472 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>Erlang and Elixir Factory SF Bay 2017 / Elixir Conf Japan 2017 参加報告 - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所客員研究員の力武健次（りきたけ・けんじ）です。この記事では3月23日〜24日に米国サンフランシスコで行われたErlang and Elixir Factory SF Bay Area 2017と、4月1日に東京・秋葉原で行..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="Erlang and Elixir Factory SF Bay 2017 / Elixir Conf Japan 2017 参加報告 - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所客員研究員の力武健次（りきたけ・けんじ）です。この記事では3月23日〜24日に米国サンフランシスコで行われたErlang and Elixir Factory SF Bay Area 2017と、4月1日に東京・秋葉原で行..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2017/04/21/eef17-elixir/">Erlang and Elixir Factory SF Bay 2017 / Elixir Conf Japan 2017 参加報告</a>
+  </h1>
+
+  <time datetime="2017-04-21" class="article__time">
+    2017-04-21
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所客員研究員の力武健次（りきたけ・けんじ）です。この記事では3月23日〜24日に米国サンフランシスコで行われた<a href="http://www.erlang-factory.com/sfbay2017/">Erlang and Elixir Factory SF Bay Area 2017</a>と、4月1日に東京・秋葉原で行われた<a href="http://www.elixirconf.jp/">Elixir Conf Japan 2017</a>の参加報告をします。（文中敬称略）</p>
+
+<h2 id="erlang-and-elixir-factory-sf-bay-area-">Erlang and Elixir Factory SF Bay Area カンファレンス</h2>
+
+<p>Erlang and Elixir Factory SF Bay Area (EEF)カンファレンスは、ErlangやElixirといったErlang VM上の並行プログラミングシステムのコンサルティングを行っている<a href="https://www.erlang-solutions.com/">Erlang Solutions</a>社が同社主催のイベントシリーズの1つとして2009年から米国カリフォルニア州サンフランシスコ近郊で行っているイベントです。会議の内容は、ErlangやElixirのシステム自身、またその応用に関する各種発表です。この会議は北米最大のErlangカンファレンスであり、また代表的なElixir関連イベントの1つでもあります。</p>
+
+<p>EEFカンファレンスは最初の2009年から2011年まではサンフランシスコ国際空港(SFO)の近くのBurlingameという街にあるHilton SFOで行っていましたが、2012年からは開催場所をサンフランシスコのダウンタウンにある現在のMarines’ Memorial Club and Hotel(MMC)に移しています。このMMCというホテルは米軍海兵隊関連の財団が運営しており、古風ですが独特の落ちついた雰囲気があり過ごしやすいところです。力武は2010年より毎年参加しており、今年でもう8回目となりました。</p>
+
+<p>カンファレンスにかかる費用は決して安いものではありません。参加費のみで、朝食や昼食付きで、チュートリアルで1日300米ドル弱、トレーニングとなると4日で2000米ドルを超える価格となります。そのため力武は毎年必ず話すトピックを考えて講演募集に応募し採択された上で、40分の講演を引き受ける代わりに会議に無料で参加できるようにしています。もっとも、それでもMMCへの宿泊はカンファレンスレート割引でも1泊200米ドルを超えますし、米国への往復の旅費も安いものではありません。しかも会議はすべて英語で行われます。とても遊び気分で参加できるものではありません。</p>
+
+<h2 id="eef">EEFへの参加の意義と力武の講演内容</h2>
+
+<p>そこまでしてこのEEFカンファレンスに参加する意義は何かといえば、以下の3点にまとめることができます。</p>
+
+<ul>
+  <li>日本から比較的近い米国西海岸にてErlangやElixirの最前線の人達と交流できる。</li>
+  <li>ErlangやElixirの開発状況についての最新のトピックを議論できる。</li>
+  <li>発表者として自分の講演を収録してもらい、講演終了後1日以内にYouTubeのビデオで公開してもらうことができる。これはリアルタイムストリーミングよりもずっと効果的な情報の共有の方法だと個人的には思っています。</li>
+</ul>
+
+<p>力武は過去7年、以下のトピックで講演しています。</p>
+
+<ul>
+  <li>2010年: Erlang secure RPC and SSH module</li>
+  <li>2011年: Erlang/OTP and how the PRNGs work</li>
+  <li>2012年: IPv6 programming for Erlang/OTP</li>
+  <li>2013年: Amateur Radio Propagation Analysis with Erlang/OTP and Riak</li>
+  <li>2014年: Star Trek: revisited in Lua and Erlang/OTP</li>
+  <li>2015年: Xorshift* and Erlang/OTP: searching for better PRNGs</li>
+  <li>2016年: Fault-Tolerant Sensor Nodes with Erlang/OTP and Arduino</li>
+</ul>
+
+<p>そして今年2017年は<a href="https://speakerdeck.com/jj1bdx/otp-module-for-beginners">Writing A New Erlang/OTP Module for Beginners</a>というトピックで講演を行いました。講演の内容は<a href="https://www.youtube.com/watch?v=nkzmllgJv5s">こちらのYouTubeのビデオ</a>にあります。</p>
+
+<p>今年の講演は、個別技術の解説を主としていた例年とは違い、EricssonでErlang/OTPの開発に携わるOTPチームとの自分の共同作業の経験を基に、 <strong>自分の成果をErlang/OTPに反映させるにはどのようにOTPチームと共に作業すればよいか</strong> をまとめたものとしました。これは2016年末に自分が開発にかかわった<a href="http://erlang.org/doc/man/rand.html">Erlang/OTPのrand疑似乱数モジュール</a>の開発が一段落ついたこともあり、OTPチームの外の（=被雇用関係にない）者から見た体験談をまとめておけば同じようなことをする人達にとって役立つものになるからであろうと考えたからでもあります。講演に先立ち、<a href="http://docs.jj1bdx.tokyo/writing-otp-modules/html/">関連する内容の英文ドキュメント</a>も作成しました。</p>
+
+<p>今年はさらに、ライトニングトークにて<a href="https://speakerdeck.com/jj1bdx/phoenix-1">Elixirで作ったディレクトリリスティングモジュールplug_static_lsの話</a>をすることができました（<a href="https://www.youtube.com/watch?v=JmTFJ8FEBvk&amp;index=45&amp;list=PLWbHc_FXPo2jtviHbf3fbBRWcaGDBC2u0">ビデオはこちらにあります</a>）。力武がElixirで作ったツールについて英語で話をしたのはこれが最初になります。</p>
+
+<h2 id="eef-1">今年のEEFカンファレンスでのハイライト</h2>
+
+<p>今年も例年通りEEFカンファレンスではErlangやElixirに関する興味深い発表が行われました。これらの内容はすべてYouTubeの<a href="https://www.youtube.com/playlist?list=PLWbHc_FXPo2jtviHbf3fbBRWcaGDBC2u0">Erlang and Elixir Factory SF 2017プレイリスト</a>から参照することができます。</p>
+
+<p>毎年恒例となっているのは<a href="https://youtu.be/Ich_G1z44pQ?list=PLWbHc_FXPo2jtviHbf3fbBRWcaGDBC2u0">OTPチームからの開発状況の発表</a>（OTPチームの1人Lukas Larssonが担当）です。今年はOTPバージョン20のRC1が5月3日、RC2が5月31日、正式版が6月21日にリリース予定であることが発表されました。この他にも、VM内共有テーブルであるETSの機能改善や、モジュールをOTP標準配布物から分離する作業などの長期的開発計画について発表が行われています。</p>
+
+<p>カンファレンスの基調講演の1つとしては、<a href="https://youtu.be/_PdcGptErsY?list=PLWbHc_FXPo2jtviHbf3fbBRWcaGDBC2u0">“Language Encodes Wisdom”</a>というSarah Allenによる講演が印象的でした。この講演では、「言語が過去の知恵を未来に伝える」という原則に基づいて、諸々の人間が話してきた言語と同様に、ErlangやElixirがどうやって過去の並行システム記述の知見を伝えてきたかについての考察が行われました。そして彼女が運営するプログラミングを広く社会に伝えるための非営利法人である<a href="https://bridgefoundry.org/">Bridge Foundry</a>と、その教材の1つでElixirに関する<a href="http://elixirbridge.org/">ElixirBridge</a>の紹介が行われました。</p>
+
+<p>また、カンファレンスの講演としては、Pragmatic Bookshelfの創設者の1人であるDave Thomasによる<a href="https://youtu.be/A76hM3MpEKo?list=PLWbHc_FXPo2jtviHbf3fbBRWcaGDBC2u0">“Transforming Programming”</a>が印象的でした。彼はElixirの著書をPragmatic Bookshelfから自ら記して出版するほどのElixir好きで、昨年は<a href="http://shop.ohmsha.co.jp/shopdetail/000000004675/">「プログラミングElixir」</a>という書籍が日本語の翻訳で出ています。また、<a href="https://youtu.be/Djv4C9H9yz4">2014年のErlang FactoryカンファレンスでのElixirの作者José Valim（ジョゼ・ヴァリム）との共同講演</a>では、Erlangへの（主にライブラリが充実していないことに関する）批判を堂々を行ったことで物議を醸し、力武もその場に居合せていささか場の空気が不穏になったことを覚えています。しかし、今年のEEFカンファレンスの講演と、たまたま力武も受けることができた3月25日のチュートリアル”Idiomatic Elixir”にて、彼がElixirに期待しているものが、Elixir（そしてErlang）が持つパターンマッチングと内部状態の明示的な記述による関数型の特徴を活かしたプログラミング、そしてその上に実現されるOTPの並行処理機能であることが力武にもようやく理解できました。 <strong>プログラミングとはデータの変換である</strong> という考え方に基づく彼の講演は、一聴に値します。</p>
+
+<p>その他力武の興味を惹いた講演については、後述するElixir Conf Japan 2017での<a href="https://speakerdeck.com/jj1bdx/erlang-and-elixir-factory-sf-bay-area-2017-can-jia-bao-gao">参加報告スライド</a>にまとめています。</p>
+
+<h2 id="elixir-conf-japan-2017">Elixir Conf Japan 2017</h2>
+
+<p>EEFカンファレンスから帰国して間もなく、一般社団法人 Japan Elixir Associationが主催するElixir Conf Japan 2017が開かれました。このカンファレンスはErlangとElixir関連の日本のカンファレンスとしては初めてのもので、事前販売の300名分のチケットは無事に売り切れ、会場の秋葉原コンベンションホールは満員の熱気に包まれました。</p>
+
+<p>このカンファレンスはElixirのカンファレンスであると同時に、力武が2008年にErlang/OTPの勉強を始めたころから精力的に活動をしている人達がErlang/OTPとElixirの両方のビジネスを経験してきた上で満を持して開催したものであるという印象を受けました。</p>
+
+<p>キーノートではElixirの作者であるJosé Valimが、Elixirがどのように成長し変わっていったかについて概説すると共に、UTF-8のアトム名での使用（Erlang/OTP 20が必要）、独自の静的型付けメカニズム（このカンファレンスで初公開）、属性テストの導入など新機能についても語っていました。</p>
+
+<p>そしてその後の各社セッションでは、Elixir導入に係る苦労、大規模導入の際に必要な工夫等について、詳細な事例報告と解説が行われました。ライトニングトークも実務的な内容が広く網羅されていました。力武は前述のスライドにある通りのEEFカンファレンスへの参加報告を15分の特別枠をいただいて行いました。報告の最後では、 <strong>EEFカンファレンスには日本人が非常に少ないため、もっと積極的に参加し、発表して欲しい</strong> ということを強調しました。</p>
+
+<p>そして、最後のクロージングキーノートは、日本でのErlang/OTPビジネスの先鞭を付けた時雨堂のV氏による<a href="https://gist.github.com/voluntas/81ab2fe15372c9c67f3e0b12b3f534fa">「なぜErlang/OTPを使い続けるのか」</a>という、Erlangの欠点を語りながらも、Erlang/OTPへの熱い想いを語るトークにて終了しました。この後の懇親会も、カンファレンスのスポンサー各社のご尽力もあって大いに盛り上がっていました。</p>
+
+<p>このカンファレンスを通じて見えてきたのは、オンラインゲームのような複数のゲームが同時進行し、なおかつプレーヤーのアクションやゲームの状態が頻繁に変わり生成と消滅が繰り返されるようなシステム応用には、ErlangやElixirのような軽量プロセスを記述できる仕組みを持つ言語が最適であるということです。今後WebやHTTPベースのアプリケーションを支えるバックエンドとして、ElixirやErlangは引き続き有力な選択肢であり続けるでしょう。</p>
+
+<p>各種セッションとライトニングトークなどについては、以下の報告が参加した方々のblogや記事として上がっています。</p>
+
+<ul>
+  <li><a href="http://codezine.jp/article/detail/10071">「Elixir Conf Japan 2017」全セッションレポート ～ 日本での活用事例が増えているElixir/Erlang</a></li>
+  <li><a href="https://future-architect.github.io/articles/20170414/">フューチャーアーキテクト開発者ブログ: Elixir Conf Japan 2017</a></li>
+  <li><a href="http://in.fablic.co.jp/entry/elixir-conf-japan-2017">in Fablic Developer’s Blog: Elixir Conf Japan 2017 参加レポート</a></li>
+  <li><a href="http://gihyo.jp/news/report/2017/04/1001">技術評論社: 生みの親が語るElixirのこれまでとこれから ―「ElixirConfJapan 2017」参加レポート</a></li>
+  <li><a href="https://togetter.com/li/1096588">Elixir Conf Japan 2017 のツィートまとめ #elixirjp</a></li>
+</ul>
+
+<h2 id="erlangotpelixir">なぜErlang/OTPやElixirを学び続けるのか</h2>
+
+<p>最後に、筆者の力武にとって、Erlang/OTPやElixirが現在までにもたらしてくれたことを述べてこの記事をまとめます。</p>
+
+<p>Erlang/OTPやElixirは、それまでの手続き型の制御構造や共有メモリを前提としたプログラミングの慣習を排し、並行処理やメッセージパッシングなど、大規模な処理を迅速に書くことに特化したプログラミングシステムです。Erlang/OTPやElixirの学習を通じて、力武は以下のことを学んだように思います。</p>
+
+<ul>
+  <li>変数への単一代入原則など、共有メモリの使用を極力排除し、各操作についてロールバックを容易にすることの重要性。これについては力武の<a href="http://www.k2r.org/kenji/papers/file-archive/icss26-secerlprog.pdf">2014年6月の電子情報通信学会第26回ICSS研究会の研究報告(PDF)</a>にて記しています。</li>
+  <li>OTPのgen_serverなどに代表される各種サーバ等の定型化。重要な処理はパターン化してまずは使ってみることができるようにすることで、プログラミングエラーが減ります。</li>
+  <li>より普及している言語の見掛けを保ちつつ、親しみやすい形で新しいプログラミング手法を導入することの重要性。Elixirは作者JoséのRuby on Railsの経験を活かし、これを実現しています。おかげで力武もペパ研で開発が進んでいるmruby関連の技術などに興味を持てるようになりました。</li>
+</ul>
+
+<p>今後、ElixirやErlang/OTPがどのように発展していくかは予想がつきませんが、これらの高度な並行プログラミングシステムを学ぶことによって、他のプログラミング言語やシステムへの理解が深まったように、力武は個人的には感じています。</p>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2017/04/21/eef17-elixir/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/fc3b290038a97f5df6fec7660c357ef4?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          力武健次
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/jj1bdx" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+<a href="https://www.facebook.com/jj1bdx" class="article__author-link article__author-link--facebook" target="_blank">              <i class="fa fa-facebook-square fa-fw"></i>
+</a>
+<a href="https://github.com/jj1bdx" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所客員研究員。2008年より並行プログラミングに興味を持ち、現在Erlang/OTPやElixirでのモジュール開発をOSS活動として行っている。2015年にはErlang/OTPのrand疑似乱数モジュールを共著者としてリリースした。ACM Erlang Workshop 2011 実行委員長。
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

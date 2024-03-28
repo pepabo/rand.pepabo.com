@@ -1,0 +1,534 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>ペパボのログ活用基盤「Bigfoot」を Google Cloud Platform に移設しました - ペパボ研究所ブログ</title>
+    <meta property="description" content="研究員の @zaimy です。ペパボ研究所では、自社が運営するウェブサービスのユーザーの行動ログや属性情報を収集・分析・活用するための全社基盤「Bigfoot」を技術基盤チームと協力して開発・運用しています。
+Treasure Data..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="ペパボのログ活用基盤「Bigfoot」を Google Cloud Platform に移設しました - ペパボ研究所ブログ" />
+    <meta property="og:description" content="研究員の @zaimy です。ペパボ研究所では、自社が運営するウェブサービスのユーザーの行動ログや属性情報を収集・分析・活用するための全社基盤「Bigfoot」を技術基盤チームと協力して開発・運用しています。
+Treasure Data..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2020/06/16/bigfoot-migration/">ペパボのログ活用基盤「Bigfoot」を Google Cloud Platform に移設しました</a>
+  </h1>
+
+  <time datetime="2020-06-16" class="article__time">
+    2020-06-16
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>研究員の <a href="https://twitter.com/hirokazaitsu">@zaimy</a> です。ペパボ研究所では、自社が運営するウェブサービスのユーザーの行動ログや属性情報を収集・分析・活用するための全社基盤「Bigfoot」を技術基盤チームと協力して開発・運用しています。
+Treasure Data をバックエンドとして2016年に運用を開始したこのシステムを、今年 Google Cloud Platform（以下 GCP）を中心とした構成に移設しました。この記事では移設に至った理由、移設時の工夫、移設後の構成などについてお話します。</p>
+
+<p>目次</p>
+
+<ol id="markdown-toc">
+  <li><a href="#bigfoot-" id="markdown-toc-bigfoot-">Bigfoot とは</a></li>
+  <li><a href="#section" id="markdown-toc-section">移設前の構成と移設に至った経緯</a></li>
+  <li><a href="#gcp-" id="markdown-toc-gcp-">GCP の選定理由</a>    <ol>
+      <li><a href="#bigquery-" id="markdown-toc-bigquery-">BigQuery の存在</a></li>
+      <li><a href="#ai-platform-" id="markdown-toc-ai-platform-">AI Platform の存在</a></li>
+      <li><a href="#section-1" id="markdown-toc-section-1">コスト</a></li>
+    </ol>
+  </li>
+  <li><a href="#section-2" id="markdown-toc-section-2">移設時の工夫</a>    <ol>
+      <li><a href="#section-3" id="markdown-toc-section-3">データウェアハウスの並行運用</a></li>
+      <li><a href="#section-4" id="markdown-toc-section-4">ワークフローの二段階移行</a></li>
+      <li><a href="#section-5" id="markdown-toc-section-5">行動ログのスキーマ設計</a></li>
+    </ol>
+  </li>
+  <li><a href="#section-6" id="markdown-toc-section-6">移設後の構成</a>    <ol>
+      <li><a href="#bigfootplatform" id="markdown-toc-bigfootplatform">bigfoot/platform</a></li>
+      <li><a href="#bigfootcloud-composer" id="markdown-toc-bigfootcloud-composer">bigfoot/cloud-composer</a></li>
+      <li><a href="#bigfootdata-catalog" id="markdown-toc-bigfootdata-catalog">bigfoot/data-catalog</a></li>
+      <li><a href="#bigfootstarchart" id="markdown-toc-bigfootstarchart">bigfoot/starchart</a></li>
+    </ol>
+  </li>
+  <li><a href="#section-7" id="markdown-toc-section-7">まとめ</a></li>
+</ol>
+
+<h2 id="bigfoot-">Bigfoot とは</h2>
+
+<p>Bigfoot は、ウェブサービスに関する様々なデータを扱う基盤です。現在は行動ログや属性情報だけでなく、ペパボが出稿したウェブ広告のデータやユーザーからのお問い合わせデータなども蓄積しており、データウェアハウスを中心にデータを活用するための仕組みを整備しています。<a href="https://cto-a.github.io/dxcriteria/">DX Criteria</a> <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> の1テーマとして挙げられている「データ駆動」を推進していくためにも、今後 Bigfoot は更に重要になっていくと考えています。</p>
+
+<h2 id="section">移設前の構成と移設に至った経緯</h2>
+
+<p>従来 Bigfoot はフルマネージドの Customer Data Platform である Treasure Data をバックエンドにしていました。Treasure Data は、fluentd などでデータを送るとスキーマレスにデータが格納されるため、基盤の立ち上げ期において、どのようなスキーマがログの活用に適しているのか分からない状況で試行錯誤していく上で、非常に便利でした。また、他の SaaS からデータをインポートする機能も充実しており、広告プラットフォームや Google Analytics からのデータを開発なしで Bigfoot に統合することもできました。格納したデータは Hive や Presto などで SQL ライクに操作することができるため、データの利用者の学習コストも比較的低く、DSL などへのロックインもありません。ワークフローエンジンの Digdag もマネージドな環境で提供されているため、データを Treasure Data に送る仕組みや、送ったデータを分析・活用するためのワークフローの開発・運用に集中することができました。</p>
+
+<p><img src="/images/2020-06-16-bigfoot-migration/bigfoot-with-td.png" alt="2016年の Bigfoot の構成" />
+2016年の Bigfoot の構成（出典: <a href="https://speakerdeck.com/monochromegane/pepabo-log-infrastructure-bigfoot">サービスに寄り添うログ基盤/pepabo_log_infrastructure_bigfoot - Speaker Deck</a>）</p>
+
+<p>しかし、社内で Bigfoot の利用が広がり、データ量の増加や計算リソースの需要の高まりによって、契約中の Treasure Data のプランに割り当てられたリソースでやりくりすることが2019年頃から難しくなっていました（色々な部署にインポート量の削減をお願いしたり、ワークフローエンジンに乗っているクエリをチューニングしたりしていました）。契約プランを変更することでより多くのリソースを利用することができますが、ペパボのユースケースでは利用料金が高額になることと、今後も需要が高まり続けることが想定されたため、利用料金の見通しが立てづらいことが懸念となっていました。また、マネージドな Digdag ではワークフローにスクリプト言語を利用できないことや、権限管理などの利便性など、幾つかの課題を解決できなかったため、BigQuery をデータウェアハウスとして利用する形での GCP への移行を決断しました。</p>
+
+<h2 id="gcp-">GCP の選定理由</h2>
+
+<h3 id="bigquery-">BigQuery の存在</h3>
+
+<p>2017年に社内向けのログ可視化ツールを開発した際にデータウェアハウスとして BigQuery を採用しており、当時の検証において、同様の処理を行うクエリの実行時間が Presto と比較して10分の1から100分の1になることが分かっていたため、この圧倒的な速度が最大の魅力でした。</p>
+
+<p>BigQuery の場合、これまでと違って予めスキーマを決定する必要がありますが、2016年からの運用で行動ログに基本的に必要となるカラムが分かっていたため、大きな問題にはなりませんでした。また、計算が速く <code>JSON_EXTRACT_SCALAR</code> などの関数が強力なので、どうしてもスキーマを決定できない場合はスキーマレス的に JSON で格納しておいて、後からカラムごとにデータを整形することも可能です。</p>
+
+<h3 id="ai-platform-">AI Platform の存在</h3>
+
+<p>ペパボ研究所や <a href="https://minne.com">minne</a> では、研究用途やサービスの機能提供のために既に GCP の AI Platform を利用していました。GCP を利用することで、例えば BigQuery ML との統合など、より便利に機械学習基盤を利用できるようになります。</p>
+
+<h3 id="section-1">コスト</h3>
+
+<p>GCP はプロダクトごとに課金体系が異なりますが、基本的に従量課金制なので「微妙にプランの割り当てを超えそうなので調整が必要」ということが起きません。また、データ活用基盤としての性能や利便性を向上させるための移設でしたが、料金自体も低額なため結果的にコストメリットによる後押しも生まれることになりました。</p>
+
+<h2 id="section-2">移設時の工夫</h2>
+
+<h3 id="section-3">データウェアハウスの並行運用</h3>
+
+<p>本番環境や社内の業務運用でデータが活用されている基盤を一気に Treasure Data から GCP に切り替えることはできないので、以下の流れで並行運用を行いました。</p>
+
+<ol>
+  <li>サービスのアプリケーションなどからのデータのインポートを一時的に二重化して Trasure Data と BigQuery に同じ行動ログや属性情報などの集計前のデータが存在する状態にする</li>
+  <li>ワークフローを移行して Trasure Data と BigQuery に同じ集計後のデータが存在する状態にする（次項でもう少し詳しく書きます）</li>
+  <li>アプリケーションからの参照先を BigQuery に切り替える</li>
+</ol>
+
+<p>アプリケーションからデータウェアハウスへの参照は社内向けに提供している SDK やクライアントで抽象化されているため、バックエンドとして Tresaure Data と BigQuery を選択可能にしてサービスごとの実装の負担を少なくしました。</p>
+
+<h3 id="section-4">ワークフローの二段階移行</h3>
+
+<p>移設後のワークフローエンジンには GCP の Cloud Composer を利用するため、これまで「ワークフロー定義は Digdag + クエリは Hive/Presto」で実行していたワークフローを「ワークフロー定義は Cloud Composer + クエリは BigQuery Standard SQL」に書き換える必要があります。
+ワークフロー定義とクエリを同時に変更するのが一番単純ですが、リスクが大きいため二段階での移行を行いました。</p>
+
+<ol>
+  <li>Digdag + Hive/Presto のワークフローを動かしたまま、Digdag + BigQuery Standard SQL のワークフローを作成する</li>
+  <li>Trasure Data と BigQuery で集計後のデータが同一である（＝ Standard SQL への書き換えが成功している）ことを確認する</li>
+  <li>Cloud Composer + BigQuery Standard SQL のワークフローに切り替える</li>
+</ol>
+
+<p>ワークフローが40〜50個ほど存在していたので、実際の移設に掛かった時間の殆どをワークフローの移行作業が占めています。</p>
+
+<h3 id="section-5">行動ログのスキーマ設計</h3>
+
+<p>予め決定が必要なスキーマ設計について、データを分析・活用する上で必要と考えられる基本的なスキーマの設計を基盤の担当者側で行うことで必要なカラムの欠落を防ぎ、サービスの担当者がサービスに固有なカラムの設計に集中することでデータの利便性を向上させました。</p>
+
+<h2 id="section-6">移設後の構成</h2>
+
+<p><img src="/images/2020-06-16-bigfoot-migration/bigfoot-with-gcp.png" alt="移設後の Bigfoot のフルアーキテクチャ図" />
+移設後の Bigfoot のフルアーキテクチャ図</p>
+
+<p>既に述べた通りデータウェアハウスに BigQuery を、ワークフローエンジンに Cloud Composer を利用する構成になっています。この記事では全ての構成要素には触れませんが、ペパボでは GitHub Enterprise を使った開発を行っており、リポジトリごとに以下のような要素を含む開発・運用を行っています。</p>
+
+<h3 id="bigfootplatform">bigfoot/platform</h3>
+
+<p>Terraform を使った Infrastructure as Code を行っています。また、社内用の Kubernetes クラスタの CronJob として ETL や Composer のテスト環境の作成/破壊を行っています。</p>
+
+<ul>
+  <li>Terraform によるリソースの管理
+    <ul>
+      <li>IAM</li>
+      <li>BigQuery のデータセット</li>
+      <li>Cloud Storage のバケット</li>
+      <li>Cloud Composer の環境</li>
+      <li>etc…</li>
+    </ul>
+  </li>
+  <li>社内用の Kubernetes クラスタを使った CronJob の管理</li>
+</ul>
+
+<h3 id="bigfootcloud-composer">bigfoot/cloud-composer</h3>
+
+<p>Composer 環境に載っているワークフローを管理しています。Drone と <a href="https://github.com/zaimy/trinity">trinity</a> によってテストやデプロイは自動化されており、非エンジニアの分析者でも SQL が書ければ GitHub Flow でワークフローを変更することができるようになっています。</p>
+
+<p>参考: <a href="https://speakerdeck.com/zaimy/easy-workflow-deployment-to-cloud-composer-with-trinity">trinity で Cloud Composer にワークフローを簡単デプロイ / Easy workflow deployment to Cloud Composer with trinity - Speaker Deck</a></p>
+
+<h3 id="bigfootdata-catalog">bigfoot/data-catalog</h3>
+
+<p>BigQuery のデータセットやテーブル、カラムの description を管理しています。description を書くことで、分析者がデータの中身を理解することが容易になります。
+<a href="https://github.com/k1LoW/tbls">tbls</a> により BigQuery から抽出された description をコード化し、<a href="https://github.com/k1LoW/tbls-meta">tbls-meta</a> で変更が BigQuery 側に反映されています。Bigfoot にはサービスのデータベースに由来するデータも含まれるため、今後はサービスのデータベース側で既に整備されているドキュメントがある場合に自動的に BigQuery にも反映されるようになる予定です。</p>
+
+<p>参考: <a href="https://speakerdeck.com/k1low/pepabohatena">データ基盤のメタデータを継続的に管理できる仕組みを作る（ペパボ編） / pepabohatena - Speaker Deck</a></p>
+
+<h3 id="bigfootstarchart">bigfoot/starchart</h3>
+
+<p><a href="https://github.com/monochromegane/starchart">starchart</a> を使って、AI Platform を利用する機械学習モデルのコードとパラメータ、モデルのバージョンなどを管理しています。minne のシステムの一部として利用されている機械学習モデルも starchart によって管理されています。</p>
+
+<p>参考: <a href="https://speakerdeck.com/monochromegane/pepabo-ml-infrastructure-starchart">Google Cloud ML を用いた機械学習基盤の構築と運用/pepabo_ml_infrastructure_starchart - Speaker Deck</a></p>
+
+<h2 id="section-7">まとめ</h2>
+
+<p>ログ活用基盤「Bigfoot」の GCP への移設を行い、主にデータウェアハウスとワークフローに関連するリソースの拡充を行うことができました。顕著な例では、従来は実行に30分間掛かっていたクエリが1分程度に短縮されており、より効率的にデータを活用できる状態になったのではないかと思います。</p>
+
+<p>また、データウェアハウスとワークフローの移設後も、<a href="https://twitter.com/udzura">@udzura</a> さんによる Terraform の導入や、<a href="https://twitter.com/k1LoW">@k1low</a> さんによるデータカタログの仕組みの整備が行われており、更に強い仕組みへと進化を続けています。</p>
+
+<p>Bigfoot のような、データの収集・整備や、機械学習モデルの開発・運用を行うシステムは、機械学習工学として体系化されつつあるようです。ペパボ研究所でも、Bigfoot の開発・運用を通してこの分野の研究を進めていこうと考えています。</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>ペパボ研究所所長の <a href="https://twitter.com/kentaro">@antipop</a> さんが参加する日本CTO協会による、企業のデジタル化とソフトウェア活用のためのガイドライン <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2020/06/16/bigfoot-migration/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/10caa9b4d041b23c2ecd6a947fdb1607?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          財津大夏
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/HirokaZaitsu" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+<a href="https://www.facebook.com/hirokazaitsu" class="article__author-link article__author-link--facebook" target="_blank">              <i class="fa fa-facebook-square fa-fw"></i>
+</a>
+        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員、ビジネスプロフェッショナル（データサイエンティスト）
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

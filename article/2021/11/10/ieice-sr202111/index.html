@@ -1,0 +1,435 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>2021年11月4日開催の電子情報通信学会スマート無線研究会にてソフトウェア無線によるアナログFM放送マルチパスフィルタの実装について発表をしました - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所客員研究員の力武健次（りきたけ・けんじ、@jj1bdx）です。2021年11月4日と5日両日に開催された電子情報通信学会スマート無線研究会（以下「SR研究会」）で、ペパボ研究所として「ソフトウェア無線によるアナログFM放送..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="2021年11月4日開催の電子情報通信学会スマート無線研究会にてソフトウェア無線によるアナログFM放送マルチパスフィルタの実装について発表をしました - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所客員研究員の力武健次（りきたけ・けんじ、@jj1bdx）です。2021年11月4日と5日両日に開催された電子情報通信学会スマート無線研究会（以下「SR研究会」）で、ペパボ研究所として「ソフトウェア無線によるアナログFM放送..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2021/11/10/ieice-sr202111/">2021年11月4日開催の電子情報通信学会スマート無線研究会にてソフトウェア無線によるアナログFM放送マルチパスフィルタの実装について発表をしました</a>
+  </h1>
+
+  <time datetime="2021-11-10" class="article__time">
+    2021-11-10
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所客員研究員の力武健次（りきたけ・けんじ、<a href="https://twitter.com/jj1bdx">@jj1bdx</a>）です。<a href="https://www.ieice.org/ken/program/index.php?tgs_regid=f1fc1dc570d834ceb1440787b8818e96ebadcd2bde12fbf29eef22ea12224092&amp;tgid=IEICE-SR">2021年11月4日と5日両日に開催された電子情報通信学会スマート無線研究会</a>（以下「SR研究会」）で、ペパボ研究所として<a href="https://www.ieice.org/ken/paper/20211104kCGC/">「ソフトウェア無線によるアナログFM放送マルチパスフィルタの実装」</a>についての発表を行いました。その内容を論文（研究会予稿）と発表スライドと共に紹介します。</p>
+
+<h3 id="fm">FM放送とマルチパス低減の歴史</h3>
+
+<p>アナログFM放送（以下「FM放送」）は日本では1969年より本放送が始まった歴史のある技術であり、当初は高品質な音楽の伝送を目的に運用が始められました。現在は災害時の情報伝達を含め日々の生活に密着した幅広い用途で使われています。また、日本では2014年より中波放送の受信品質改善を目的としたFM補完放送が始まり、本年2021年6月には中波の民間放送局47局のうち44局が2028年までにFM放送局への転換を目指す旨の発表が行われました[1]。普及しているポッドキャストのサービスの多くが.fmというトップレベルドメイン名を使っていることから見ても、FM放送はラジオ放送の中で今最も親しまれている技術の1つといえるでしょう。</p>
+
+<p>FM放送には開発当初から改善が難しいとされている問題がありました。それは電波が送信アンテナから受信機までの間に届く間にいくつもの建物などで反射するため本来の直接波と複数の反射波が干渉してしまい、受信品質が低下する「マルチパス」という現象が起きることです。マルチパスは受信音にスパイク状の波形歪みを引き起こすため、聴感上非常に耳ざわりな音になります。このマルチパスを除去するには指向性のあるアンテナを使うなどの方法が過去提案されてきましたが、波長が3m〜4mとなるFM放送の電波ではアンテナが大きくなるなどの問題があり、ポータブルラジオなどで簡単に実施できるものではありませんでした。</p>
+
+<h3 id="section">適応フィルタのマルチパス低減への応用とそのオープンソース化</h3>
+
+<p>1980年代に入りデジタル技術による適応フィルタを作ることが容易になり、マルチパス低減への応用研究も進められました。FM放送のFMという名前の由来になっている周波数変調方式では、送信アンテナでは電波の大きさ（振幅）が一定という特徴があります。マルチパスによる影響を受けるとこの振幅が反射波の干渉で変化してしまうため歪みが起こります。仮に反射波による干渉を取り除くためのフィルタを作り、このフィルタの特性を変えることで振幅を一定に近づけることができれば、受信品質の改善ができます。このような手法で受信品質の改善ができることが1983年のTreichlerとAgeeによる論文[2]で示されました。この手法をConstant Modulus Algorithm (CMA)といいます。2021年10月現在、CMAを実装したFM放送受信機は筆者の調査ではいくつか存在しますが、どれもハードウェアに依存しており、オープンソース実装になっているものは確認できていません。</p>
+
+<p>2019年から筆者はFM放送受信をソフトウェア無線（SDR）でより高品質に行う上での研究開発を続けてきました。昨年<a href="https://rand.pepabo.com/article/2020/09/09/iot51/">2020年9月のペパ研ブログの記事</a>でもその研究概要を紹介しています。今回の発表では研究報告とする上で、あらためて筆者の開発したオープンソースSDR実装である<a href="https://github.com/jj1bdx/airspy-fmradion">airspy-fmradion</a>でのCMAを使ったFMマルチパス除去性能の定量的な再評価を行いました。airspy-fmradionではあらかじめSDRフロントエンドから収録しておいた受信信号に対する再生が可能なため、同じ受信信号に対してマルチパスフィルタで処理可能な最大遅延時間を決める段数を変えながら評価結果を見ていくという手法を使いました。</p>
+
+<h3 id="section-1">評価結果</h3>
+
+<p>今回の評価では東京都世田谷区にある筆者の自宅から東京スカイツリーから送信しているNHK東京FM放送(82.5MHz)と東京タワーから送信しているInterFM東京(89.7MHz)の信号を受信し評価を行いました。NHK東京FM放送の時報の880Hz正弦波音では、雑音歪み率(THD+N)を1.22%から0.33%まで低減することができました。主観的評価でも0.6%以上の歪率は耳で聞いてわかるとされており、これを下回る値に抑えることができたことは一定の成果が得られたと筆者は考えています。また、THD+Nとは違うQuadrature Multipath Monitor(QMM)[3]というステレオ放送の歪み成分を抽出できる信号の大きさについても、同様の評価結果が得られました。</p>
+
+<p>本発表および本研究の意義は以下の3点にあると筆者は考えています。</p>
+
+<ol>
+  <li>1980年代にシミュレーションベースでのみ示されていたマルチパスフィルタの設計手法について、実際の電波とSDR受信機を使いその有効性を示した。</li>
+  <li>FMマルチパスフィルタの実装はRaspberry PiやIntel NUCなど一般に入手可能なコンピュータで問題なく行えることを示した。</li>
+  <li>CMAの実装をオープンソースで行うことにより広く利用できるものとした。</li>
+</ol>
+
+<h3 id="section-2">研究会予稿</h3>
+
+<ul>
+  <li><a href="/papers/ieicesr202111-jj1bdx-mpfilter.pdf">SDR Implementation of Analog FM Broadcast Multipath Filter</a></li>
+</ul>
+
+<h3 id="section-3">スライド</h3>
+
+<script async="" class="speakerdeck-embed" data-id="819304598e09491ea06f39b8e2e7f50c" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<h2 id="section-4">発表を終えて</h2>
+
+<p>無線通信の専門家の人達であるSR研究会で、FM放送といういささか古いテーマを受け入れていただけるかどうか発表前には一抹の不安がありました。しかし実際に発表後の質疑では同研究会の皆様から活発に質問をいただき、好意的に受け入れていただいたことに感謝しています。</p>
+
+<p>本研究は筆者の個人的興味から始まったものですが、結果として適応フィルタという筆者にとっての新分野またペパボ研究所の目指す「なめらかなシステム」の実現技術の1つを学び、かつ実際の応用での成果を出すことができました。本研究および発表にあたっては、ペパボ研究所の皆さんの継続的な支援をいただきました。ここに感謝の意を表します。</p>
+
+<h2 id="section-5">参考文献</h2>
+
+<ul>
+  <li>[1] 田中 正晴，「民放AMラジオ44局が2028年秋までにFM化へ、在京3局はAM停波も目指す」，日経クロステック，2021年6月15日，<a href="https://xtech.nikkei.com/atcl/nxt/news/18/10607/">https://xtech.nikkei.com/atcl/nxt/news/18/10607/</a>，2021年11月10日参照</li>
+  <li>[2] J. Treichler and B. Agee, “A new approach to multipath correction of constant modulus signals,” IEEE Transactions on Acoustics, Speech, and Signal Processing, vol.31, no.2, pp.459–472, 1983. DOI: 10.1109/TASSP.1983.1164062</li>
+  <li>[3] B. Beezley, “Quadrature Multipath Monitor”, <a href="http://www.ham-radio.com/k6sti/qmm.htm">http://www.ham-radio.com/k6sti/qmm.htm</a>, 2021年11月10日参照</li>
+</ul>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2021/11/10/ieice-sr202111/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/fc3b290038a97f5df6fec7660c357ef4?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          力武健次
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/jj1bdx" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/jj1bdx" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所客員研究員。1976年よりアマチュア無線局JJ1BDXを開局。第一級陸上無線技術士、第一級アマチュア無線技士。2019年8月にはSDRソフトウェアのairspy-fmradionの機能の1つとしてFMマルチパスフィルタのOSS実装をリリース。
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

@@ -1,0 +1,499 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法 - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所 研究員の酒井（@tshk_sakai）です。
+今回は、Google Sheets（以下、スプレッドシートと書きます）でCloud Runを活用するため、OpenID Connect仕様のIDトークンを用いて、Google..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法 - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所 研究員の酒井（@tshk_sakai）です。
+今回は、Google Sheets（以下、スプレッドシートと書きます）でCloud Runを活用するため、OpenID Connect仕様のIDトークンを用いて、Google..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+  </h1>
+
+  <time datetime="2023-09-20" class="article__time">
+    2023-09-20
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所 研究員の酒井（<a href="https://twitter.com/tshk_sakai">@tshk_sakai</a>）です。
+今回は、Google Sheets（以下、スプレッドシートと書きます）でCloud Runを活用するため、<a href="https://openid.net/developers/how-connect-works/">OpenID Connect</a>仕様のIDトークンを用いて、Google Apps Script（以下、Apps Scriptと書きます）からCloud Runへの認証を行う方法についてご紹介します。</p>
+
+<h2 id="section">背景</h2>
+
+<p>業務において、スプレッドシートの情報を元に、処理を行い、その処理結果をシートへ反映したいことがあります。
+この場合、スプレッドシート内で処理が完結することが望ましいですが、スプレッドシート単体では実現が難しいこともあります。
+そこで、スプレッドシート内の情報を入力として、外部で処理を実施し、その結果をシートへ出力する方法を検討しました。</p>
+
+<h2 id="section-1">構成</h2>
+
+<p>スプレッドシート内の情報を入力として、外部で処理を行うには、外部にAPIサーバを構築する方法があります。
+その場合、実装を可能な限り最小限とし、コストをかけずに構築することが望ましいです。
+そこで、今回はCloud RunにAPIサーバを立て、Apps ScriptでCloud Runへアクセスするアーキテクチャを構築することにしました。</p>
+
+<p>構成は以下の通りです。</p>
+
+<p><img src="/images/2023-09-20-appsscript-cloudrun/architecture.png" alt="構成" /></p>
+
+<p>Apps Scriptのコードからスプレッドシートの情報を取得した上で、Cloud Runへ認証及びhttpsアクセスを行い、処理結果をスプレッドシートへ追記します。
+本記事では、Apps ScriptからCloud Runへの認証方法について説明します。</p>
+
+<h2 id="apps-scriptcloud-run">Apps ScriptからCloud Runへの認証</h2>
+
+<p>Apps ScriptからCloud Runへの認証を行うには、以下が必要となります。</p>
+
+<ul>
+  <li>（Apps Script）: OpenID Connectの仕様に準拠したIDトークンの取得</li>
+  <li>（Apps Script）: OAuthスコープの設定</li>
+  <li>（Google Cloud）: OAuth同意画面の設定</li>
+  <li>（Apps Script）: Cloudプロジェクトの変更</li>
+  <li>（Cloud Run）: OAuthクライアント情報の反映</li>
+</ul>
+
+<p>ここからは具体的な手順について説明します。</p>
+
+<h3 id="openid-connectid">OpenID Connectの仕様に準拠したIDトークンの取得</h3>
+
+<p>Cloud Runでは、IAMのCloud Run起動元ロールとして<code>allUsers</code>を付与すると、認証を行わずにアクセス可能です。
+しかし、今回は、Cloud Runへのアクセスを特定のアカウントに限定したかったため、アクセスを行うアカウントに<code>roles/run.invoker</code>ロールを付与しました。</p>
+
+<p>Cloud Runでは、Googleによって署名された<a href="https://cloud.google.com/docs/authentication/token-types?hl=ja#id">IDトークン</a>を<code>Authorization: Bearer </code>ヘッダーの後に付与することで、<a href="https://cloud.google.com/run/docs/authenticating/service-to-service?hl=ja#acquire-token">認証</a>を行います。IDトークンは、OpenID Connectの仕様に準拠したJWT（JSON Web Token）です。
+例えば、Cloud StorageのJSON APIに対するリクエストは、<a href="https://cloud.google.com/storage/docs/authentication?hl=ja#apiauth">OAuth2.0アクセストークンで認証が可能</a>ですが、Cloud RunはOAuth2.0アクセストークンではなくIDトークンを利用します。
+Apps Scriptでは、<a href="https://developers.google.com/apps-script/reference/script/script-app?hl=ja#getIdentityToken()">ScriptApp.getIdentityToken()</a>でOpenID Connectに準拠したIDトークンを取得することができます。しかし、そのまま<code>ScriptApp.getIdentityToken()</code>を用いるだけでは、まだCloud Runへの認証は通りません。</p>
+
+<h3 id="oauth">OAuthスコープの設定</h3>
+
+<p>Apps Scriptの実行に必要な権限をOAuthスコープとして定義します。
+Apps Scriptの設定画面からappsscript.jsonを編集可能にする<a href="appsscript.jsonを編集可能にする設定">設定</a>及びappsscript.jsonの編集を行います。
+具体的には、appsscript.jsonの<code>oauthScopes</code>は以下のように設定します。</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>
+  "oauthScopes": [
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/spreadsheets"
+  ]
+
+</code></pre></div>
+<p>それぞれのスコープの設定理由について、以下で説明します。</p>
+
+<ul>
+  <li><code>openid</code>: <a href="https://developers.google.com/apps-script/reference/script/script-app?hl=ja#getidentitytoken">getIdentityToken()でOpenID Connectに準拠したIDトークンを取得するため</a></li>
+  <li><code>https://www.googleapis.com/auth/userinfo.email</code>: <a href="https://developers.google.com/apps-script/reference/script/script-app?hl=ja#getidentitytoken">getIdentityToken()でユーザ情報をトークンに含めるため</a></li>
+  <li><code>https://www.googleapis.com/auth/script.external_request</code>: <a href="https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app?hl=ja#fetchurl,-params">UrlFetchApp.fetchを実行するため</a></li>
+  <li><code>https://www.googleapis.com/auth/spreadsheets</code>: <a href="https://developers.google.com/identity/protocols/oauth2/scopes?hl=ja#script">Googleスプレッドシートの参照、編集、作成、削除を行うため</a></li>
+</ul>
+
+<h3 id="oauth-1">OAuth同意画面の設定</h3>
+
+<p>Apps ScriptのCloudプロジェクトを変更するためには、CloudプロジェクトでOAuth同意画面の設定を終わらせておく必要があります。
+OAuth同意画面では、ユーザへ表示する情報を設定することができます。今回であれば、Apps Scriptを実行するユーザへ表示する情報を設定します。表示する情報を<a href="https://developers.google.com/apps-script/guides/cloud-platform-projects?hl=ja#complete_the_oauth_consent_screen">手順</a>に従って、作成しておきます。このOAuth同意画面の設定を終えていないと、Apps ScriptのCloudプロジェクト変更時にOAuth同意画面を設定しなければならない旨のエラー(<code>In order to change your project, you will need to configure the OAuth consent screen. Configure your OAuth Consent details.</code>)が表示されます。</p>
+
+<h3 id="apps-scriptcloud">Apps ScriptのCloudプロジェクト変更</h3>
+
+<p>Apps Scriptプロジェクトを作成すると<a href="https://developers.google.com/apps-script/guides/cloud-platform-projects?hl=ja#default">デフォルトのCloudプロジェクト</a>が作成されます。しかし、今回は既存にあるCloudプロジェクトに作成したCloud RunとApps Scriptを紐づけたいため、デフォルトのCloudプロジェクトではなく既存のCloudプロジェクト(標準のCloudプロジェクト)への変更が必要となります。まだCloudプロジェクトを作成していない場合は、新規作成し、<a href="https://developers.google.com/apps-script/guides/cloud-platform-projects?hl=ja#activate_an_api_in_a_standard">APIの有効化</a>を行います。既存のCloudプロジェクトへの変更自体はApps Scriptの設定画面で行います。
+Apps Scriptの設定画面の「Google Cloud Platform(GCP) Project」で行うことができます。</p>
+
+<p><img src="/images/2023-09-20-appsscript-cloudrun/google-cloud-platform-project.png" alt="Cloudプロジェクト変更画面" /></p>
+
+<p>この画面で変更させたいCloudプロジェクトの番号を入力してください。入力後に(<code>Project does not exist or you need edit access to it.</code>)のエラーが出る場合は、Cloudプロジェクト自体が存在しないか、連携可能な権限がアカウントに付与されていません。権限の問題であれば、<code>roles/editor</code>ロールを持つアカウントであれば、変更可能です。</p>
+
+<p>Apps ScriptのCloudプロジェクトをデフォルトから変更することで、Cloudプロジェクトの、APIとサービス&gt;認証情報のOAuth2.0クライアントIDの項目に新しくOAuth認証情報が作成されます。
+Cloudプロジェクトの変更前後で<code>ScriptApp.getIdentityToken()</code>のbodyの値をデコード<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>した値を見ると、<code>audクレーム</code>の値が変化します。Cloudプロジェクト変更後は、<code>audクレーム</code>の値が新しく作成されたOAuth2.0クライアントIDの値と一致します。</p>
+
+<h3 id="cloud-runoauth">Cloud RunへのOAuthクライアント情報の反映</h3>
+
+<p>ここまでで<code>ScriptApp.getIdentityToken()</code>で有効なOpenID Connectに準拠したIDトークンが取得できるようになりました。しかし、まだApps ScriptからCloud Runへの認証は通りません。最後に新規作成したOAuth2.0クライアントIDの情報をCloud Runに反映する必要があります。（この後にCloud Runを新規に作成する場合は本手順は不要です）</p>
+
+<p>反映するためにはCloud Runのリビジョン更新やインスタンスの新規作成を行う必要があります。以下のいずれかの方法で反映されることを確認済みです。</p>
+
+<ul>
+  <li>Terraformでの削除（<code>terraform destroy</code>）、作成（<code>terraform apply</code>）※ TerraformでCloud Runを構築している場合</li>
+  <li>設定変更（<code>gcloud run services update</code>）</li>
+  <li>インスタンスの削除（<code>gcloud run services delete</code>）、作成（<code>gcloud run deploy</code>、<code>gcloud run services add-iam-policy-binding</code>）</li>
+</ul>
+
+<p>以上を行うことで、Apps ScriptからCloud Runへの認証を通すことができます。</p>
+
+<h2 id="section-2">まとめ</h2>
+
+<p>本記事では、スプレッドシートでCloud Runを活用するため、OpenID Connect仕様のIDトークンを用いたApps ScriptからCloud Runへの認証方法についてご紹介しました。</p>
+
+<p>Apps Scriptで、OpenID Connect仕様のIDトークンを取得するためには、OAuthスコープの設定やCloudプロジェクトの変更が必要となります。
+Cloudプロジェクトの変更には、Google Cloudで、OAuth同意画面の設定が必要となります。
+上記設定後、Cloud RunへOAuthクライアント情報の反映を行うことで、Apps ScriptからCloud Runへの認証が通るようになります。</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>デコードするためのコードは、<a href="https://developers.google.com/apps-script/reference/script/script-app?hl=ja#getidentitytoken">getIdentityToken()</a>のドキュメントに記載されています。 <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2023/09/20/appsscript-cloudrun-certification/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/beaabf8cbdb4078dbb3f3fc1247057d1?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          酒井敏彦
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/https://twitter.com/tshk_sakai" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/ToshihikoSakai" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員。
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

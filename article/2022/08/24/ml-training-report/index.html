@@ -1,0 +1,522 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>新卒エンジニア向け機械学習研修2022〜機械学習と再帰化〜 - ペパボ研究所ブログ</title>
+    <meta property="description" content="研究員の渡辺（@watasan） です。
+先日、ペパボ研究所のメンバーが社内で実施した、新卒エンジニア向け機械学習研修についてご紹介します。
+ペパボ研究所は2020年から、新卒エンジニア研修1の一環として機械学習研修を実施しています2" />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="新卒エンジニア向け機械学習研修2022〜機械学習と再帰化〜 - ペパボ研究所ブログ" />
+    <meta property="og:description" content="研究員の渡辺（@watasan） です。
+先日、ペパボ研究所のメンバーが社内で実施した、新卒エンジニア向け機械学習研修についてご紹介します。
+ペパボ研究所は2020年から、新卒エンジニア研修1の一環として機械学習研修を実施しています2" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-f6806255.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.png" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2022/08/24/ml-training-report/">新卒エンジニア向け機械学習研修2022〜機械学習と再帰化〜</a>
+  </h1>
+
+  <time datetime="2022-08-24" class="article__time">
+    2022-08-24
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>研究員の渡辺（<a href="https://twitter.com/ae14watanabe">@watasan</a>） です。
+先日、ペパボ研究所のメンバーが社内で実施した、新卒エンジニア向け機械学習研修についてご紹介します。
+ペパボ研究所は2020年から、新卒エンジニア研修<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>の一環として機械学習研修を実施しています<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>。
+今年で3年目となりますが毎年アップデートを重ねており、今年はより「ペパボらしさ」の強い研修となりました。
+このエントリでは本研修の目的やコンテンツについてご紹介できればと思います。</p>
+
+<h2 id="section">本研修の位置付けと目的</h2>
+<p>GMOペパボ（以降ペパボ）では、新卒入社したエンジニアに向けて、様々な技術要素について「現時点で一番良いやり方」を学んでもらうための研修を毎年行っています<sup id="fnref:2:1" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>。
+フロントエンド、バックエンド、インフラ、セキュリティなど、Webサービスを構築するための技術に関して「現時点で一番良いやり方」を学ぶことが研修全体のゴールとして設定されています。</p>
+
+<p>この新卒エンジニア研修の一環として実施した機械学習研修も、この「現時点で一番良いやり方を学ぶ」という方針を踏襲し、次のように目的を設定しました。</p>
+
+<blockquote>
+  <p>サービス価値の向上のために「再帰化」を実現する上で、実装手段として機械学習を検討できるようになる。</p>
+</blockquote>
+
+<p>「再帰化」とは、サービス価値向上のためにペパボが重視している考え方です。
+具体的には次のように定義しています。</p>
+
+<blockquote>
+  <p>「再帰化」とは構造化・自動化されたサービスが、ユーザとのインタラクションの結果を取り込んで、システムを自らより良いものへと改修していくプロセスのことをいいます<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>。</p>
+</blockquote>
+
+<p>ペパボはCtoCサービスの運営を通して、ユーザの皆さんに価値を提供することを目指しています。
+その上で再帰化とは、サービスの価値を高める、またそれを迅速に行うために、サービスの改善を自動化しスケールさせることを指します。
+「再帰化」というネーミングは、この改善をサイクルとして実行していくところに由来しています。
+再帰化について詳しくは<sup id="fnref:3:1" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>をご覧ください。</p>
+
+<p>加えて、機械学習はこの再帰化を実現するための1つのアプローチです。
+機械学習、特に教師あり学習は、変数同士の関係を関数として表現し、それをデータから自動的に獲得する技術であるという見方ができます<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup>。
+サービスを構成するシステムは、入出力を持つ部分要素、すなわち関数によって構成されていると考えてみます。
+すると、この部分要素に機械学習を適用することで、ユーザとのインタラクションのデータを元に、その挙動を自動的に最適化できると考えられます。</p>
+
+<p>本研修では再帰化の観点から機械学習を伝えることで、ペパボにおける機械学習の「現時点で一番良いやり方を学ぶ」ことを目指しました。
+ペパボのエンジニアリング組織では、この再帰化をさらに強化していくことを今年の目標として掲げています。
+本研修では単に機械学習の知識を伝えるにとどまらず、機械学習と再帰化の関係性や機械学習による再帰化の実例を伝えることで、再帰化の実現方法としての機械学習について理解を深めてもらうことを狙いました。</p>
+
+<h2 id="section-1">カリキュラム</h2>
+<p>研修は3日間、1日あたり3時間の計9時間にわたって行いました。
+日ごとに研修目的に沿ったゴールを設定し、以下のスケジュールで実施しました。</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>
+1日目
+【ゴール】機械学習とは何か、自分の言葉で説明できる。
+15:00-15:05 研修ガイダンス
+15:05-15:25 機械学習イントロダクション（座学）
+15:25-17:45 Machine Learning Crash Course（ハンズオン）
+17:45-17:55 学んだことを各自まとめる
+
+2日目
+【ゴール】再帰化を実現するために、機械学習をどう活用できるかイメージできる。
+15:00-15:05 研修についてのおさらい
+15:05-17:00 Machine Learning Crash Course（ハンズオン）
+17:10-17:40 再帰化と機械学習（座学）
+17:40-17:55 学んだことを各自まとめる
+
+3日目
+【ゴール】サービスの実課題を機械学習で解決する一連の流れの例を挙げられる
+15:00-15:05 研修についてのおさらい
+15:05-16:45 Machine Learning Crash Course（ハンズオン）
+16:55-17:45 機械学習のサービス連携事例紹介（座学）
+17:45-18:00 学んだことを各自まとめる
+
+</code></pre></div>
+<p>研修資料は<a href="https://speakerdeck.com/ae14watanabe">SpeakerDeck</a>や<a href="https://github.com/pepabo/training/tree/master/data-and-machine-learning/2022/machine_learning">GitHub</a>にアップロードしています。</p>
+
+<p>ここからは、それぞれのコンテンツについて紹介します。</p>
+
+<p><strong>Machine Learning Crash Course（ハンズオン、3日間に渡って実施）</strong><br />
+<a href="https://developers.google.com/machine-learning/crash-course">Machine Learning Crash Course</a>は、機械学習を短期集中で学ぶコースとして、ソフトウェアエンジニア向けにGoogleが提供しているものです。
+エンジニアが業務に機械学習を導入する意義を踏まえつつ、機械学習の基本的な理論やTensorFlowによる実装を学ぶことのできる教材になっています。
+本研修の目的は再帰化の手段としての機械学習を学ぶことにありますが、そのためにまずは一般的な機械学習の知識を身につけてもらいたいと考え、このハンズオンを研修に取り入れることにしました。</p>
+
+<p>また、ハンズオンによる理解を高めてもらうための工夫を3つ行いました。
+1つ目の工夫はハンズオン取り組み中のリアルタイムなフィードバックです。
+ハンズオン中に受講生の皆さんにSlackで分報をつけてもらうことで、自分の理解や疑問をこまめにアウトプットしてもらいました。
+そのアウトプットに対して、講師陣がすぐさまコメントするという体制を取ることで、ハンズオンの内容の更なる理解を狙いました。
+また、この体制を取ることで、ハンズオンの内容から発展した話題、例えば次元削減やクラスタリングについても紹介できたという効果もありました。</p>
+
+<p>2つ目の工夫は専門用語の対訳集の作成と提供です。
+ハンズオンは全て英語で記述されており、受講生が英語に不得手な場合は少しハードルの高さを感じさせてしまうかもしれない、かといって自動翻訳するにも専門用語が含まれていて誤解のない訳が難しいという懸念がありました。
+そこで専門用語だけでも補足しようと、日本語訳や意味をまとめた用語集を作成し提供しました。</p>
+
+<p>3つ目の工夫は日本語による座学で、以下に示すコンテンツとして実施しました。</p>
+
+<p><strong>機械学習イントロダクション（座学、1日目に実施）</strong><br />
+<script async="" class="speakerdeck-embed" data-slide="5" data-id="f2657f72c8b54443b31f44c0e8696150" data-ratio="1.77725118483412" src="//speakerdeck.com/assets/embed.js"></script>
+ハンズオンの導入として、「機械学習イントロダクション」と題した座学を1日目の冒頭に実施しました。
+Machine Learning Crash Courseは機械学習の知識を学ぶにはとても良い教材です。
+しかし、前述の通り全て英語で記述されているため、受講生が英語に不得手な場合に「そもそも機械学習では何をしたいのか」「したいことをどう実現するのか」といった機械学習の基本的な考え方の理解に特に苦労するかもしれないと考えました。
+そこで、この考え方を日本語で紹介する座学を実施しました。
+この座学に関してはエンジニアリングの観点というより一般的な観点での機械学習のお話なので、エンジニアの方に限らず様々な方の参考になると嬉しいです。</p>
+
+<p><strong>再帰化と機械学習（座学、2日目に実施）</strong><br />
+<script async="" class="speakerdeck-embed" data-slide="9" data-id="75f88cc074384e86aa8e52098351275f" data-ratio="1.77725118483412" src="//speakerdeck.com/assets/embed.js"></script></p>
+
+<p>本研修のテーマである再帰化の実現方法としての機械学習について理解してもらうための座学を実施しました。
+そもそも「再帰化」とは何か、再帰化を実現するためには何が必要か、そのために機械学習はどう活用できるかといった、再帰化と機械学習の関係についてお話しています。</p>
+
+<p><strong>機械学習のサービス連携事例紹介（座学、3日目に実施）</strong>
+<script async="" class="speakerdeck-embed" data-slide="9" data-id="6444e68557a7412abc1dfce0eef75ff5" data-ratio="1.77725118483412" src="//speakerdeck.com/assets/embed.js"></script></p>
+
+<p>座学「再帰化と機械学習」では抽象的な考え方をお伝えしたので、より具体的・実践的な機械学習による再帰化の例を、データ基盤チームのデータサイエンティストである財津（<a href="https://twitter.com/HirokaZaitsu">@zaimy</a> ）とペパボ研究所の研究員である酒井（<a href="https://twitter.com/tshk_sakai">@tossy</a> ）から紹介しました。</p>
+
+<p>zaimyからは、「BigQuery の日本語データを Dataflow と Vertex AI でトピックモデリング」と題して、Webサービスで推薦や検索に利用できるトピックモデリングの導入例について紹介しました。
+内容の詳細については<a href="https://speakerdeck.com/zaimy/topic-modeling-of-japanese-data-in-bigquery-with-dataflow-and-vertex-ai">こちらのスライド</a>でご覧いただけます。</p>
+
+<p>また、tossyからはminneにおける作品の「特徴」ラベル自動付与の取り組みについて紹介しました。
+minneではユーザが作品を検索する際に、作品の素材や形状といった作品が持つ「特徴」によって絞り込むことができます。
+この「特徴」は作家自身によって作品を出品する際にラベル付けされるため、ラベルの漏れや誤りが生じやすい、まだ全ての作品には付与されていない、といった課題があります。
+今回の取り組みでは、その対策として機械学習によるラベル自動付与の実現を目指しています。
+こちらの詳細については9月に開催される<a href="https://kansai.ipsj.or.jp/2022sibutaikai_kaisai/">情報処理学会関西支部大会</a>で報告する予定です。</p>
+
+<h2 id="section-2">研修を終えて</h2>
+
+<p>例年と比べると、「再帰化」をテーマとして打ち出すという大きな変更点があり、個人的に本研修は挑戦的な試みでした。
+しかしながら、受講生からは「研修目的をよく理解できた」「座学とリアルタイムでのフィードバックがあるハンズオンという形式でとてもわかりやすかった」といった良い反応があり、講師としてとても安心しました。
+受講生の皆さんには本研修で学んだことを元に、これから配属先で再帰化をますます進めてもらえると嬉しいなと思っています。</p>
+
+<p>また今回は新卒エンジニアに向けた研修でしたが、今後は新卒に限らず他のエンジニアの皆さんにも非同期で取り組んでいただけるような研修やチュートリアルも充実させていくなど、社内外に機械学習の知見をより活発に発信していければと考えています。</p>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p><a href="https://tech.pepabo.com/2021/07/02/pepabo-training-2021/">ペパボのエンジニア研修2021がはじまっています - Pepabo Tech Portal</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p><a href="https://rand.pepabo.com/article/2020/07/22/machine-learning-introduction/">ペパボ研究所による新卒エンジニア向け機械学習研修 - ペパボ研究所ブログ</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:2:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p><a href="https://speakerdeck.com/kentaro/toward-the-next-service-development-era">GMOペパボが考えるこれからのサービス開発 / Toward The Next Service Development Era</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:3:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:4" role="doc-endnote">
+      <p><a href="https://tech.preferred.jp/ja/blog/software2_0/">Software 2.0とその社会的課題 - Preferred Networks Research &amp; Development</a> <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2022/08/24/ml-training-report/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/8c532e6787b12f22c2610d7d9def4366?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          渡辺龍二
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/ae14watanabe" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/ae14watanabe" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員。2022年3月に九州工業大学にて博士号（情報工学）を取得。現在はペパボ研究所にて機械学習と情報可視化による意思決定支援をテーマに研究を進めている。
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2024-03-28" class="article__time">2024-03-28</time></div>
+          <a href="/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-25" class="article__time">2023-10-25</time></div>
+          <a href="/article/2023/10/25/wfiot2023/">IEEE WFIoT 2023でWebAssemblyを用いた動的に更新可能なIoTアプリケーションとisomorphicなIoTシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-10-10" class="article__time">2023-10-10</time></div>
+          <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2023-09-20" class="article__time">2023-09-20</time></div>
+          <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+        </li>
+        <li>
+          <div><time datetime="2023-06-15" class="article__time">2023-06-15</time></div>
+          <a href="/article/2023/06/15/ml-training-report-2023/">新卒エンジニア向け機械学習研修2023を実施しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-12-28" class="article__time">2022-12-28</time></div>
+          <a href="/article/2022/12/28/add-getting-pro-ml-engineer-certificates/">Google Cloud認定資格 Professional ML Engineer合格に向けた取り組み</a>
+        </li>
+        <li>
+          <div><time datetime="2022-11-23" class="article__time">2022-11-23</time></div>
+          <a href="/article/2022/11/23/getting-pro-ml-engineer-certificates/">Google Cloud認定資格のProfessional ML EngineerとProfessional Data Engineerを研究員が取得しました。</a>
+        </li>
+        <li>
+          <div><time datetime="2022-10-07" class="article__time">2022-10-07</time></div>
+          <a href="/article/2022/10/07/smash22/">SMASH22 Summer Symposiumで逐次適応性を損なうことなく非線形性を扱う多腕バンディット解法の提案を発表し、優秀賞と奨励賞を受賞しました</a>
+        </li>
+        <li>
+          <div><time datetime="2022-09-27" class="article__time">2022-09-27</time></div>
+          <a href="/article/2022/09/27/ipsj-kansai-2022-report/">2022年度情報処理学会関西支部支部大会でECサイトにおける作品の特徴ラベル分類の取り組みについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <ul class="site-seal">
+      <li class="site-seal__item">
+        <span id="ss_gmo_img_wrapper_130-66_image_ja">
+          <a href="https://jp.globalsign.com/" target="_blank" rel="nofollow">
+            <img alt="SSL　GMOグローバルサインのサイトシール" border="0" id="ss_img" src="//seal.globalsign.com/SiteSeal/images/gs_noscript_130-66_ja.gif" />
+          </a>
+        </span>
+        <script type="text/javascript" src="//seal.globalsign.com/SiteSeal/gmogs_image_130-66_ja.js" defer="defer"></script>
+      </li>
+      <li class="site-seal__item">
+        <span id="csi_siteseal_tag" oncontextmenu="return false;">
+          <a id="csi_siteseal_profile_link">
+            <img decoding="async" loading="lazy" alt="dark_typeA_130x66.png" id="csi_siteseal_image" width="130" height="66" src="#" style="display: none" />
+          </a>
+        </span>
+        <script type="text/javascript" src="https://gmo-cybersecurity.com/siteseal/siteseal.js" defer="defer"></script>
+      </li>
+    </ul>
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+    <p class="credit__rights">
+      © 2016 - 2024
+      <a href="https://pepabo.com/" target="_blank">
+        GMO ペパボ株式会社
+      </a>
+      All Rights Reserved.
+    </p>
+  </div>
+</footer>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>
