@@ -1,0 +1,532 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>Typstのすゝめ：コーディングエージェント時代のスライド・ポスター作成 - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（@monochromegane）です。
+
+先日の第40回人工知能学会全国大会（JSAI2026）での発表では、発表スライドと、研究所紹介のポスターを、いずれもTypstで作成..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="Typstのすゝめ：コーディングエージェント時代のスライド・ポスター作成 - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（@monochromegane）です。
+
+先日の第40回人工知能学会全国大会（JSAI2026）での発表では、発表スライドと、研究所紹介のポスターを、いずれもTypstで作成..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-6f071514.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.svg" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2026/06/15/typst/">Typstのすゝめ：コーディングエージェント時代のスライド・ポスター作成</a>
+  </h1>
+
+  <time datetime="2026-06-15" class="article__time">
+    2026-06-15
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。</p>
+
+<p>先日の<a href="/article/2026/06/09/jsai2026/">第40回人工知能学会全国大会（JSAI2026）での発表</a>では、発表スライドと、研究所紹介のポスターを、いずれも<a href="https://typst.app/">Typst</a>で作成しました。研究所共通のスライドテンプレートを一度作っておき、それを使い回してスライドを書いたり、同じ枠組みでA0サイズのポスターまで仕上げられたりと、想像以上に快適だったので、その経緯と使い方を紹介します。</p>
+
+<h2 id="section">背景と課題</h2>
+
+<p>これまで、ペパボ研究所では発表スライドを、従来のスライド作成ツール（Keynote、Google Slidesなど）で作成してきました。これらのツールに対応した研究所のテンプレートもあり、タイポグラフィやページレイアウトが統一された整ったスライドを作成できていました。一方で、要素の配置やテキストの入力は手作業であり、どうしても時間がかかります。また、コーディングエージェントと組み合わせるうえでも、GUI操作を前提とするこれらのツールより、ソースをテキストとして持てる形式が望ましくなってきました。</p>
+
+<p>ソースをテキストで持てるという点では、<a href="https://marp.app/">Marp</a>のようなMarkdownベースのツールが選択肢になります。エージェントとも相性がよい一方で、スライドやポスターではレイアウトの自由度が重要になります。Markdownは上から下へ流れるリニアな記法であり、二次元の版面へ要素を自由に配置するには表現力が足りません。足りない分はHTMLやCSSで補えますが、CSSはもともと可変幅のWebページ向けのスタイル言語であり、固定サイズの版面に絶対座標で配置する用途とは思想が異なるのではないかと考えています。そのため、意図した通りにページ内のレイアウトを固定することが難しくなります。加えて研究発表では、グラフィカルモデルや処理フロー図のようなカチッとした図や数式が欠かせません。また、再現性の面では、これらの図や数式もソースをテキスト（コード）として残せると嬉しいところです。</p>
+
+<h2 id="typst">組版エンジンTypst</h2>
+
+<p>これらの課題に応えるものとして採用したのが<a href="https://typst.app/">Typst</a>です。</p>
+
+<p>Typstは近年注目を集めている組版システムで、「LaTeX並みの表現力を、より学びやすく」を掲げています。<code>= 見出し</code>や<code>*強調*</code>といった軽量なマークアップ記法（Markdownに近い書き味）を基本としつつ、<code>#</code>から変数や関数を扱えるスクリプト機能を備え、高速な組版エンジンを内蔵しているのが特徴です。固定サイズのキャンバスへ要素を絶対座標で配置でき、意図した通りにレイアウトを作り込めます。スクリプトによってリニア構造にも縛られず、数式も第一級の対象として、ソースと統合して記述できます。ソースはプレーンテキストであるため、Git管理もエージェントとの協働も自然に行えます。</p>
+
+<p>記法はLaTeXほど難読ではなく、比較的読みやすいものです。仮に多少読みにくくても、エージェントが下書きを担う現在では、ソースの一次的な読み手は必ずしも人間だけではありません。素朴な読みやすさを多少手放してでも、表現力と引き換えにする価値は十分にあります。スライド向けのテーマや作図ライブラリもパッケージとして整備されているため、テキストのみでスライドからポスターまでを作成できます。</p>
+
+<p>なお、図についても、後述するCeTZパッケージを使えばコードとして記述できます。</p>
+
+<h2 id="typst-1">Typstによるスライド作成</h2>
+
+<p>ここからは、実際にJSAI2026の発表資料を作成した流れを紹介します。ペパボ研究所では、<a href="https://typst.app/universe/package/touying/">touying</a>というスライド向けパッケージをベースに、配色・ロゴ・フォントを研究所仕様に揃えた共通テンプレート<code>pepaken.typ</code>を用意しました。これを<code>import</code>するだけで、表紙・自己紹介・目次・章区切り・締めページといったスライドが、統一されたスタイルで作成できます。</p>
+
+<p>なお、以下ではコード例をいくつか示しますが、構文を逐一覚える必要はありません。前述の通り、実際の記述はエージェントに任せられるため、スライド作成の指示者としては「Typstでどのような構成や機能が可能か」を把握しておけば、協働のうえでは十分だと考えています。</p>
+
+<h3 id="section-1">1. テンプレートを作成する</h3>
+
+<p>テンプレート<code>pepaken.typ</code>は、touyingの組み込みテーマ<code>metropolis</code>をラップし、配色・フォント・ロゴ・キャンバスサイズを研究所仕様の既定値で上書きしたものです。次は、その中核部分の抜粋です（touyingや後述するCeTZ、peace-of-posters等のパッケージやテンプレートは<a href="https://typst.app/universe/">Typst Universe</a>で公開されており、<code>#import</code>にバージョンを指定しておけば初回ビルド時に自動で取得されます）。</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>#import "@preview/touying:0.7.3": *
+#import themes.metropolis: *
+
+// ペパ研の配色（ロゴ由来の青とチャコール）
+#let pepaken-colors = (
+  primary: rgb("#1f7acc"),          // 強調・バー・著者名など
+  neutral-darkest: rgb("#38393c"),  // 本文テキスト
+)
+
+// 欧文 Avenir Next ＋ 和文 Hiragino Sans
+#let pepaken-fonts = (main: ("Avenir Next", "Hiragino Sans"))
+
+// metropolis テーマをペパ研仕様にラップ
+#let pepaken-theme(aspect-ratio: "16-9", ..args, body) = {
+  show: metropolis-theme.with(
+    aspect-ratio: aspect-ratio,
+    config-colors(..pepaken-colors),
+    config-info(logo: image("assets/regular_rgb.svg")),
+    config-page(width: 1920pt, height: 1080pt),  // 1920×1080pt の固定キャンバス
+    ..args,
+  )
+  set text(font: pepaken-fonts.main, size: 22pt)
+  body
+}
+</code></pre></div>
+<p>表紙や箇条書きなど、用途ごとのスライドも、touyingの関数を上書きしたり、独自の関数を定義したりして、あらかじめ用意しておきます。各ページの要素は「左上角のx/y座標＋幅・高さ（pt単位）」で絶対配置しており、1920×1080ptの固定キャンバスを前提にしているため、デザインツールと同じ感覚でピクセル単位の微調整ができます。一度作っておけば、以降はこのテンプレートを<code>import</code>するだけで済みます。</p>
+
+<h3 id="section-2">2. テンプレートを適用してスライドを書く</h3>
+
+<p>研究所テンプレートを<code>import</code>し、<code>pepaken-theme</code>を適用したうえで、発表情報を<code>config-info</code>で渡します。あとは、用意された関数や見出し記法でページを並べていくだけです。</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>#import "../templates/pepaken.typ": *
+
+#show: pepaken-theme.with(
+  aspect-ratio: "16-9",
+  config-info(
+    title: [適応的スパムフィルタのための \ 軽量な類似メッセージカウンタ],
+    author: [三宅悠介 / Pepabo R&amp;D Institute, GMO Pepabo, Inc.],
+    date: datetime(year: 2026, month: 6, day: 9),
+    event: [第40回人工知能学会全国大会（JSAI2026）],
+  ),
+)
+
+#title-slide()                       // 表紙
+
+#toc-slide([はじめに], [関連研究], [提案手法], [評価], [おわりに])  // 目次
+
+= はじめに                            // `= 見出し` は青背景の章区切りページになる
+
+#bullet-slide(                       // 箇条書きのコンテンツページ
+  title: [本研究のアプローチ],
+  [メッセージの類似性と出現頻度に着目したアプローチが研究されている],
+  [既存手法には、マルチモーダル対応や低レイテンシ・低コスト化に課題が残る],
+  [これらの要件を満たす軽量な類似メッセージカウンタを提案],
+)
+
+#closing-slide()                     // 締めページ
+</code></pre></div>
+<p>特徴的なのは、<code>= 見出し</code>と書くだけで章区切りページが自動採番付きで生成されたり、先に定義した関数に項目を渡すだけで配色・行間・マーカーが揃ったリストになったりと、デザインの統一がテンプレート側で完結している点です。ソースは単なるテキストであるため、エージェントに「この節を3項目の箇条書きスライドにして」と依頼することも容易です。</p>
+
+<h3 id="cetz">3. CeTZで図を描く</h3>
+
+<p>研究発表で要となる図は、作図ライブラリの<a href="https://typst.app/universe/package/cetz/">CeTZ</a>で記述します。LaTeXでいうTikZにあたるもので、座標を指定してノードや矢印、数式を組み合わせ、ベクター画像として図を組み上げられます。</p>
+
+<p>実際に、JSAI2026の発表スライドでは、提案手法の図をCeTZで作図しました。次の4枚はその例です。ノードや矢印、数式で構成された、かなり「カチッとした図」が得られているのが見て取れると思います。</p>
+
+<table style="width: 100%; border: none; border-collapse: collapse;">
+<tr>
+<td style="width: 50%; border: none; padding: 4px;"><iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/065581c9c7874c7f9e8eeafc0a2b373a?slide=12" title="適応的スパムフィルタのための軽量な類似メッセージカウンタ / jsai2026-adaptive-spam-filter" allowfullscreen="true" allow="web-share" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"></iframe></td>
+<td style="width: 50%; border: none; padding: 4px;"><iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/065581c9c7874c7f9e8eeafc0a2b373a?slide=13" title="適応的スパムフィルタのための軽量な類似メッセージカウンタ / jsai2026-adaptive-spam-filter" allowfullscreen="true" allow="web-share" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"></iframe></td>
+</tr>
+<tr>
+<td style="width: 50%; border: none; padding: 4px;"><iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/065581c9c7874c7f9e8eeafc0a2b373a?slide=14" title="適応的スパムフィルタのための軽量な類似メッセージカウンタ / jsai2026-adaptive-spam-filter" allowfullscreen="true" allow="web-share" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"></iframe></td>
+<td style="width: 50%; border: none; padding: 4px;"><iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/065581c9c7874c7f9e8eeafc0a2b373a?slide=15" title="適応的スパムフィルタのための軽量な類似メッセージカウンタ / jsai2026-adaptive-spam-filter" allowfullscreen="true" allow="web-share" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"></iframe></td>
+</tr>
+</table>
+
+<p>以下は、ノードと矢印で単純なフローを描く例です。</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>#import "@preview/cetz:0.4.2"
+
+#let flow = cetz.canvas(length: 1pt, {
+  import cetz.draw: *
+
+  let dark = rgb("#38393c")
+  let lbl(s) = text(font: ("Avenir Next", "Hiragino Sans"),
+                    weight: "semibold", size: 28pt, fill: dark, s)
+
+  // 中心座標・参照名・ラベルを受け取ってノードを描くヘルパー
+  let node(pos, name, label, w: 200, h: 90) = {
+    rect((pos.at(0) - w / 2, pos.at(1) - h / 2),
+         (pos.at(0) + w / 2, pos.at(1) + h / 2),
+         name: name, stroke: 2.5pt + dark, fill: white)
+    content(pos, lbl(label))
+  }
+
+  let arrow = (mark: (end: "stealth", fill: dark), stroke: 2.5pt + dark)
+
+  node((0, 0), "msg", [Message])
+  node((300, 0), "hash", [LSH / dHash])
+  node((620, 0), "cms", [SW-CMS], w: 240)
+
+  line("msg", "hash", ..arrow)
+  line("hash", "cms", ..arrow)
+})
+</code></pre></div>
+<p>このように、図を変数として定義しておけば、スライド中に<code>#flow</code>と書くだけで配置できます。ノードの座標やラベルがソースに残るため、後から「この経路を1本足したい」「ラベルを変えたい」といった修正も差分で追え、エージェントにも指示しやすくなります。数式も<code>$b_i = cases(1 &amp; "if" bold(x) dot bold(h)_i &gt; 0, 0 &amp; "otherwise")$</code>のように、<code>$ $</code>で囲む簡潔な記法で図中にそのまま埋め込めます。</p>
+
+<h3 id="section-3">4. コンパイルする</h3>
+
+<p>LaTeXの<code>latexmk</code>にあたるものは不要で、<code>typst</code>コマンドで直接ビルドします。テンプレートやアセットを参照するため、<code>--root</code>でルートディレクトリを指定します。</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="c"># PDFを生成</span>
+typst compile <span class="nt">--root</span> <span class="nb">.</span> path/to/main.typ
+</code></pre></div>
+<p>コンパイルが高速なので、書いては仕上がりを確認するという試行錯誤のサイクルを短く回せます。</p>
+
+<p>なお、Typstの出力はPDFなので、発表時にはプレゼンテーションツールを別途用意する必要があります。私は<a href="https://github.com/Cimbali/pympress">pympress</a>を使っています。</p>
+
+<h3 id="section-4">ポスターの作成</h3>
+
+<p>同じTypstの枠組みで、研究所紹介のA0ポスターも作成しました。ポスター向けには<a href="https://typst.app/universe/package/peace-of-posters/">peace-of-posters</a>というテンプレートがあり、カラムやセクションのボックスを組み合わせてレイアウトを構成できます。スライドと配色・ロゴを揃えたテーマを定義し、<code>grid</code>で段組みを組み、CeTZや既存の図を配置することで、A0サイズの大判ポスターまで一貫した流れで仕上げられました。</p>
+
+<p style="text-align: center;"><img src="/images/pepaken_poster_2026.png" alt="ペパ研ポスター（JSAI2026）" style="width: 100%; max-width: 480px; height: auto;" /></p>
+
+<h2 id="section-5">まとめ</h2>
+
+<p>コーディングエージェントの普及により、スライドやポスターのソースを「人間が読みやすいか」だけでなく「テキストとして資産化でき、エージェントと協働しやすいか」という観点で捉え直す必要が出てきました。Typstは、</p>
+
+<ul>
+  <li>テキストベースでGit管理・エージェント協働に向く</li>
+  <li>固定キャンバスに対する高いレイアウト表現力を持つ</li>
+  <li>図や数式をソースと統合して記述できる</li>
+  <li>高速なビルドで試行錯誤が速い</li>
+</ul>
+
+<p>という、研究・技術発表の要件によく合うツールでした。研究所では共通テンプレートを整備したことで、スライドからポスターまでを、統一感を保ったまま作成できています。これまでLaTeXで論文やスライドを書いてきた方はもちろん、これからエージェントとともに発表資料を作成していく方にとっても、Typstは有力な選択肢になると考えています。</p>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2026/06/15/typst/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          三宅悠介
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員、博士（情報科学）、シニア・プリンシパルエンジニア
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2026-06-15" class="article__time">2026-06-15</time></div>
+          <a href="/article/2026/06/15/typst/">Typstのすゝめ：コーディングエージェント時代のスライド・ポスター作成</a>
+        </li>
+        <li>
+          <div><time datetime="2026-06-09" class="article__time">2026-06-09</time></div>
+          <a href="/article/2026/06/09/jsai2026/">第40回人工知能学会全国大会（JSAI2026）で適応的スパムフィルタのための軽量な類似メッセージカウンタについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2026-04-02" class="article__time">2026-04-02</time></div>
+          <a href="/article/2026/04/02/inside-turboquant/">TurboQuantの気持ち</a>
+        </li>
+        <li>
+          <div><time datetime="2025-10-23" class="article__time">2025-10-23</time></div>
+          <a href="/article/2025/10/23/vector-attr/">ベクトル検索のフィルタを用いた機械学習モデルとの統合</a>
+        </li>
+        <li>
+          <div><time datetime="2025-09-04" class="article__time">2025-09-04</time></div>
+          <a href="/article/2025/09/04/fit2025/">第24回情報科学技術フォーラム（FIT2025）のトップコンファレンスセッションにてCOMPSAC 2024で採択された論文について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-08-18" class="article__time">2025-08-18</time></div>
+          <a href="/article/2025/08/18/gpt-oss/">gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較</a>
+        </li>
+        <li>
+          <div><time datetime="2025-07-28" class="article__time">2025-07-28</time></div>
+          <a href="/article/2025/07/28/iot70/">情報処理学会第70回インターネットと運用技術研究会で不確実性下における目的と手段の統合的探索に向けた連続腕バンディットの応用について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-06-27" class="article__time">2025-06-27</time></div>
+          <a href="/article/2025/06/27/dicomo2025/">マルチメディア、分散、協調とモバイル(DICOMO2025)シンポジウムの招待講演として、なめらかなシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-03-25" class="article__time">2025-03-25</time></div>
+          <a href="/article/2025/03/25/inside-vector-search/">ベクトル検索システムの勉強会を開催しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+<div class="footer" id="__pepabo-footer-container">
+</div>
+
+<script type="text/javascript" charset="UTF-8" src="https://asset.pepabo.com/pepabo-footer/pepabo-footer.js" async="async"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

@@ -1,0 +1,468 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>ベクトル検索のフィルタを用いた機械学習モデルとの統合 - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所 研究員／プリンシパルエンジニアの三宅（@monochromegane）です。
+本記事では、ベクトル検索システムに機械学習モデルで算出した指標を組み合わせることで、検索結果を柔軟に制御し、サービス指標に沿った最適化を実現す..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="ベクトル検索のフィルタを用いた機械学習モデルとの統合 - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所 研究員／プリンシパルエンジニアの三宅（@monochromegane）です。
+本記事では、ベクトル検索システムに機械学習モデルで算出した指標を組み合わせることで、検索結果を柔軟に制御し、サービス指標に沿った最適化を実現す..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-6f071514.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.svg" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2025/10/23/vector-attr/">ベクトル検索のフィルタを用いた機械学習モデルとの統合</a>
+  </h1>
+
+  <time datetime="2025-10-23" class="article__time">
+    2025-10-23
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。
+本記事では、ベクトル検索システムに機械学習モデルで算出した指標を組み合わせることで、検索結果を柔軟に制御し、サービス指標に沿った最適化を実現するアプローチについて紹介します。</p>
+
+<h2 id="section">はじめに</h2>
+
+<p>情報システムとAIの統合において、互いの知識を効率的に引き出すための、ベクトル検索システムの重要性が増しています。ベクトル検索は、画像やテキストなどの多様なデータを高次元の埋め込みベクトル空間に写像し、その距離に基づいて類似性を評価することで、高速かつ柔軟な検索を実現します。近年では、汎用的で商用利用可能な学習済みモデルが提供されていることも後押しとなり、こうした技術はさまざまなオンラインサービスやアプリケーションで広く導入されています。</p>
+
+<p>一方で、これらの検索機能をサービス価値に直結させるためには、単に「見た目や意味が似ている」だけでなく、サービスのビジネス指標や利用目的に沿った検索結果を得られることが望まれます。例えば、サービス規約との照合や、サービス固有の重み付けを行いたい画風の検出などが考えられます。しかし、学習済みモデルでは、このような最適化に十分対応できない場合があります。</p>
+
+<p>このような最適化を実現するためには、サービス固有の判断基準を取り込んだ埋め込みモデルや再ランキングモデルの学習が考えられます。ただし、そのためには適切な学習データの収集や開発コストの確保が必要であり、特に開発初期段階では現実的でない場合も多いかと思います。また、設計段階で定めた基準が本当にビジネス指標に有用かどうかは、適用後にしか確かめられないという課題もあります。</p>
+
+<p>そこで本記事では、既存の埋め込みベクトルを維持したまま、別軸の機械学習モデルによって算出される指標を導入し、検索結果をフィルタリングするというアプローチを紹介します。この方法では、埋め込みベクトルに対して外部のモデルで得られたスコアやカテゴリラベルを付与し、必要な条件に基づいてサブセットを抽出します。単一の指標を対象とするため、軽量かつ迅速な機械学習モデルの開発が可能であり、既存の検索基盤と容易に統合できる点が特徴です。さらに、このような方式によって有用性が確認された指標を埋め込みモデルの開発へとフィードバックすることで、試行錯誤の無駄を減らし、効率的な運用サイクルを実現できます。</p>
+
+<p>本記事では、このような構想のもと、<a href="https://cloud.google.com/">Google Cloud</a>上で実際に構築したシステムの概要と、その設計上の考慮点について解説します。</p>
+
+<h2 id="section-1">システム構成</h2>
+
+<p>本システムでは、ベクトル検索システムとしてGoogle Cloud上に構築した<a href="https://cloud.google.com/vertex-ai/docs/vector-search/overview">Vertex AI Vector Search</a>を用いています。ベクトルインデックスの各データポイントに対してベクトル属性を付与することで、検索結果のフィルタリングを実現しています。このベクトル属性を付与するために、同じくGoogle Cloudの<a href="https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform">Vertex AIプラットフォーム</a>上に登録した推論用モデルを活用し、バッチ推論の仕組みを用いて属性値を生成します。</p>
+
+<h2 id="section-2">推論用モデル</h2>
+
+<p>Vertex AIでは、<a href="https://cloud.google.com/vertex-ai/docs/predictions/overview">独自に構築した推論用モデルを構成</a>することができます。推論用モデルには、機械学習フレームワークが指定されたビルド済みコンテナと、独自に構築するカスタムコンテナの2種類が利用可能です。本システムでは、迅速な評価検証を目的として、自由度の高いカスタムコンテナを採用しています。</p>
+
+<p>推論用モデルを構築するには、次の 2 種類のコンテナイメージが必要です。</p>
+
+<ol>
+  <li><strong>学習用コンテナ</strong>：機械学習モデルのトレーニングおよびモデル重み（モデルアーティファクト）のエクスポートを行う。</li>
+  <li><strong>推論用コンテナ</strong>：学習で得られたモデルアーティファクトをロードし、推論用の HTTP サーバーを起動する。</li>
+</ol>
+
+<p>Pythonの<code>google.cloud.aiplatform</code>パッケージを使用する場合、工程1は<code>aiplatform.CustomJob(opts).run()</code>、工程2は<code>aiplatform.Model.upload(opts)</code>のように実行します。</p>
+
+<p>工程2の実行後Vertex AIのModel Registryに推論用モデルとして登録されます。登録されたモデルは、後述するように、エンドポイントと紐付けてオンライン推論に利用することも、バッチ推論に利用することもでき、用途に応じた柔軟な運用が可能です。</p>
+
+<h3 id="section-3">実装時の注意点</h3>
+
+<p>推論モデルの実装にあたっては、以下の点に注意が必要です。バッチ推論時には、明示的に予測およびヘルスチェック用のパスを Model Registry 登録時のコンテナ仕様として設定する必要があります。オンライン推論では、これらのパスが環境変数 <code>AIP_PREDICT_ROUTE</code> および <code>AIP_HEALTH_ROUTE</code> により自動的に設定されますが、バッチ推論の場合はこれらを明示的に指定しなければなりません。</p>
+
+<p>これは以下のように指定できます。</p>
+
+<div class="highlight"><pre class="highlight python"><code><span class="n">aiplatform</span><span class="p">.</span><span class="n">Model</span><span class="p">.</span><span class="n">upload</span><span class="p">(</span>
+    <span class="c1"># ...
+</span>    <span class="n">serving_container_predict_route</span><span class="o">=</span><span class="s">"/predict"</span><span class="p">,</span>
+    <span class="n">serving_container_health_route</span><span class="o">=</span><span class="s">"/health"</span><span class="p">,</span>
+    <span class="c1"># ...
+</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="vertex-ai">Vertex AIのバッチ推論</h2>
+
+<p>Vertex AIでは、構築した機械学習モデルの推論方式として、オンライン推論とバッチ推論のいずれかを選択できます。本システムでは、インデックス対象となるデータポイントがあらかじめ定まっており、かつデータ数が多いため、推論にはバッチ推論を採用しています。</p>
+
+<p>バッチ推論では、前節で説明したVertex AIのModel Registryに登録済みの機械学習モデルの推論用コンテナイメージを利用します。すなわち、バッチ推論もHTTP経由のAPI ベースで処理されます。ただし、バッチ推論では複数の推論API サーバーが並列に起動し、各サーバーに対してバッチサイズで指定した件数単位でリクエストが割り当てられるため、単純にオンライン推論を繰り返す場合に比べて処理時間を短縮できます。</p>
+
+<p>特に有用だと感じているのは、推論の入出力先として BigQuery のテーブルを直接指定できる点です。データ基盤としてBigQueryを採用している場合、機械学習モデルに必要な特徴量をシームレスに入力として集計でき、また推論結果を後続の分析処理で容易に活用できるという利点があります。</p>
+
+<h3 id="section-4">実装時の注意点</h3>
+
+<p>バッチ推論の実装にあたっては、推論APIのリクエスト形式との整合性を保つために、<code>instanceConfig</code>の仕様を正しく把握しておく必要があります。オンライン推論のようにクライアント側でリクエスト形式を制御できる場合と異なり、バッチ推論ではBigQueryテーブルに格納されたフィールドから自動的にリクエストが組み立てられます。そのため、推論用コンテナの入力形式をこの自動生成に合わせてしまうと、オンライン推論時に使いづらい設計となることがあります。</p>
+
+<p>バッチ推論では、この挙動を制御するために、<code>instanceConfig</code> で入力テーブルとリクエスト形式の対応を定義します。例えば、以下のようなリクエスト形式を想定している場合を考えます。</p>
+
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">Instance</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">features</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+</code></pre></div>
+<p>入力テーブルのスキーマが <code>id (INTEGER)</code>、<code>features (FLOAT, REPEATED)</code> のような場合、<code>instanceConfig</code>は次のように設定します。</p>
+
+<div class="highlight"><pre class="highlight json"><code><span class="nl">"instanceConfig"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"includedFields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"id"</span><span class="p">,</span><span class="w"> </span><span class="s2">"features"</span><span class="p">],</span><span class="w">
+    </span><span class="nl">"instanceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>ここで<code>instanceType</code>を<code>"object"</code>に設定することで、リクエストがキーと値のペア（オブジェクト形式）として組み立てられます。デフォルトでは<code>"array"</code>が使用されるため、<code>id</code>と<code>features</code>が<code>[id, [f1, f2, ...]]</code>のような配列形式で送信されてしまいます。</p>
+
+<p>詳細は、<a href="https://cloud.google.com/vertex-ai/docs/predictions/get-batch-predictions?hl=ja">公式ドキュメント</a>をご参照ください。</p>
+
+<h2 id="vertex-ai-vector-search">Vertex AI Vector Searchのベクトル属性によるフィルタ機能</h2>
+
+<p>Vertex AI Vector Searchには、<a href="https://cloud.google.com/vertex-ai/docs/vector-search/filtering">ベクトル属性によるフィルタ機能</a>が提供されています。これは、インデックス構築時にデータポイントごとに付与した属性を対象に、検索結果を絞り込むための機能です。属性にはトークン（文字列）と数値の 2 種類があり、名前空間単位で管理することができます。</p>
+
+<p>例えば、あるデータポイントに対して、トークン型のベクトル属性として<code>color</code>という名前空間に<code>red</code>と<code>blue</code>を付与し、数値型のベクトル属性として<code>size</code>という名前空間に整数値<code>3</code>を付与することが可能です。検索時には、<code>color=red AND size&lt;2 </code>のような条件でフィルタリングを行うことができます（詳細なクエリ指定については公式ドキュメントを参照してください）。</p>
+
+<p>本システムでは、システム構成で示したとおり、各機械学習モデルの予測指標値をベクトル属性として付与することで、独立した機械学習モデルの迅速な開発と、ベクトル検索との柔軟な統合を実現しています。</p>
+
+<h3 id="section-5">実装時の注意点</h3>
+
+<p>注意が必要なのは、数値型のベクトル属性をCSVで指定する際の記述方法です。公式ドキュメントの例では、ベクトルデータに続けて<code>ratio=0.1f</code>のように記されていますが、正しくは<code>#ratio=0.1f</code>のように、名前空間の先頭に<code>#</code>を付ける必要があります。<code>#</code>を付けない場合はトークン型として扱われ、<code>0.1f</code>が文字列として解釈されてしまいます。</p>
+
+<p>本記事執筆時点（2025年10月23日）では、公式ドキュメント内の説明文には<code>#</code>の記載があるものの、具体例には反映されていない箇所が混在しています（筆者からフィードバックを送付済みです）。</p>
+
+<h2 id="section-6">おわりに</h2>
+
+<p>本記事では、Vertex AI Vector Searchにおいて、ベクトル属性を活用し、機械学習モデルによって算出した指標を検索結果のフィルタリングに利用する仕組みを紹介しました。このアプローチにより、既存のベクトル検索基盤に対して軽量かつ迅速にモデルを統合でき、検索結果のサービス指標に沿った柔軟な最適化が可能となります。</p>
+
+<p>さらに、このようなモデルを実運用環境に導入し、効果を測定できることは、個別のモデル改善にとどまらず、より汎用的な「意味的レイヤ（semantic layer）」の開発促進にもつながります。意味的レイヤとは、<a href="https://dl.acm.org/doi/abs/10.1145/3292500.3330744">Bernardi ら（2019）によってオンライン旅行代理店の機械学習運用における概念</a>として示されたものであり、機械学習モデルとアプリケーションの開発評価において、プロダクト開発に関わるさまざまな人々が共通に理解できる概念をモデルとして表現し、それを複数の機能やチームで再利用可能にする構造を指します。本システムの運用を通じてこの層を整備することで、機械学習の成果を単一のユースケースに閉じず、サービス全体に知識として還流させる基盤を築くことにつなげていきたいと考えています。</p>
+
+<p>ペパボ研究所では、AI体験の実現に向けて「<a href="https://rand.pepabo.com/">なめらかなシステム</a>」というビジョンのもと研究開発を進めています。本記事や関連する取り組みに興味を持たれた方は、ぜひお声がけください。</p>
+
+<ul>
+  <li><a href="https://rand.pepabo.com/article/2024/03/28/ai/">AIを前提とした体験の実現に向けての勉強会を開催しました</a></li>
+  <li><a href="https://rand.pepabo.com/article/2025/03/25/inside-vector-search/">ベクトル検索システムの勉強会を開催しました</a></li>
+</ul>
+
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2025/10/23/vector-attr/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          三宅悠介
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員、博士（情報科学）、プリンシパルエンジニア
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2026-06-15" class="article__time">2026-06-15</time></div>
+          <a href="/article/2026/06/15/typst/">Typstのすゝめ：コーディングエージェント時代のスライド・ポスター作成</a>
+        </li>
+        <li>
+          <div><time datetime="2026-06-09" class="article__time">2026-06-09</time></div>
+          <a href="/article/2026/06/09/jsai2026/">第40回人工知能学会全国大会（JSAI2026）で適応的スパムフィルタのための軽量な類似メッセージカウンタについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2026-04-02" class="article__time">2026-04-02</time></div>
+          <a href="/article/2026/04/02/inside-turboquant/">TurboQuantの気持ち</a>
+        </li>
+        <li>
+          <div><time datetime="2025-10-23" class="article__time">2025-10-23</time></div>
+          <a href="/article/2025/10/23/vector-attr/">ベクトル検索のフィルタを用いた機械学習モデルとの統合</a>
+        </li>
+        <li>
+          <div><time datetime="2025-09-04" class="article__time">2025-09-04</time></div>
+          <a href="/article/2025/09/04/fit2025/">第24回情報科学技術フォーラム（FIT2025）のトップコンファレンスセッションにてCOMPSAC 2024で採択された論文について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-08-18" class="article__time">2025-08-18</time></div>
+          <a href="/article/2025/08/18/gpt-oss/">gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較</a>
+        </li>
+        <li>
+          <div><time datetime="2025-07-28" class="article__time">2025-07-28</time></div>
+          <a href="/article/2025/07/28/iot70/">情報処理学会第70回インターネットと運用技術研究会で不確実性下における目的と手段の統合的探索に向けた連続腕バンディットの応用について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-06-27" class="article__time">2025-06-27</time></div>
+          <a href="/article/2025/06/27/dicomo2025/">マルチメディア、分散、協調とモバイル(DICOMO2025)シンポジウムの招待講演として、なめらかなシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-03-25" class="article__time">2025-03-25</time></div>
+          <a href="/article/2025/03/25/inside-vector-search/">ベクトル検索システムの勉強会を開催しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+<div class="footer" id="__pepabo-footer-container">
+</div>
+
+<script type="text/javascript" charset="UTF-8" src="https://asset.pepabo.com/pepabo-footer/pepabo-footer.js" async="async"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>

@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ペパボ研究所</title>
+  <id>http://rand.pepabo.com/article</id>
+  <link href="http://rand.pepabo.com/article"/>
+  <link href="http://rand.pepabo.com/article/feed.xml" rel="self"/>
+  <updated>2026-06-15T00:00:00+09:00</updated>
+  <author>
+    <name>GMO Pepabo, Inc.</name>
+  </author>
+  <entry>
+    <title>Typstのすゝめ：コーディングエージェント時代のスライド・ポスター作成</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2026/06/15/typst/"/>
+    <id>http://rand.pepabo.com/article/2026/06/15/typst/</id>
+    <published>2026-06-15T00:00:00+09:00</published>
+    <updated>2026-08-31T03:55:55+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（&lt;a href="https://x.com/monochromegane"&gt;@monochromegane&lt;/a&gt;）です。&lt;/p&gt;
+
+&lt;p&gt;先日の&lt;a href="/article/2026/06/09/jsai2026/"&gt;第40回人工知能学会全国大会（JSAI2026）での発表&lt;/a&gt;では、発表スライドと、研究所紹介のポスターを、いずれも&lt;a href="https://typst.app/"&gt;Typst&lt;/a&gt;で作成しました。研究所共通のスライドテンプレートを一度作っておき、それを使い回してスライドを書いたり、同じ枠組みでA0サイズのポスターまで仕上げられたりと、想像以上に快適だったので、その経緯と使い方を紹介します。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;背景と課題&lt;/h2&gt;
+
+&lt;p&gt;これまで、ペパボ研究所では発表スライドを、従来のスライド作成ツール（Keynote、Google Slidesなど）で作成してきました。これらのツールに対応した研究所のテンプレートもあり、タイポグラフィやページレイアウトが統一された整ったスライドを作成できていました。一方で、要素の配置やテキストの入力は手作業であり、どうしても時間がかかります。また、コーディングエージェントと組み合わせるうえでも、GUI操作を前提とするこれらのツールより、ソースをテキストとして持てる形式が望ましくなってきました。&lt;/p&gt;
+
+&lt;p&gt;ソースをテキストで持てるという点では、&lt;a href="https://marp.app/"&gt;Marp&lt;/a&gt;のようなMarkdownベースのツールが選択肢になります。エージェントとも相性がよい一方で、スライドやポスターではレイアウトの自由度が重要になります。Markdownは上から下へ流れるリニアな記法であり、二次元の版面へ要素を自由に配置するには表現力が足りません。足りない分はHTMLやCSSで補えますが、CSSはもともと可変幅のWebページ向けのスタイル言語であり、固定サイズの版面に絶対座標で配置する用途とは思想が異なるのではないかと考えています。そのため、意図した通りにページ内のレイアウトを固定することが難しくなります。加えて研究発表では、グラフィカルモデルや処理フロー図のようなカチッとした図や数式が欠かせません。また、再現性の面では、これらの図や数式もソースをテキスト（コード）として残せると嬉しいところです。&lt;/p&gt;
+
+&lt;h2 id="typst"&gt;組版エンジンTypst&lt;/h2&gt;
+
+&lt;p&gt;これらの課題に応えるものとして採用したのが&lt;a href="https://typst.app/"&gt;Typst&lt;/a&gt;です。&lt;/p&gt;
+
+&lt;p&gt;Typstは近年注目を集めている組版システムで、「LaTeX並みの表現力を、より学びやすく」を掲げています。&lt;code&gt;= 見出し&lt;/code&gt;や&lt;code&gt;*強調*&lt;/code&gt;といった軽量なマークアップ記法（Markdownに近い書き味）を基本としつつ、&lt;code&gt;#&lt;/code&gt;から変数や関数を扱えるスクリプト機能を備え、高速な組版エンジンを内蔵しているのが特徴です。固定サイズのキャンバスへ要素を絶対座標で配置でき、意図した通りにレイアウトを作り込めます。スクリプトによってリニア構造にも縛られず、数式も第一級の対象として、ソースと統合して記述できます。ソースはプレーンテキストであるため、Git管理もエージェントとの協働も自然に行えます。&lt;/p&gt;
+
+&lt;p&gt;記法はLaTeXほど難読ではなく、比較的読みやすいものです。仮に多少読みにくくても、エージェントが下書きを担う現在では、ソースの一次的な読み手は必ずしも人間だけではありません。素朴な読みやすさを多少手放してでも、表現力と引き換えにする価値は十分にあります。スライド向けのテーマや作図ライブラリもパッケージとして整備されているため、テキストのみでスライドからポスターまでを作成できます。&lt;/p&gt;
+
+&lt;p&gt;なお、図についても、後述するCeTZパッケージを使えばコードとして記述できます。&lt;/p&gt;
+
+&lt;h2 id="typst-1"&gt;Typstによるスライド作成&lt;/h2&gt;
+
+&lt;p&gt;ここからは、実際にJSAI2026の発表資料を作成した流れを紹介します。ペパボ研究所では、&lt;a href="https://typst.app/universe/package/touying/"&gt;touying&lt;/a&gt;というスライド向けパッケージをベースに、配色・ロゴ・フォントを研究所仕様に揃えた共通テンプレート&lt;code&gt;pepaken.typ&lt;/code&gt;を用意しました。これを&lt;code&gt;import&lt;/code&gt;するだけで、表紙・自己紹介・目次・章区切り・締めページといったスライドが、統一されたスタイルで作成できます。&lt;/p&gt;
+
+&lt;p&gt;なお、以下ではコード例をいくつか示しますが、構文を逐一覚える必要はありません。前述の通り、実際の記述はエージェントに任せられるため、スライド作成の指示者としては「Typstでどのような構成や機能が可能か」を把握しておけば、協働のうえでは十分だと考えています。&lt;/p&gt;
+
+&lt;h3 id="section-1"&gt;1. テンプレートを作成する&lt;/h3&gt;
+
+&lt;p&gt;テンプレート&lt;code&gt;pepaken.typ&lt;/code&gt;は、touyingの組み込みテーマ&lt;code&gt;metropolis&lt;/code&gt;をラップし、配色・フォント・ロゴ・キャンバスサイズを研究所仕様の既定値で上書きしたものです。次は、その中核部分の抜粋です（touyingや後述するCeTZ、peace-of-posters等のパッケージやテンプレートは&lt;a href="https://typst.app/universe/"&gt;Typst Universe&lt;/a&gt;で公開されており、&lt;code&gt;#import&lt;/code&gt;にバージョンを指定しておけば初回ビルド時に自動で取得されます）。&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;#import "@preview/touying:0.7.3": *
+#import themes.metropolis: *
+
+// ペパ研の配色（ロゴ由来の青とチャコール）
+#let pepaken-colors = (
+  primary: rgb("#1f7acc"),          // 強調・バー・著者名など
+  neutral-darkest: rgb("#38393c"),  // 本文テキスト
+)
+
+// 欧文 Avenir Next ＋ 和文 Hiragino Sans
+#let pepaken-fonts = (main: ("Avenir Next", "Hiragino Sans"))
+
+// metropolis テーマをペパ研仕様にラップ
+#let pepaken-theme(aspect-ratio: "16-9", ..args, body) = {
+  show: metropolis-theme.with(
+    aspect-ratio: aspect-ratio,
+    config-colors(..pepaken-colors),
+    config-info(logo: image("assets/regular_rgb.svg")),
+    config-page(width: 1920pt, height: 1080pt),  // 1920×1080pt の固定キャンバス
+    ..args,
+  )
+  set text(font: pepaken-fonts.main, size: 22pt)
+  body
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;表紙や箇条書きなど、用途ごとのスライドも、touyingの関数を上書きしたり、独自の関数を定義したりして、あらかじめ用意しておきます。各ページの要素は「左上角のx/y座標＋幅・高さ（pt単位）」で絶対配置しており、1920×1080ptの固定キャンバスを前提にしているため、デザインツールと同じ感覚でピクセル単位の微調整ができます。一度作っておけば、以降はこのテンプレートを&lt;code&gt;import&lt;/code&gt;するだけで済みます。&lt;/p&gt;
+
+&lt;h3 id="section-2"&gt;2. テンプレートを適用してスライドを書く&lt;/h3&gt;
+
+&lt;p&gt;研究所テンプレートを&lt;code&gt;import&lt;/code&gt;し、&lt;code&gt;pepaken-theme&lt;/code&gt;を適用したうえで、発表情報を&lt;code&gt;config-info&lt;/code&gt;で渡します。あとは、用意された関数や見出し記法でページを並べていくだけです。&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;#import "../templates/pepaken.typ": *
+
+#show: pepaken-theme.with(
+  aspect-ratio: "16-9",
+  config-info(
+    title: [適応的スパムフィルタのための \ 軽量な類似メッセージカウンタ],
+    author: [三宅悠介 / Pepabo R&amp;amp;D Institute, GMO Pepabo, Inc.],
+    date: datetime(year: 2026, month: 6, day: 9),
+    event: [第40回人工知能学会全国大会（JSAI2026）],
+  ),
+)
+
+#title-slide()                       // 表紙
+
+#toc-slide([はじめに], [関連研究], [提案手法], [評価], [おわりに])  // 目次
+
+= はじめに                            // `= 見出し` は青背景の章区切りページになる
+
+#bullet-slide(                       // 箇条書きのコンテンツページ
+  title: [本研究のアプローチ],
+  [メッセージの類似性と出現頻度に着目したアプローチが研究されている],
+  [既存手法には、マルチモーダル対応や低レイテンシ・低コスト化に課題が残る],
+  [これらの要件を満たす軽量な類似メッセージカウンタを提案],
+)
+
+#closing-slide()                     // 締めページ
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;特徴的なのは、&lt;code&gt;= 見出し&lt;/code&gt;と書くだけで章区切りページが自動採番付きで生成されたり、先に定義した関数に項目を渡すだけで配色・行間・マーカーが揃ったリストになったりと、デザインの統一がテンプレート側で完結している点です。ソースは単なるテキストであるため、エージェントに「この節を3項目の箇条書きスライドにして」と依頼することも容易です。&lt;/p&gt;
+
+&lt;h3 id="cetz"&gt;3. CeTZで図を描く&lt;/h3&gt;
+
+&lt;p&gt;研究発表で要となる図は、作図ライブラリの&lt;a href="https://typst.app/universe/package/cetz/"&gt;CeTZ&lt;/a&gt;で記述します。LaTeXでいうTikZにあたるもので、座標を指定してノードや矢印、数式を組み合わせ、ベクター画像として図を組み上げられます。&lt;/p&gt;
+
+&lt;p&gt;実際に、JSAI2026の発表スライドでは、提案手法の図をCeTZで作図しました。次の4枚はその例です。ノードや矢印、数式で構成された、かなり「カチッとした図」が得られているのが見て取れると思います。&lt;/p&gt;
+
+&lt;table style="width: 100%; border: none; border-collapse: collapse;"&gt;
+&lt;tr&gt;
+&lt;td style="width: 50%; border: none; padding: 4px;"&gt;&lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/065581c9c7874c7f9e8eeafc0a2b373a?slide=12" title="適応的スパムフィルタのための軽量な類似メッセージカウンタ / jsai2026-adaptive-spam-filter" allowfullscreen="true" allow="web-share" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"&gt;&lt;/iframe&gt;&lt;/td&gt;
+&lt;td style="width: 50%; border: none; padding: 4px;"&gt;&lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/065581c9c7874c7f9e8eeafc0a2b373a?slide=13" title="適応的スパムフィルタのための軽量な類似メッセージカウンタ / jsai2026-adaptive-spam-filter" allowfullscreen="true" allow="web-share" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"&gt;&lt;/iframe&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="width: 50%; border: none; padding: 4px;"&gt;&lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/065581c9c7874c7f9e8eeafc0a2b373a?slide=14" title="適応的スパムフィルタのための軽量な類似メッセージカウンタ / jsai2026-adaptive-spam-filter" allowfullscreen="true" allow="web-share" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"&gt;&lt;/iframe&gt;&lt;/td&gt;
+&lt;td style="width: 50%; border: none; padding: 4px;"&gt;&lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/065581c9c7874c7f9e8eeafc0a2b373a?slide=15" title="適応的スパムフィルタのための軽量な類似メッセージカウンタ / jsai2026-adaptive-spam-filter" allowfullscreen="true" allow="web-share" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"&gt;&lt;/iframe&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;以下は、ノードと矢印で単純なフローを描く例です。&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;#import "@preview/cetz:0.4.2"
+
+#let flow = cetz.canvas(length: 1pt, {
+  import cetz.draw: *
+
+  let dark = rgb("#38393c")
+  let lbl(s) = text(font: ("Avenir Next", "Hiragino Sans"),
+                    weight: "semibold", size: 28pt, fill: dark, s)
+
+  // 中心座標・参照名・ラベルを受け取ってノードを描くヘルパー
+  let node(pos, name, label, w: 200, h: 90) = {
+    rect((pos.at(0) - w / 2, pos.at(1) - h / 2),
+         (pos.at(0) + w / 2, pos.at(1) + h / 2),
+         name: name, stroke: 2.5pt + dark, fill: white)
+    content(pos, lbl(label))
+  }
+
+  let arrow = (mark: (end: "stealth", fill: dark), stroke: 2.5pt + dark)
+
+  node((0, 0), "msg", [Message])
+  node((300, 0), "hash", [LSH / dHash])
+  node((620, 0), "cms", [SW-CMS], w: 240)
+
+  line("msg", "hash", ..arrow)
+  line("hash", "cms", ..arrow)
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;このように、図を変数として定義しておけば、スライド中に&lt;code&gt;#flow&lt;/code&gt;と書くだけで配置できます。ノードの座標やラベルがソースに残るため、後から「この経路を1本足したい」「ラベルを変えたい」といった修正も差分で追え、エージェントにも指示しやすくなります。数式も&lt;code&gt;$b_i = cases(1 &amp;amp; "if" bold(x) dot bold(h)_i &amp;gt; 0, 0 &amp;amp; "otherwise")$&lt;/code&gt;のように、&lt;code&gt;$ $&lt;/code&gt;で囲む簡潔な記法で図中にそのまま埋め込めます。&lt;/p&gt;
+
+&lt;h3 id="section-3"&gt;4. コンパイルする&lt;/h3&gt;
+
+&lt;p&gt;LaTeXの&lt;code&gt;latexmk&lt;/code&gt;にあたるものは不要で、&lt;code&gt;typst&lt;/code&gt;コマンドで直接ビルドします。テンプレートやアセットを参照するため、&lt;code&gt;--root&lt;/code&gt;でルートディレクトリを指定します。&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="c"&gt;# PDFを生成&lt;/span&gt;
+typst compile &lt;span class="nt"&gt;--root&lt;/span&gt; &lt;span class="nb"&gt;.&lt;/span&gt; path/to/main.typ
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;コンパイルが高速なので、書いては仕上がりを確認するという試行錯誤のサイクルを短く回せます。&lt;/p&gt;
+
+&lt;p&gt;なお、Typstの出力はPDFなので、発表時にはプレゼンテーションツールを別途用意する必要があります。私は&lt;a href="https://github.com/Cimbali/pympress"&gt;pympress&lt;/a&gt;を使っています。&lt;/p&gt;
+
+&lt;h3 id="section-4"&gt;ポスターの作成&lt;/h3&gt;
+
+&lt;p&gt;同じTypstの枠組みで、研究所紹介のA0ポスターも作成しました。ポスター向けには&lt;a href="https://typst.app/universe/package/peace-of-posters/"&gt;peace-of-posters&lt;/a&gt;というテンプレートがあり、カラムやセクションのボックスを組み合わせてレイアウトを構成できます。スライドと配色・ロゴを揃えたテーマを定義し、&lt;code&gt;grid&lt;/code&gt;で段組みを組み、CeTZや既存の図を配置することで、A0サイズの大判ポスターまで一貫した流れで仕上げられました。&lt;/p&gt;
+
+&lt;p style="text-align: center;"&gt;&lt;img src="/images/pepaken_poster_2026.png" alt="ペパ研ポスター（JSAI2026）" style="width: 100%; max-width: 480px; height: auto;" /&gt;&lt;/p&gt;
+
+&lt;h2 id="section-5"&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;コーディングエージェントの普及により、スライドやポスターのソースを「人間が読みやすいか」だけでなく「テキストとして資産化でき、エージェントと協働しやすいか」という観点で捉え直す必要が出てきました。Typstは、&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;テキストベースでGit管理・エージェント協働に向く&lt;/li&gt;
+  &lt;li&gt;固定キャンバスに対する高いレイアウト表現力を持つ&lt;/li&gt;
+  &lt;li&gt;図や数式をソースと統合して記述できる&lt;/li&gt;
+  &lt;li&gt;高速なビルドで試行錯誤が速い&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;という、研究・技術発表の要件によく合うツールでした。研究所では共通テンプレートを整備したことで、スライドからポスターまでを、統一感を保ったまま作成できています。これまでLaTeXで論文やスライドを書いてきた方はもちろん、これからエージェントとともに発表資料を作成していく方にとっても、Typstは有力な選択肢になると考えています。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>第40回人工知能学会全国大会（JSAI2026）で適応的スパムフィルタのための軽量な類似メッセージカウンタについて発表しました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2026/06/09/jsai2026/"/>
+    <id>http://rand.pepabo.com/article/2026/06/09/jsai2026/</id>
+    <published>2026-06-09T00:00:00+09:00</published>
+    <updated>2026-08-31T03:55:55+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（&lt;a href="https://x.com/monochromegane"&gt;@monochromegane&lt;/a&gt;）です。
+2026年6月9日に開催された、&lt;a href="https://www.ai-gakkai.or.jp/jsai2026/"&gt;第40回人工知能学会全国大会&lt;/a&gt;（JSAI2026）で、ペパボ研究所から&lt;a href="https://pub.confit.atlas.jp/ja/event/jsai2026/presentation/2L1-GS-10t-05"&gt;発表&lt;/a&gt;を行いましたので論文とスライドと共に紹介します。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;適応的スパムフィルタのための軽量な類似メッセージカウンタ&lt;/h2&gt;
+
+&lt;p&gt;本研究では、メッセージ機能を有する情報システムにおいて、スパム検知のための機械学習モデルの再学習・反映までの時間差を補う、軽量な類似メッセージカウンタを提案しました。機械学習モデルによるスパム検知は高精度な判定が可能である一方、新たなスパムパターンを検知してからデータ収集・再学習・本番反映までには一定の時間を要します。この時間差の間、システムは未知のスパムに対して脆弱な状態となります。とりわけ、アカウントを跨いで大量の類似メッセージが送信されるスパムキャンペーンでは、この課題が顕著になります。&lt;/p&gt;
+
+&lt;p&gt;そこで本研究では、システムを通過するメッセージの類似性と出現頻度に着目し、頻度変化に応じて判定を調整する適応的なスパムフィルタリングを実現しました。実運用に組み込むうえで、テキストと画像が混在するマルチモーダルなメッセージへの対応、そして検出処理自体がボトルネックとならないための低レイテンシ・低コスト化を要件として整理しています。&lt;/p&gt;
+
+&lt;p&gt;提案手法は、(1) 逐次的な類似性の判定、(2) 頻度変化に応じた判定の調整、(3) 時間経過への対処、の3つの構成要素からなります。テキストはTF-IDFによるベクトル化の後にランダム超平面に基づく局所感度ハッシュ法（LSH）でハッシュ値に変換し、画像は差分ハッシュ（dHash）で直接ハッシュ値に変換することで、軽量かつ逐次処理可能な類似性判定を行います。得られたハッシュ値は、時間窓を用いた近似頻度計算手法であるSliding Window Count-Min Sketch（SW-CMS）に入力し、固定サイズのメモリで類似メッセージの出現頻度を推定します。これにより、長期運用でパターン種類が増えてもメモリが際限なく増大せず、出現頻度が減ったパターンは自然に忘却される仕組みを備えています。&lt;/p&gt;
+
+&lt;p&gt;スパムキャンペーンを模擬したシミュレーション評価では、平均3〜4件の検出遅延でスパムの亜種を検出できることを確認しました。また、処理時間は1件あたり36〜42μs、メモリ使用量は4〜7MBの固定サイズで実現でき、既存のスパムフィルタに追加的な機構として組み込む際にも、処理遅延や運用コストへの影響を最小限に抑えられることを示しました。一方で、既知語彙の削除・置換や画像全体に及ぶノイズのように、ハッシュ値への影響が大きい編集に対してはマッチ率が低下するという制約も明らかになりました。&lt;/p&gt;
+
+&lt;p&gt;本研究は、機械学習モデルの再学習・反映までの時間差を補う軽量な仕組みとして、適応的なスパム対応の実現を目指すものです。今後は、軽量性を維持しつつ、多様な編集パターンに対してもより頑健な類似性判定を実現するハッシュ手法について研究を進めていきます。&lt;/p&gt;
+
+&lt;h3 id="section-1"&gt;論文&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="/papers/jsai2026-miyakey.pdf"&gt;三宅 悠介, 栗林 健太郎, 適応的スパムフィルタのための軽量な類似メッセージカウンタ, 2026年度 人工知能学会全国大会（第40回）, 2L1-GS-10t-05, pp.1-4, 2026年6月.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="section-2"&gt;発表資料&lt;/h3&gt;
+
+&lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/065581c9c7874c7f9e8eeafc0a2b373a" title="適応的スパムフィルタのための軽量な類似メッセージカウンタ / jsai2026-adaptive-spam-filter" allowfullscreen="true" allow="web-share" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"&gt;&lt;/iframe&gt;
+
+&lt;h2 id="section-3"&gt;発表を終えて&lt;/h2&gt;
+
+&lt;p&gt;今回は、私にとって初めての人工知能学会での発表となりました。会場には幅広い分野から多くの参加者が集まっており、これまで参加してきた研究会とはまた違った熱気と盛り上がりを肌で感じることができました。&lt;/p&gt;
+
+&lt;p&gt;発表後の質疑応答や、セッション後の議論を通じて、これまで接点のなかった分野の方々と新たに繋がりを持てたことも大きな収穫でした。普段とは異なる視点からのご意見やご質問をいただき、自身の研究を捉え直すきっかけとなると同時に、今後の研究の発展に向けた多くのヒントを得ることができました。&lt;/p&gt;
+
+&lt;p&gt;また、大会全体を通して、AIと人の協働や、AIの社会進出に向けた知能システムとしての未来像など、幅広い議論や研究に触れられたことも大きな収穫でした。&lt;/p&gt;
+
+&lt;p&gt;なお、本大会では当研究所の所長である栗林（&lt;a href="https://x.com/kentaro"&gt;@kentaro&lt;/a&gt;）も、GMOインターネットグループを代表してスポンサー講演「&lt;a href="https://pub.confit.atlas.jp/ja/event/jsai2026/presentation/1A1-PS-1-03"&gt;ロボットとともに働く — フィジカルAIが拓く未来へ&lt;/a&gt;」に登壇し、AIが物理世界へと進出する「フィジカルAI」への取り組みを紹介しました。&lt;/p&gt;
+
+&lt;p&gt;AIが物理世界へと進出していくこうした潮流も見据えながら、今後も、適応的なシステム運用の在り方にまで視野を広げ、研究を進めていきたいと考えています。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>TurboQuantの気持ち</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2026/04/02/inside-turboquant/"/>
+    <id>http://rand.pepabo.com/article/2026/04/02/inside-turboquant/</id>
+    <published>2026-04-02T00:00:00+09:00</published>
+    <updated>2026-08-31T03:55:55+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"&gt;&lt;/script&gt;
+
+&lt;p&gt;ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（&lt;a href="https://x.com/monochromegane"&gt;@monochromegane&lt;/a&gt;）です。
+本記事では、Googleから発表されたベクトル量子化手法 TurboQuant（&lt;a href="https://arxiv.org/abs/2504.19874"&gt;arxiv 2504.19874&lt;/a&gt;）について、ベクトル検索における量子化の観点から読み解いていきます。ベクトル検索の基礎については、以前開催した「&lt;a href="https://rand.pepabo.com/article/2025/03/25/inside-vector-search/"&gt;ベクトル検索システムの気持ち&lt;/a&gt;」で扱っていますので、興味のある方はそちらもご参照ください。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;はじめに&lt;/h2&gt;
+
+&lt;p&gt;ベクトル検索は、高次元ベクトル空間において、あるクエリベクトルに対して近いベクトル群を見つける近傍探索問題です。RAGを始めとする情報検索や推薦システムにおいて、ベクトル間の距離や内積に基づく類似度計算は中心的な役割を担っています。厳密な近傍探索として、KD-TreeやBall-Treeなどの空間分割に基づくインデックスがありますが、高次元空間では探索効率が急速に低下し、全探索と大差なくなってしまいます。そこで、近似近傍探索（Approximate Nearest Neighbor: ANN）のアプローチが広く用いられています。&lt;/p&gt;
+
+&lt;p&gt;ANNの代表的な手法として、ベクトルを圧縮して保持し、近似的な距離計算で高速に検索する量子化ベースの手法があります。素朴には各座標を独立に量子化するスカラー量子化が考えられますが、埋め込みベクトルの座標間には一般に依存関係があり、これを無視すると誤差が蓄積します。ベクトル量子化（Vector Quantization: VQ）は、ベクトル全体を一つの単位としてk-meansでクラスタリングし、最寄りのセントロイド（クラスタの代表値）で代表させることで、座標間の依存関係を保ったまま量子化を行います。しかし、VQの近似精度はクラスタ数に依存し、高次元空間を十分に表現するには多くのクラスタが必要であるため、コードブック（セントロイドの集合）のサイズが指数的に増大します。直積量子化（Product Quantization: PQ）は、ベクトルを複数の部分ベクトルに分割し、それぞれにk-meansを適用することで、この問題を緩和します。&lt;/p&gt;
+
+&lt;p&gt;しかし、PQにも課題があります。PQは部分ベクトルの境界で座標間の依存関係を無視しており、どの座標をまとめるかという分割単位は恣意的です。また、データの分布が事前にはわからないため、VQと同様にコードブックの構築にはデータを用いたオフラインでのk-means学習が必要です。もし、データに依存せず、かつ座標ごとに独立に量子化できる方法があれば理想的です。すなわち、全座標が同じ既知の分布に従うような変換を施し、その分布に対して最適なスカラー量子化器を一度設計すれば、全座標・全ベクトルに適用できます。&lt;/p&gt;
+
+&lt;p&gt;TurboQuantは、まさにこの理想を実現する方式の一つです。ランダム回転によって各座標を同一の既知の分布に従わせ、その分布に最適化されたセントロイドで量子化を行います。なお、TurboQuantはデータ非依存のオンライン量子化であるため、KVキャッシュの圧縮にも適用可能です。本記事ではベクトル検索への応用を中心に据えますが、手法の汎用性も念頭に置いて読み進めてください。&lt;/p&gt;
+
+&lt;h2 id="turboquant"&gt;TurboQuant&lt;/h2&gt;
+
+&lt;h3 id="section-1"&gt;「望ましい」ベクトルへの変換&lt;/h3&gt;
+
+&lt;p&gt;TurboQuantの出発点は、量子化に都合のよいベクトルへの変換です。&lt;/p&gt;
+
+&lt;p&gt;まず、元のベクトルをL2正規化して単位球面 \(\mathbb{S}^{d-1}\) 上に配置します。この正規化されたベクトルを \(\boldsymbol{x}\) とします。次に、ランダム直交行列 \(\Pi\) を用いて回転を施します。&lt;/p&gt;
+
+\[\boldsymbol{y} = \Pi \cdot \boldsymbol{x}\]
+
+&lt;p&gt;ここで \(\Pi\) は、各要素が独立に標準正規分布に従うランダム行列にQR分解を適用して生成します。この方法で得られる直交行列は、全ての方向を等しく扱う一様にランダムな回転を与えます。そのため、任意の固定単位ベクトル \(\boldsymbol{x}\) に対して \(\Pi \cdot \boldsymbol{x}\) は球面上の一様分布になり、元のベクトルがどの方向を向いていても、回転後の各座標は同じ分布に従います。&lt;/p&gt;
+
+&lt;p&gt;下図は、\(d=64\)において方向の異なる3つの入力ベクトルに対して、毎回新たに生成した同一の回転行列を3つのベクトルに適用する試行を10,000回繰り返し、回転後の座標1, 2, 64のヒストグラムを示したものです。入力ベクトルの方向によらず、いずれの座標も同一の分布（黒破線）に従っていることが確認できます。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2026-04-02-inside-turboquant/rotation_d64_combined_demo.png" alt="" /&gt;&lt;/p&gt;
+
+&lt;p&gt;厳密には、球面上の一様分布では座標間に \(x_1^2 + \cdots + x_d^2 = 1\) という制約があるため、座標は独立ではありません。しかし、高次元では各座標が全体の \(1/d\) の情報しか持たないため、他の座標への影響が無視できるほど小さくなります。TurboQuantでは、この高次元での「近似的な独立性」を仮定として採用し、座標ごとに独立にスカラー量子化を適用します。&lt;/p&gt;
+
+&lt;h3 id="section-2"&gt;各座標の分布&lt;/h3&gt;
+
+&lt;p&gt;前節で、回転後の各座標は同一の分布に従うことを確認しました。では、その分布はどのような形をしているのでしょうか。球面上に「一様に」分布する点の座標なのだから、各座標も一様に分布しそうに思えますが、必ずしもそうではありません。&lt;/p&gt;
+
+&lt;p&gt;論文のLemma 1によると、\(d\) 次元単位球面上に一様分布する \(\boldsymbol{x}\) の \(j\) 番目の座標 \(x_j\) は、以下の分布に従います。これは標準Beta分布（定義域 \([0,1]\)）を \([-1,1]\) にスケール・シフトしたもので、パラメータ \(\alpha = \beta = (d-1)/2\) の対称な分布です。&lt;/p&gt;
+
+\[f_X(x) = \frac{\Gamma(d/2)}{\sqrt{\pi}\,\Gamma((d-1)/2)} \left(1-x^2\right)^{(d-3)/2}, \quad x \in [-1, 1]\]
+
+&lt;p&gt;この分布がどのように導かれるか、概要を見ていきます。d=3（通常の球面）を例に考えます。\(\boldsymbol{x}\) が球面上に一様分布するとき、ある座標 \(x_1\) が 0.8 から 0.9 の間に入る確率はどう求められるでしょうか。球面上で \(x_1 \in [0.8, 0.9]\) に対応する領域は、球面を輪切りにした「帯」になります。この帯の面積を球面全体の面積で割れば確率を求めることができそうです。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2026-04-02-inside-turboquant/sphere_band_demo.png" style="max-width: 500px; display: block; margin: 0 auto;" /&gt;&lt;/p&gt;
+
+&lt;p&gt;では、帯の面積はどう決まるでしょうか。帯の面積は「断面の大きさ × 帯の幅」に分解できます。以下ではこの2つの要素を順に見ていきます。&lt;/p&gt;
+
+&lt;h4 id="section-3"&gt;断面の大きさ&lt;/h4&gt;
+
+&lt;p&gt;球面を \(x_j = x\) でスライスすると、残りの \(d-1\) 個の座標は \(x_1^2 + \cdots + x_{j-1}^2 + x_{j+1}^2 + \cdots + x_d^2 = 1 - x^2\) を満たします。これは半径 \(\sqrt{1-x^2}\) の球面です。例えば d=3 の球面を \(x_1 = x\) でスライスすると、残り2つの座標が成す断面は円になります。d=4 の場合は残り3つの座標が成す断面は球面になります。一般の \(d\) では断面の表面積は半径の \((d-2)\) 乗に比例するので、半径 \(\sqrt{1-x^2}\) を代入すると:&lt;/p&gt;
+
+\[\text{断面の大きさ} \propto \left(\sqrt{1-x^2}\right)^{d-2} = (1-x^2)^{(d-2)/2}\]
+
+&lt;p&gt;具体的に d=3（通常の球面）で考えると、断面は円なので大きさは半径に比例し、 \((1-x^2)^{(3-2)/2} = \sqrt{1-x^2}\) です。\(x_1 = 0\) なら \(\sqrt{1-0} = 1\)、\(x_1 = 0.8\) なら \(\sqrt{1-0.64} = 0.6\) となり、端に近いほど断面が小さくなります。
+&lt;img src="/images/2026-04-02-inside-turboquant/sphere_slice_demo.png" alt="球面のスライス断面: x₁の値による断面の大きさの変化" /&gt;&lt;/p&gt;
+
+&lt;h4 id="section-4"&gt;帯の幅&lt;/h4&gt;
+
+&lt;p&gt;帯の幅は座標軸上の幅ではなく、球面上の弧の長さです。座標軸上で同じ幅を取っても、球面上での弧の長さは場所によって異なります。円周上の微小な移動は、十分に拡大すれば横（座標軸方向）、縦（それに垂直な方向）、斜辺（弧の長さ）の直角三角形と見なせるため、ピタゴラスの定理から、座標値 \(x\) 付近での微小な弧の長さは座標軸上の幅に対して \(1/\sqrt{1-x^2} = (1-x^2)^{-1/2}\) 倍になります。下図左は円（d=2）の場合ですが、\(x \approx 0\) 付近（青）と \(x \approx 0.85\) 付近（赤）で同じ座標幅を取ると、端に近いほど対応する弧が長くなることがわかります。下図右は、円周上に一様にランダムな点を大量に生成し、その\(x\)座標の分布をヒストグラムにしたものです。円周上では均等に分布しているにもかかわらず、\(x\)座標で見ると端（\(\pm 1\)）付近に集中していることがわかります。なお、赤線は理論的な確率密度 \(1/(\pi\sqrt{1-x^2})\) で、\(1/\sqrt{1-x^2}\) を全区間で積分すると \(\pi\) になるため正規化定数として \(1/\pi\) が掛かっています。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2026-04-02-inside-turboquant/jacobian_demo.png" alt="" /&gt;&lt;/p&gt;
+
+&lt;h4 id="section-5"&gt;帯の表面積から確率密度へ&lt;/h4&gt;
+
+&lt;p&gt;最初に述べたように、座標値 \(x\) 付近の確率は帯の面積に比例し、帯の面積は「断面の大きさ × 帯の幅」です。それぞれを式にすると、Lemma 1の \((1-x^2)^{(d-3)/2}\) が現れます:&lt;/p&gt;
+
+\[f(x) \propto \underbrace{(1-x^2)^{(d-2)/2}}_{\text{断面（0に集中させる力）}} \times \underbrace{(1-x^2)^{-1/2}}_{\text{帯の幅（±1に集中させる力）}} = (1-x^2)^{(d-3)/2}\]
+
+&lt;p&gt;ここで \(\propto\) は正規化定数を省略していることを意味します。Lemma 1の式にあるガンマ関数の係数 \(\Gamma(d/2) / (\sqrt{\pi}\,\Gamma((d-1)/2))\) は、全区間で積分して1になるように定まる正規化定数です。&lt;/p&gt;
+
+&lt;p&gt;なお、d=3 ではこの二つの力がちょうど釣り合い、座標の分布は一様になります。冒頭で「各座標も一様に分布しそう」と述べた直感は d=3 では正しいのですが、高次元では断面の力が支配的になり、分布は0付近に鋭く集中します（\(\mathcal{N}(0, 1/d)\) に収束）。このLemma 1を通しての重要な気づきは、ベクトル検索やTransformerのチャネル数として典型的な次元数（\(d \geq 64\) など）では、等間隔にセントロイドを配置する一様量子化が非効率であるということです。&lt;/p&gt;
+
+&lt;h3 id="lloyd-max"&gt;最適セントロイド: Lloyd-Maxアルゴリズム&lt;/h3&gt;
+
+&lt;p&gt;分布が分かったので、\(b\) ビットの最適なスカラー量子化器を設計できます。区間 \([-1, 1]\) を \(2^b\) 個のクラスタに分割し、MSE（平均二乗誤差）を最小化するセントロイドの配置を求めます。この最適化問題を解くのが&lt;a href="https://web.stanford.edu/class/ee398a/handouts/lectures/05-Quantization.pdf"&gt;Lloyd-Maxアルゴリズム&lt;/a&gt;（PDF）です。以下の2ステップを交互に繰り返します。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;境界更新&lt;/strong&gt;: 隣り合うセントロイドの中点に境界を置く&lt;/p&gt;
+
+\[b_i = \frac{c_{i-1} + c_i}{2}\]
+
+&lt;p&gt;&lt;strong&gt;セントロイド更新&lt;/strong&gt;: 各区間内の条件付き期待値にセントロイドを移動する&lt;/p&gt;
+
+\[c_i = \frac{\int_{b_i}^{b_{i+1}} x \cdot f_X(x) \, dx}{\int_{b_i}^{b_{i+1}} f_X(x) \, dx}\]
+
+&lt;p&gt;分母はその区間にデータが入る確率、分子は位置と出やすさの積です。割り算の結果は、その区間に限定した場合の期待値、すなわち条件付き期待値になります。反復は数回〜十数回で収束します。コードブックは分布とビット幅が決まれば一度だけ計算すればよく、事前に計算して保存しておけます。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2026-04-02-inside-turboquant/lloyd_max_demo_3.png" alt="Lloyd-Maxの反復収束の様子" /&gt;&lt;/p&gt;
+
+&lt;p&gt;上図の反復0回目は等間隔にセントロイドを配置した一様量子化に相当します。反復が進むにつれて、データが集中する0付近にセントロイドが密に再配置されていく様子から、この分布に対してLloyd-Maxによって得られる量子化が一様量子化より効果的であることがわかります。&lt;/p&gt;
+
+&lt;h2 id="section-6"&gt;ベクトル検索への適用&lt;/h2&gt;
+
+&lt;p&gt;TurboQuantをベクトル検索に適用する際の利点を、PQとの比較を軸に整理します。&lt;/p&gt;
+
+&lt;h3 id="section-7"&gt;導入の容易さ&lt;/h3&gt;
+
+&lt;p&gt;PQはデータセットに対してk-meansでコードブックを学習するため、部分空間の分割数やセントロイド数といった設計選択が必要であり、データが変わればコードブックの再学習も求められます。また、k-meansは局所最適解への収束しか保証されないため、結果が初期値に依存します。TurboQuantではコードブックがデータに依存せず、ビット幅を決めれば既知の分布に対する1次元の最適化で済みます。論文の実験では、10万件・4ビット量子化において、PQの量子化時間が次元数に応じて37〜494秒であるのに対し、TurboQuantは0.001秒程度と報告されています。&lt;/p&gt;
+
+&lt;h3 id="section-8"&gt;小さいルックアップテーブル&lt;/h3&gt;
+
+&lt;p&gt;ベクトル検索では、クエリの値とセントロイドとの距離を事前に計算したルックアップテーブルがよく用いられます。PQでは部分空間ごとにセントロイドが異なるため、部分空間の数だけテーブルが必要です。TurboQuantでは全座標が同じ \(2^b\) 個のセントロイドを共有するため、テーブルは1つで済みます。\(b = 4\) の場合、わずか16エントリです。さらに、回転は内積を保存するため、クエリ自体も同じ方法で量子化できます。この場合でもセントロイド間の積を格納する \(2^{2b}\) エントリ（\(b = 4\) で256）のテーブルを事前に一度だけ計算すれば、テーブル参照と足し算だけで内積が求まります。&lt;/p&gt;
+
+&lt;p&gt;実際に、Redisの作者として知られるantirezがRedis Vector SetsにTQ4を実装し、同じ4ビットのQ4（recall 92.24%）に対して94.39%を達成したことが報告されています。同じ4ビットならTQ4を採用しない理由はないという趣旨の&lt;a href="https://x.com/antirez/status/2038241755674407005?s=20"&gt;評価&lt;/a&gt;がなされています。&lt;/p&gt;
+
+&lt;h2 id="section-9"&gt;おわりに&lt;/h2&gt;
+
+&lt;p&gt;本記事を通じて、TurboQuantの数学的枠組みの格好良さと、そこから生まれる汎用性・実用性の高さを感じていただけたら嬉しく思います。球面上への配置とランダム回転で扱いやすい形に変換し、その座標の分布を正確に導出し、古典的なLloyd-Maxアルゴリズムで最適なセントロイドを求める。各ステップが前のステップの上に自然に積み上がっていく構成は、理論と実用の間を綺麗に橋渡ししていると感じました。&lt;/p&gt;
+
+&lt;p&gt;なお、論文ではMSE最適化に加えて、QJL（Quantized Johnson-Lindenstrauss）変換を用いた不偏な内積推定の拡張も提案されています。興味のある方はぜひ論文をご参照ください。&lt;/p&gt;
+
+&lt;p&gt;TQ4程度のビット幅であれば実用的な効果が見込めること、そして実装が容易であること（共通コードブック、学習データ不要）から、TurboQuantの方式は今後さらに広まっていくのではないかと考えています。&lt;/p&gt;
+
+&lt;p&gt;ペパボ研究所では、今後もベクトル検索や関連する分野において、気になる手法を紹介していきます。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;ペパボ研究所では、AI体験の実現に向けて「&lt;a href="https://rand.pepabo.com/"&gt;なめらかなシステム&lt;/a&gt;」というビジョンのもと研究開発を進めています。本記事や関連する取り組みに興味を持たれた方は、ぜひお声がけください。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://rand.pepabo.com/article/2025/03/25/inside-vector-search/"&gt;ベクトル検索システムの勉強会を開催しました&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://rand.pepabo.com/article/2025/10/23/vector-attr/"&gt;ベクトル検索のフィルタを用いた機械学習モデルとの統合&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>ベクトル検索のフィルタを用いた機械学習モデルとの統合</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2025/10/23/vector-attr/"/>
+    <id>http://rand.pepabo.com/article/2025/10/23/vector-attr/</id>
+    <published>2025-10-23T00:00:00+09:00</published>
+    <updated>2026-08-31T03:55:55+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／プリンシパルエンジニアの三宅（&lt;a href="https://x.com/monochromegane"&gt;@monochromegane&lt;/a&gt;）です。
+本記事では、ベクトル検索システムに機械学習モデルで算出した指標を組み合わせることで、検索結果を柔軟に制御し、サービス指標に沿った最適化を実現するアプローチについて紹介します。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;はじめに&lt;/h2&gt;
+
+&lt;p&gt;情報システムとAIの統合において、互いの知識を効率的に引き出すための、ベクトル検索システムの重要性が増しています。ベクトル検索は、画像やテキストなどの多様なデータを高次元の埋め込みベクトル空間に写像し、その距離に基づいて類似性を評価することで、高速かつ柔軟な検索を実現します。近年では、汎用的で商用利用可能な学習済みモデルが提供されていることも後押しとなり、こうした技術はさまざまなオンラインサービスやアプリケーションで広く導入されています。&lt;/p&gt;
+
+&lt;p&gt;一方で、これらの検索機能をサービス価値に直結させるためには、単に「見た目や意味が似ている」だけでなく、サービスのビジネス指標や利用目的に沿った検索結果を得られることが望まれます。例えば、サービス規約との照合や、サービス固有の重み付けを行いたい画風の検出などが考えられます。しかし、学習済みモデルでは、このような最適化に十分対応できない場合があります。&lt;/p&gt;
+
+&lt;p&gt;このような最適化を実現するためには、サービス固有の判断基準を取り込んだ埋め込みモデルや再ランキングモデルの学習が考えられます。ただし、そのためには適切な学習データの収集や開発コストの確保が必要であり、特に開発初期段階では現実的でない場合も多いかと思います。また、設計段階で定めた基準が本当にビジネス指標に有用かどうかは、適用後にしか確かめられないという課題もあります。&lt;/p&gt;
+
+&lt;p&gt;そこで本記事では、既存の埋め込みベクトルを維持したまま、別軸の機械学習モデルによって算出される指標を導入し、検索結果をフィルタリングするというアプローチを紹介します。この方法では、埋め込みベクトルに対して外部のモデルで得られたスコアやカテゴリラベルを付与し、必要な条件に基づいてサブセットを抽出します。単一の指標を対象とするため、軽量かつ迅速な機械学習モデルの開発が可能であり、既存の検索基盤と容易に統合できる点が特徴です。さらに、このような方式によって有用性が確認された指標を埋め込みモデルの開発へとフィードバックすることで、試行錯誤の無駄を減らし、効率的な運用サイクルを実現できます。&lt;/p&gt;
+
+&lt;p&gt;本記事では、このような構想のもと、&lt;a href="https://cloud.google.com/"&gt;Google Cloud&lt;/a&gt;上で実際に構築したシステムの概要と、その設計上の考慮点について解説します。&lt;/p&gt;
+
+&lt;h2 id="section-1"&gt;システム構成&lt;/h2&gt;
+
+&lt;p&gt;本システムでは、ベクトル検索システムとしてGoogle Cloud上に構築した&lt;a href="https://cloud.google.com/vertex-ai/docs/vector-search/overview"&gt;Vertex AI Vector Search&lt;/a&gt;を用いています。ベクトルインデックスの各データポイントに対してベクトル属性を付与することで、検索結果のフィルタリングを実現しています。このベクトル属性を付与するために、同じくGoogle Cloudの&lt;a href="https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform"&gt;Vertex AIプラットフォーム&lt;/a&gt;上に登録した推論用モデルを活用し、バッチ推論の仕組みを用いて属性値を生成します。&lt;/p&gt;
+
+&lt;h2 id="section-2"&gt;推論用モデル&lt;/h2&gt;
+
+&lt;p&gt;Vertex AIでは、&lt;a href="https://cloud.google.com/vertex-ai/docs/predictions/overview"&gt;独自に構築した推論用モデルを構成&lt;/a&gt;することができます。推論用モデルには、機械学習フレームワークが指定されたビルド済みコンテナと、独自に構築するカスタムコンテナの2種類が利用可能です。本システムでは、迅速な評価検証を目的として、自由度の高いカスタムコンテナを採用しています。&lt;/p&gt;
+
+&lt;p&gt;推論用モデルを構築するには、次の 2 種類のコンテナイメージが必要です。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;学習用コンテナ&lt;/strong&gt;：機械学習モデルのトレーニングおよびモデル重み（モデルアーティファクト）のエクスポートを行う。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;推論用コンテナ&lt;/strong&gt;：学習で得られたモデルアーティファクトをロードし、推論用の HTTP サーバーを起動する。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Pythonの&lt;code&gt;google.cloud.aiplatform&lt;/code&gt;パッケージを使用する場合、工程1は&lt;code&gt;aiplatform.CustomJob(opts).run()&lt;/code&gt;、工程2は&lt;code&gt;aiplatform.Model.upload(opts)&lt;/code&gt;のように実行します。&lt;/p&gt;
+
+&lt;p&gt;工程2の実行後Vertex AIのModel Registryに推論用モデルとして登録されます。登録されたモデルは、後述するように、エンドポイントと紐付けてオンライン推論に利用することも、バッチ推論に利用することもでき、用途に応じた柔軟な運用が可能です。&lt;/p&gt;
+
+&lt;h3 id="section-3"&gt;実装時の注意点&lt;/h3&gt;
+
+&lt;p&gt;推論モデルの実装にあたっては、以下の点に注意が必要です。バッチ推論時には、明示的に予測およびヘルスチェック用のパスを Model Registry 登録時のコンテナ仕様として設定する必要があります。オンライン推論では、これらのパスが環境変数 &lt;code&gt;AIP_PREDICT_ROUTE&lt;/code&gt; および &lt;code&gt;AIP_HEALTH_ROUTE&lt;/code&gt; により自動的に設定されますが、バッチ推論の場合はこれらを明示的に指定しなければなりません。&lt;/p&gt;
+
+&lt;p&gt;これは以下のように指定できます。&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="n"&gt;aiplatform&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;upload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="c1"&gt;# ...
+&lt;/span&gt;    &lt;span class="n"&gt;serving_container_predict_route&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"/predict"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;serving_container_health_route&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"/health"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="c1"&gt;# ...
+&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="vertex-ai"&gt;Vertex AIのバッチ推論&lt;/h2&gt;
+
+&lt;p&gt;Vertex AIでは、構築した機械学習モデルの推論方式として、オンライン推論とバッチ推論のいずれかを選択できます。本システムでは、インデックス対象となるデータポイントがあらかじめ定まっており、かつデータ数が多いため、推論にはバッチ推論を採用しています。&lt;/p&gt;
+
+&lt;p&gt;バッチ推論では、前節で説明したVertex AIのModel Registryに登録済みの機械学習モデルの推論用コンテナイメージを利用します。すなわち、バッチ推論もHTTP経由のAPI ベースで処理されます。ただし、バッチ推論では複数の推論API サーバーが並列に起動し、各サーバーに対してバッチサイズで指定した件数単位でリクエストが割り当てられるため、単純にオンライン推論を繰り返す場合に比べて処理時間を短縮できます。&lt;/p&gt;
+
+&lt;p&gt;特に有用だと感じているのは、推論の入出力先として BigQuery のテーブルを直接指定できる点です。データ基盤としてBigQueryを採用している場合、機械学習モデルに必要な特徴量をシームレスに入力として集計でき、また推論結果を後続の分析処理で容易に活用できるという利点があります。&lt;/p&gt;
+
+&lt;h3 id="section-4"&gt;実装時の注意点&lt;/h3&gt;
+
+&lt;p&gt;バッチ推論の実装にあたっては、推論APIのリクエスト形式との整合性を保つために、&lt;code&gt;instanceConfig&lt;/code&gt;の仕様を正しく把握しておく必要があります。オンライン推論のようにクライアント側でリクエスト形式を制御できる場合と異なり、バッチ推論ではBigQueryテーブルに格納されたフィールドから自動的にリクエストが組み立てられます。そのため、推論用コンテナの入力形式をこの自動生成に合わせてしまうと、オンライン推論時に使いづらい設計となることがあります。&lt;/p&gt;
+
+&lt;p&gt;バッチ推論では、この挙動を制御するために、&lt;code&gt;instanceConfig&lt;/code&gt; で入力テーブルとリクエスト形式の対応を定義します。例えば、以下のようなリクエスト形式を想定している場合を考えます。&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Instance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;BaseModel&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;
+    &lt;span class="n"&gt;features&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;入力テーブルのスキーマが &lt;code&gt;id (INTEGER)&lt;/code&gt;、&lt;code&gt;features (FLOAT, REPEATED)&lt;/code&gt; のような場合、&lt;code&gt;instanceConfig&lt;/code&gt;は次のように設定します。&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight json"&gt;&lt;code&gt;&lt;span class="nl"&gt;"instanceConfig"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="nl"&gt;"includedFields"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"id"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"features"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="nl"&gt;"instanceType"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"object"&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;ここで&lt;code&gt;instanceType&lt;/code&gt;を&lt;code&gt;"object"&lt;/code&gt;に設定することで、リクエストがキーと値のペア（オブジェクト形式）として組み立てられます。デフォルトでは&lt;code&gt;"array"&lt;/code&gt;が使用されるため、&lt;code&gt;id&lt;/code&gt;と&lt;code&gt;features&lt;/code&gt;が&lt;code&gt;[id, [f1, f2, ...]]&lt;/code&gt;のような配列形式で送信されてしまいます。&lt;/p&gt;
+
+&lt;p&gt;詳細は、&lt;a href="https://cloud.google.com/vertex-ai/docs/predictions/get-batch-predictions?hl=ja"&gt;公式ドキュメント&lt;/a&gt;をご参照ください。&lt;/p&gt;
+
+&lt;h2 id="vertex-ai-vector-search"&gt;Vertex AI Vector Searchのベクトル属性によるフィルタ機能&lt;/h2&gt;
+
+&lt;p&gt;Vertex AI Vector Searchには、&lt;a href="https://cloud.google.com/vertex-ai/docs/vector-search/filtering"&gt;ベクトル属性によるフィルタ機能&lt;/a&gt;が提供されています。これは、インデックス構築時にデータポイントごとに付与した属性を対象に、検索結果を絞り込むための機能です。属性にはトークン（文字列）と数値の 2 種類があり、名前空間単位で管理することができます。&lt;/p&gt;
+
+&lt;p&gt;例えば、あるデータポイントに対して、トークン型のベクトル属性として&lt;code&gt;color&lt;/code&gt;という名前空間に&lt;code&gt;red&lt;/code&gt;と&lt;code&gt;blue&lt;/code&gt;を付与し、数値型のベクトル属性として&lt;code&gt;size&lt;/code&gt;という名前空間に整数値&lt;code&gt;3&lt;/code&gt;を付与することが可能です。検索時には、&lt;code&gt;color=red AND size&amp;lt;2 &lt;/code&gt;のような条件でフィルタリングを行うことができます（詳細なクエリ指定については公式ドキュメントを参照してください）。&lt;/p&gt;
+
+&lt;p&gt;本システムでは、システム構成で示したとおり、各機械学習モデルの予測指標値をベクトル属性として付与することで、独立した機械学習モデルの迅速な開発と、ベクトル検索との柔軟な統合を実現しています。&lt;/p&gt;
+
+&lt;h3 id="section-5"&gt;実装時の注意点&lt;/h3&gt;
+
+&lt;p&gt;注意が必要なのは、数値型のベクトル属性をCSVで指定する際の記述方法です。公式ドキュメントの例では、ベクトルデータに続けて&lt;code&gt;ratio=0.1f&lt;/code&gt;のように記されていますが、正しくは&lt;code&gt;#ratio=0.1f&lt;/code&gt;のように、名前空間の先頭に&lt;code&gt;#&lt;/code&gt;を付ける必要があります。&lt;code&gt;#&lt;/code&gt;を付けない場合はトークン型として扱われ、&lt;code&gt;0.1f&lt;/code&gt;が文字列として解釈されてしまいます。&lt;/p&gt;
+
+&lt;p&gt;本記事執筆時点（2025年10月23日）では、公式ドキュメント内の説明文には&lt;code&gt;#&lt;/code&gt;の記載があるものの、具体例には反映されていない箇所が混在しています（筆者からフィードバックを送付済みです）。&lt;/p&gt;
+
+&lt;h2 id="section-6"&gt;おわりに&lt;/h2&gt;
+
+&lt;p&gt;本記事では、Vertex AI Vector Searchにおいて、ベクトル属性を活用し、機械学習モデルによって算出した指標を検索結果のフィルタリングに利用する仕組みを紹介しました。このアプローチにより、既存のベクトル検索基盤に対して軽量かつ迅速にモデルを統合でき、検索結果のサービス指標に沿った柔軟な最適化が可能となります。&lt;/p&gt;
+
+&lt;p&gt;さらに、このようなモデルを実運用環境に導入し、効果を測定できることは、個別のモデル改善にとどまらず、より汎用的な「意味的レイヤ（semantic layer）」の開発促進にもつながります。意味的レイヤとは、&lt;a href="https://dl.acm.org/doi/abs/10.1145/3292500.3330744"&gt;Bernardi ら（2019）によってオンライン旅行代理店の機械学習運用における概念&lt;/a&gt;として示されたものであり、機械学習モデルとアプリケーションの開発評価において、プロダクト開発に関わるさまざまな人々が共通に理解できる概念をモデルとして表現し、それを複数の機能やチームで再利用可能にする構造を指します。本システムの運用を通じてこの層を整備することで、機械学習の成果を単一のユースケースに閉じず、サービス全体に知識として還流させる基盤を築くことにつなげていきたいと考えています。&lt;/p&gt;
+
+&lt;p&gt;ペパボ研究所では、AI体験の実現に向けて「&lt;a href="https://rand.pepabo.com/"&gt;なめらかなシステム&lt;/a&gt;」というビジョンのもと研究開発を進めています。本記事や関連する取り組みに興味を持たれた方は、ぜひお声がけください。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://rand.pepabo.com/article/2024/03/28/ai/"&gt;AIを前提とした体験の実現に向けての勉強会を開催しました&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://rand.pepabo.com/article/2025/03/25/inside-vector-search/"&gt;ベクトル検索システムの勉強会を開催しました&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</content>
+  </entry>
+  <entry>
+    <title>第24回情報科学技術フォーラム（FIT2025）のトップコンファレンスセッションにてCOMPSAC 2024で採択された論文について発表をしました</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2025/09/04/fit2025/"/>
+    <id>http://rand.pepabo.com/article/2025/09/04/fit2025/</id>
+    <published>2025-09-04T00:00:00+09:00</published>
+    <updated>2026-08-31T03:55:55+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／プリンシパルエンジニアの三宅（&lt;a href="https://x.com/monochromegane"&gt;@monochromegane&lt;/a&gt;）です。
+2025年9月3日から5日にかけて開催されている、&lt;a href="https://www.ipsj.or.jp/event/fit/fit2025/index.html"&gt;第24回情報科学技術フォーラム&lt;/a&gt;（FIT2025）の&lt;a href="https://www.gakkai-web.net/fit/program_web/data/html/event/TCS2-2.html"&gt;トップコンファレンスセッション&lt;/a&gt;で、ペパボ研究所から発表を行いました。&lt;/p&gt;
+
+&lt;p&gt;トップコンファレンスセッションは、各分野におけるトップレベルの国際会議や学術雑誌で近年採録された論文の著者が研究内容を紹介するもので、分野横断的に優れた研究を効率的に把握できる貴重な機会です。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;重み付き逐次ガウス過程回帰モデルを用いた非定常かつ非線形な多腕バンディット方策&lt;/h2&gt;
+
+&lt;p&gt;今回紹介したのは、2024年7月に開催された&lt;a href="https://ieeecompsac.computer.org/2024/"&gt;IEEE COMPSAC 2024&lt;/a&gt;にてフルペーパーとして採択された論文「Online Nonstationary and Nonlinear Bandits with Recursive Weighted Gaussian Process」です。
+研究では、ECサイトなどのWebサービスにおける施策の比較評価を多腕バンディット問題として定式化し、利用者の文脈と施策の有用性の複雑な関係や時間変化を捉える新たな方策を提案しました。
+具体的には、ガウス過程回帰を拡張した重み付き逐次学習の枠組みを導入し、従来法では難しかった非定常性・非線形性を扱いつつ、迅速な応答性を両立させています。
+研究の詳細については、以前のエントリ（&lt;a href="https://rand.pepabo.com/article/2024/07/05/compsac2024/"&gt;COMPSAC 2024発表報告&lt;/a&gt;）をご覧ください。&lt;/p&gt;
+
+&lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/6846775a026a407f8cb93ec815d373b4" title="Online Nonstationary and Nonlinear Bandits with Recursive Weighted Gaussian Process" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"&gt;&lt;/iframe&gt;
+
+&lt;h2 id="section-1"&gt;発表を終えて&lt;/h2&gt;
+
+&lt;p&gt;準備の段階から発表までを通じて、現在の研究進捗との繋がりも含めて、改めて自身の研究の意義や目的を見直す機会になりました。結果的に発表もこれまでより分かりやすく伝えることができたように感じ、実際にそのような感想もいただくことができました。また、博士課程でご指導いただいた先生も聴講してくださり、「やはり良い研究なので、ジャーナルにも持っていこう」と励ましの言葉をいただけたのは大きな収穫でした。&lt;/p&gt;
+
+&lt;p&gt;さらに、他の方々の発表からは研究内容だけでなく、採択に至るまでの工夫や日々の取り組み方なども伺うことができ、研究姿勢を見直す上でも多くの学びを得ました。&lt;/p&gt;
+
+&lt;p&gt;今後もこうした場を通じて研究成果を広く共有し、研究所としての知見を一層深めていきたいと考えています。&lt;/p&gt;
+
+&lt;p&gt;最後に、このような貴重な機会を与えてくださったインターネットと運用維持研究会の皆様に心より感謝いたします。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/images/2025-09-04-fit2025/fit2025_talk.jpg" alt="fit2025_talk" /&gt;&lt;/p&gt;
+
+</content>
+  </entry>
+  <entry>
+    <title>gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較</title>
+    <link rel="alternate" href="http://rand.pepabo.com/article/2025/08/18/gpt-oss/"/>
+    <id>http://rand.pepabo.com/article/2025/08/18/gpt-oss/</id>
+    <published>2025-08-18T00:00:00+09:00</published>
+    <updated>2026-08-31T03:55:55+00:00</updated>
+    <author>
+      <name>三宅悠介</name>
+    </author>
+    <content type="html">&lt;p&gt;ペパボ研究所 研究員／プリンシパルエンジニアの三宅（&lt;a href="https://x.com/monochromegane"&gt;@monochromegane&lt;/a&gt;）です。&lt;/p&gt;
+
+&lt;p&gt;2025年8月、OpenAIよりオープンウェイトモデルとして&lt;a href="https://openai.com/ja-JP/index/introducing-gpt-oss/"&gt;gpt-oss&lt;/a&gt;が公開されました。
+これらのモデルは、軽量ながら既存の強力なモデルに匹敵する性能を示しており、gpt-oss-120bはo4-miniと、gpt-oss-20bはo3-mini と同水準のベンチマーク結果を達成したと報告されています。
+また、これらはApache 2.0ライセンスのもとで提供され、単一GPUで効率的な推論が可能である点が特徴として示されています。
+こうした特性は、AI施策のコスト削減や適用範囲の拡大に寄与すると見込まれ、多くの組織で関心を集めていると想像されます。&lt;/p&gt;
+
+&lt;p&gt;一方で、サービス環境におけるこれらの言語モデルの導入には、モデルの出力精度や生成内容の妥当性だけでなく、サービング時のリクエスト処理性能が重要な要素となります。
+処理性能はモデルのサイズに依存するだけでなく、使用するGPUの種類、入力および出力トークン数、さらにReasoning effortを設定可能なリーゾニングモデルにおいては、その指定値によっても大きく変動します。&lt;/p&gt;
+
+&lt;p&gt;また、実サービス環境では、シンプルな直列処理によるローカル推論とは異なり、複数リクエストを同時に処理する並列化の効率も考慮する必要があります。
+並列化の仕組みとその性能は、ユーザー体験やシステムのスケーラビリティに直結するためです。&lt;/p&gt;
+
+&lt;p&gt;本評価では、これらの条件を踏まえ、異なるGPU環境におけるgpt-ossモデルのリクエスト処理性能を測定し、サービング時の適切な設定方針を明らかにすることを目的とします。&lt;/p&gt;
+
+&lt;h2 id="section"&gt;評価の環境&lt;/h2&gt;
+
+&lt;p&gt;本評価では、複数のGPU環境における比較が必要であるため、下記のGPUインスタンスを提供するクラウドサービスとしてGoogle CloudのCompute Engineを利用しました。
+GPUの選定にあたっては、OpenAIがgpt-oss-120bの起動に最低限望ましいとするHopperアーキテクチャのNVIDIA H100を用いるとともに、一世代前のアーキテクチャではあるもののVRAM要件を満たしつつ稼働コストの削減が見込まれるNVIDIA A100およびNVIDIA L4を、それぞれ120bおよび20bモデルの検証対象として採用しました。&lt;/p&gt;
+
+&lt;p&gt;利用したインスタンスタイプは以下の通りです。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;a3-highgpu-1g（26 vCPU, 234 GB メモリ, 1 × NVIDIA H100 80GB）&lt;/li&gt;
+  &lt;li&gt;a2-ultragpu-1g（12 vCPU, 170 GB メモリ, 1 × NVIDIA A100 80GB）&lt;/li&gt;
+  &lt;li&gt;g2-standard-4（4 vCPU, 16 GB メモリ, 1 × NVIDIA L4 24GB）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;いずれのインスタンスも標準提供されている&lt;code&gt;Debian GNU/Linux 12 (bookworm)&lt;/code&gt;をブートイメージとして利用し、GPU関連についてはNVIDIAから提供されている&lt;code&gt;cuda-toolkit-12-8&lt;/code&gt;および&lt;code&gt;cuda-drivers-570&lt;/code&gt;を別途導入しました。
+なお、評価期間中のコストを抑制するため、すべてのインスタンスはSpotインスタンス として稼働させています。&lt;/p&gt;
+
+&lt;h2 id="section-1"&gt;評価の方法&lt;/h2&gt;
+
+&lt;p&gt;本評価では、リクエスト処理性能に影響を与えると予想される要素として、GPU種別、モデル種別、プロンプトのトークン数、Reasoning effort の設定値（low, medium, high）、並列リクエスト数（1, 2, 4, 8, 16）を組み合わせ、その違いによって指標にどのような変化が生じるかを確認しました。
+評価指標には、秒間リクエスト数（Requests per second: RPS）とレスポンス時間を採用しました。&lt;/p&gt;
+
+&lt;p&gt;プロンプトについては、自社の想定ユースケースに近い内容をもとに、約2,000、4,000、8,000トークン程度となるよう調整しました。
+これらはテンプレートから動的に生成し、それぞれ5,000パターンを用意しています。実験時には、この中からランダムに選択しました。&lt;/p&gt;
+
+&lt;p&gt;モデルのサービングには、高速推論ライブラリである&lt;a href="https://docs.vllm.ai/en/stable/"&gt;vLLM&lt;/a&gt;を用いました。vLLMはPagedAttentionやcontinuous batchingなどの仕組みにより高い並列性を実現しており、サービス導入を視野に入れた推論サーバーとして本評価に採用しました。
+起動オプションについては、&lt;a href="https://github.com/vllm-project/recipes/blob/main/OpenAI/GPT-OSS.md"&gt;公式レシピ&lt;/a&gt;に従い &lt;code&gt;--async-scheduling&lt;/code&gt;を付与しました。
+また、H100上でgpt-oss-120bを利用する際にはVRAM容量の制約から最大トークン数を109,504未満に抑える必要があったため、評価環境を統一する観点から、すべての環境において&lt;code&gt;--max-model-len=100000&lt;/code&gt;を指定しました。
+さらに、A100およびL4環境では前世代のアーキテクチャでの起動をサポートするため&lt;code&gt;TRITON_ATTN_VLLM_V1&lt;/code&gt;をattention backendとして指定しました。&lt;/p&gt;
+
+&lt;p&gt;負荷試験には、オープンソースの負荷試験ツール&lt;a href="https://docs.locust.io/en/stable/index.html"&gt;Locust&lt;/a&gt;を使用しました。
+各条件の組み合わせごとに120秒間の試験を行い、Locustの出力値の&lt;code&gt;Requests/s&lt;/code&gt;と&lt;code&gt;Median Response Time&lt;/code&gt;を採用しました。&lt;/p&gt;
+
+&lt;h2 id="section-2"&gt;評価の結果&lt;/h2&gt;
+
+&lt;h3 id="h100"&gt;H100環境におけるリクエスト処理性能&lt;/h3&gt;
+
+&lt;p&gt;以下の図1,2に、H100上でgpt-oss-20bおよびgpt-oss-120bを実行した際のリクエスト処理性能を示します。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;図1: レスポンス時間の変化&lt;/strong&gt;
+&lt;img src="/images/2025-08-18-gpt-oss/benchmark_response_time_h100.png" alt="benchmark_response_time_h100" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;図2: 秒間リクエスト数の変化&lt;/strong&gt;
+&lt;img src="/images/2025-08-18-gpt-oss/benchmark_rps_h100.png" alt="benchmark_rps_h100" /&gt;&lt;/p&gt;
+
+&lt;p&gt;これらの図は、リクエスト並列数、入力トークン数、Reasoning effort の各条件を組み合わせた場合におけるレスポンス時間の中央値および秒間リクエスト数（RPS）の変化を表しています。
+図より、以下の傾向が読み取れます。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;リクエスト並列数の増加による影響&lt;/strong&gt;: 並列数の増加に伴い、いずれの条件においてもレスポンス時間は増加し、RPSは緩やかに上昇しました。特に低～中程度の負荷条件（Reasoning effort が low〜medium、かつ20bモデル）では、vLLMの並列処理機構が有効に機能している様子が見られました。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Reasoning effortの影響&lt;/strong&gt;: Reasoning effortの設定値をlowからhighに上げると、レスポンス時間が顕著に増加し、RPSは低下しました。これはモデル内部の推論負荷が増すことで、並列化による効果が打ち消されやすくなるためと考えられます。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;モデルサイズの影響&lt;/strong&gt;: gpt-oss-120bはgpt-oss-20bに比べ、全体的にレスポンス時間が長く、RPSが低い傾向にありました。ただしその差は2倍以上にはならず、モデル規模の拡大に比して処理性能の低下は比較的緩やかであることが確認されました。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;入力トークン数の影響&lt;/strong&gt;: 入力トークン数を増加させても、処理性能への影響は相対的に小さく、Reasonig effortやモデルサイズに比べて副次的な要因にとどまりました。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;これらの傾向から、H100 環境では推論負荷の低い条件下でvLLMの並列処理機構の恩恵が大きく表れる一方、推論負荷が高い場合（Reasoning effort high × 120bなど）には並列化の効果が限定的であることが示されました。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id="section-3"&gt;出力トークン数の影響分析&lt;/h3&gt;
+
+&lt;p&gt;レスポンス時間の比較では、gpt-oss-20bとgpt-oss-120bの差は2倍未満にとどまっていました。
+これをトークン出力あたりの時間の差とみなせるならば、モデルサイズよりも出力トークン数が処理性能に与える影響を検証することが重要と考え、追加分析を行いました。&lt;/p&gt;
+
+&lt;p&gt;ここで、Reasoning effortの設定によってReasoning部分の出力トークン数が変化することを踏まえ、モデルごとの出力傾向を確認します。
+まず、出力トークン数の生成傾向をモデル別およびReasoning effortごとに比較するため、4000トークンの入力に対応するプロンプトのうち500パターンについて出力トークン数の統計を求めました。
+結果を図3に示します。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;図3: 出力トークン数の変化&lt;/strong&gt;
+&lt;img src="/images/2025-08-18-gpt-oss/count_tokens_boxplot.png" alt="count_tokens_boxplot" /&gt;&lt;/p&gt;
+
+&lt;p&gt;このプロットでは最小値、最大値、平均値、中央値を示しています。
+平均値の観点では、両モデルともReasoning effortがlowおよびmediumの場合に大きな差はなく、highの場合に出力量が増加しました。
+モデル同士を比較すると、各Reasoning effortにおいてほぼ同程度の出力量が得られ、必ずしも120b が多いわけではなく、場合によっては 20b が上回ることもありました。
+一方で、大きな出力量への上振れは20bの方が顕著でした。
+すなわち、本評価条件においては、モデル間のレスポンス時間差は出力量そのものではなく、トークンあたりの推論時間に起因すると考えて良さそうです。&lt;/p&gt;
+
+&lt;p&gt;続いて、出力トークン数とレスポンス時間の関係を分析するため、出力トークン数を 100, 200, 400, 800 に制限して同一条件下でベンチマークを行いました（並列数 1、Reasoning effort medium、入力トークン数 4000）。
+結果を図4に示します。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;図4: 出力トークン数制限によるレスポンス時間の変化&lt;/strong&gt;
+&lt;img src="/images/2025-08-18-gpt-oss/benchmark_output_token.png" alt="benchmark_output_token" /&gt;&lt;/p&gt;
+
+&lt;p&gt;結果から、リクエスト処理性能は出力トークン数に強く依存することが明らかとなり、レスポンス時間の抑制には出力トークン数の制御が有効であると分かりました。
+さらに、リクエスト処理性能と推論精度を両立する観点からは、小さいモデルでReasoning effortをhighにするよりも、大きいモデルでmediumを用いたり、最大出力長を適切に制御する方が応答性能の安定化に寄与すると考えられます。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id="a100l4"&gt;A100およびL4環境におけるリクエスト処理性能&lt;/h3&gt;
+
+&lt;p&gt;以下の図5〜8にA100上でgpt-oss-120bを、L4上でgpt-oss-20bをそれぞれ実行した結果を示します。
+なお、先に述べたとおり入力トークン数の影響は相対的に小さいため、本評価では入力トークン数を4000に固定してベンチマークを実施しました。
+また、比較のためH100上での同条件の結果も併記しています。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;図5: A100とH100でのレスポンス時間の比較&lt;/strong&gt;
+&lt;img src="/images/2025-08-18-gpt-oss/benchmark_response_time_a100_vs_h100.png" alt="benchmark_response_time_a100_vs_h100" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;図6: A100とH100での秒間リクエスト数の比較&lt;/strong&gt;
+&lt;img src="/images/2025-08-18-gpt-oss/benchmark_rps_a100_vs_h100.png" alt="benchmark_rps_a100_vs_h100" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;図7: L4とH100でのレスポンス時間の比較&lt;/strong&gt;
+&lt;img src="/images/2025-08-18-gpt-oss/benchmark_response_time_l4_vs_h100.png" alt="benchmark_response_time_l4_vs_h100" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;図8: L4とH100での秒間リクエスト数の比較&lt;/strong&gt;
+&lt;img src="/images/2025-08-18-gpt-oss/benchmark_rps_l4_vs_h100.png" alt="benchmark_rps_l4_vs_h100" /&gt;&lt;/p&gt;
+
+&lt;p&gt;結果として、A100およびL4環境はいずれもモデルの推論実行は可能でしたが、H100と比較して応答時間が大幅に長く、並列数を増加させてもスループットはほとんど改善しませんでした。
+すなわち、これらの環境は少数リクエストの処理には利用可能である一方、大規模な並列処理やサービス用途でのgpt-ossの安定運用には適さないと考えられます。&lt;/p&gt;
+
+&lt;h2 id="section-4"&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;本報告では、言語モデルgpt-ossを対象として、GPU環境や推論サーバー構成がリクエスト処理性能に与える影響を評価しました。
+その結果、サービス用途での安定運用にはH100以上の環境が望ましく、また適切な推論サーバーを導入することで並列数の増加に応じたスループット向上が可能であることを確認しました。
+さらに、リクエスト処理性能の改善には、モデルサイズのみならずReasoning effortの選定や出力トークン数の制御が有用であることを明らかにしました。
+これらの結論は、提供元の推奨やモデルの推論機序に照らせば妥当なものである一方、実測によって裏付けられたことで、導入に際して根拠ある選定基準を得ることができました。&lt;/p&gt;
+
+&lt;p&gt;ペパボ研究所では、研究開発組織としての立場から、今後も研究に加えてこのような実応用を見据えた評価を報告し、導入や運用に関する知見も公開していきたいと考えています。&lt;/p&gt;
+
+&lt;h2 id="appendix"&gt;Appendix&lt;/h2&gt;
+
+&lt;p&gt;以下に、本評価に関連する具体的な手順等を記載します。&lt;/p&gt;
+
+&lt;h3 id="section-5"&gt;推論サーバーの構築手順&lt;/h3&gt;
+
+&lt;p&gt;NVIDIAドライバのインストール&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight console"&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;sudo &lt;/span&gt;dpkg &lt;span class="nt"&gt;-i&lt;/span&gt; cuda-keyring_1.1-1_all.deb
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;sudo &lt;/span&gt;apt update
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;sudo &lt;/span&gt;apt &lt;span class="nb"&gt;install&lt;/span&gt; &lt;span class="nt"&gt;-y&lt;/span&gt; linux-headers-&lt;span class="si"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;uname&lt;/span&gt; &lt;span class="nt"&gt;-r&lt;/span&gt;&lt;span class="si"&gt;)&lt;/span&gt; cuda-toolkit-12-8 cuda-drivers-570
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;sudo &lt;/span&gt;reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Python環境とvLLMのインストール&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight console"&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;curl &lt;span class="nt"&gt;-LsSf&lt;/span&gt; https://astral.sh/uv/install.sh | sh
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt; &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.local/bin/env
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uv venv &lt;span class="nt"&gt;--python&lt;/span&gt; 3.12 &lt;span class="nt"&gt;--seed&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt; .venv/bin/activate
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uv pip &lt;span class="nb"&gt;install&lt;/span&gt; &lt;span class="nt"&gt;--pre&lt;/span&gt; &lt;span class="nv"&gt;vllm&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;0.10.1+gptoss &lt;span class="nt"&gt;--extra-index-url&lt;/span&gt; https://wheels.vllm.ai/gpt-oss/ &lt;span class="nt"&gt;--extra-index-url&lt;/span&gt; https://download.pytorch.org/whl/nightly/cu128 &lt;span class="nt"&gt;--index-strategy&lt;/span&gt; unsafe-best-match
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;gpt-ossモデルのサービング&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight console"&gt;&lt;code&gt;&lt;span class="gp"&gt;#&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;H100
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;vllm serve openai/gpt-oss-120b &lt;span class="nt"&gt;--max-model-len&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;100000 &lt;span class="nt"&gt;--async-scheduling&lt;/span&gt;
+&lt;span class="gp"&gt;#&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;A100, L4
+&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;VLLM_ATTENTION_BACKEND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;TRITON_ATTN_VLLM_V1 vllm serve openai/gpt-oss-120b &lt;span class="nt"&gt;--max-model-len&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;100000 &lt;span class="nt"&gt;--async-scheduling&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="section-6"&gt;トラブルシューティング&lt;/h3&gt;
+
+&lt;p&gt;Spotインスタンスの停止後、次の起動時にOSがGPUを認識しなくなる現象が発生しました。
+原因は、OSのバージョンアップにより、バージョンに対応するヘッダーファイルが見つからなくなるためです。
+この場合、&lt;code&gt;sudo apt install linux-headers-$(uname -r)&lt;/code&gt;を実行後、再起動により再度認識されるようになります。&lt;/p&gt;
+</content>
+  </entry>
+</feed>

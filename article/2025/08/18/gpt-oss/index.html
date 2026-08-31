@@ -1,0 +1,535 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較 - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所 研究員／プリンシパルエンジニアの三宅（@monochromegane）です。
+
+2025年8月、OpenAIよりオープンウェイトモデルとしてgpt-ossが公開されました。
+これらのモデルは、軽量ながら既存の強力なモデル..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較 - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所 研究員／プリンシパルエンジニアの三宅（@monochromegane）です。
+
+2025年8月、OpenAIよりオープンウェイトモデルとしてgpt-ossが公開されました。
+これらのモデルは、軽量ながら既存の強力なモデル..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-6f071514.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.svg" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2025/08/18/gpt-oss/">gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較</a>
+  </h1>
+
+  <time datetime="2025-08-18" class="article__time">
+    2025-08-18
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。</p>
+
+<p>2025年8月、OpenAIよりオープンウェイトモデルとして<a href="https://openai.com/ja-JP/index/introducing-gpt-oss/">gpt-oss</a>が公開されました。
+これらのモデルは、軽量ながら既存の強力なモデルに匹敵する性能を示しており、gpt-oss-120bはo4-miniと、gpt-oss-20bはo3-mini と同水準のベンチマーク結果を達成したと報告されています。
+また、これらはApache 2.0ライセンスのもとで提供され、単一GPUで効率的な推論が可能である点が特徴として示されています。
+こうした特性は、AI施策のコスト削減や適用範囲の拡大に寄与すると見込まれ、多くの組織で関心を集めていると想像されます。</p>
+
+<p>一方で、サービス環境におけるこれらの言語モデルの導入には、モデルの出力精度や生成内容の妥当性だけでなく、サービング時のリクエスト処理性能が重要な要素となります。
+処理性能はモデルのサイズに依存するだけでなく、使用するGPUの種類、入力および出力トークン数、さらにReasoning effortを設定可能なリーゾニングモデルにおいては、その指定値によっても大きく変動します。</p>
+
+<p>また、実サービス環境では、シンプルな直列処理によるローカル推論とは異なり、複数リクエストを同時に処理する並列化の効率も考慮する必要があります。
+並列化の仕組みとその性能は、ユーザー体験やシステムのスケーラビリティに直結するためです。</p>
+
+<p>本評価では、これらの条件を踏まえ、異なるGPU環境におけるgpt-ossモデルのリクエスト処理性能を測定し、サービング時の適切な設定方針を明らかにすることを目的とします。</p>
+
+<h2 id="section">評価の環境</h2>
+
+<p>本評価では、複数のGPU環境における比較が必要であるため、下記のGPUインスタンスを提供するクラウドサービスとしてGoogle CloudのCompute Engineを利用しました。
+GPUの選定にあたっては、OpenAIがgpt-oss-120bの起動に最低限望ましいとするHopperアーキテクチャのNVIDIA H100を用いるとともに、一世代前のアーキテクチャではあるもののVRAM要件を満たしつつ稼働コストの削減が見込まれるNVIDIA A100およびNVIDIA L4を、それぞれ120bおよび20bモデルの検証対象として採用しました。</p>
+
+<p>利用したインスタンスタイプは以下の通りです。</p>
+
+<ul>
+  <li>a3-highgpu-1g（26 vCPU, 234 GB メモリ, 1 × NVIDIA H100 80GB）</li>
+  <li>a2-ultragpu-1g（12 vCPU, 170 GB メモリ, 1 × NVIDIA A100 80GB）</li>
+  <li>g2-standard-4（4 vCPU, 16 GB メモリ, 1 × NVIDIA L4 24GB）</li>
+</ul>
+
+<p>いずれのインスタンスも標準提供されている<code>Debian GNU/Linux 12 (bookworm)</code>をブートイメージとして利用し、GPU関連についてはNVIDIAから提供されている<code>cuda-toolkit-12-8</code>および<code>cuda-drivers-570</code>を別途導入しました。
+なお、評価期間中のコストを抑制するため、すべてのインスタンスはSpotインスタンス として稼働させています。</p>
+
+<h2 id="section-1">評価の方法</h2>
+
+<p>本評価では、リクエスト処理性能に影響を与えると予想される要素として、GPU種別、モデル種別、プロンプトのトークン数、Reasoning effort の設定値（low, medium, high）、並列リクエスト数（1, 2, 4, 8, 16）を組み合わせ、その違いによって指標にどのような変化が生じるかを確認しました。
+評価指標には、秒間リクエスト数（Requests per second: RPS）とレスポンス時間を採用しました。</p>
+
+<p>プロンプトについては、自社の想定ユースケースに近い内容をもとに、約2,000、4,000、8,000トークン程度となるよう調整しました。
+これらはテンプレートから動的に生成し、それぞれ5,000パターンを用意しています。実験時には、この中からランダムに選択しました。</p>
+
+<p>モデルのサービングには、高速推論ライブラリである<a href="https://docs.vllm.ai/en/stable/">vLLM</a>を用いました。vLLMはPagedAttentionやcontinuous batchingなどの仕組みにより高い並列性を実現しており、サービス導入を視野に入れた推論サーバーとして本評価に採用しました。
+起動オプションについては、<a href="https://github.com/vllm-project/recipes/blob/main/OpenAI/GPT-OSS.md">公式レシピ</a>に従い <code>--async-scheduling</code>を付与しました。
+また、H100上でgpt-oss-120bを利用する際にはVRAM容量の制約から最大トークン数を109,504未満に抑える必要があったため、評価環境を統一する観点から、すべての環境において<code>--max-model-len=100000</code>を指定しました。
+さらに、A100およびL4環境では前世代のアーキテクチャでの起動をサポートするため<code>TRITON_ATTN_VLLM_V1</code>をattention backendとして指定しました。</p>
+
+<p>負荷試験には、オープンソースの負荷試験ツール<a href="https://docs.locust.io/en/stable/index.html">Locust</a>を使用しました。
+各条件の組み合わせごとに120秒間の試験を行い、Locustの出力値の<code>Requests/s</code>と<code>Median Response Time</code>を採用しました。</p>
+
+<h2 id="section-2">評価の結果</h2>
+
+<h3 id="h100">H100環境におけるリクエスト処理性能</h3>
+
+<p>以下の図1,2に、H100上でgpt-oss-20bおよびgpt-oss-120bを実行した際のリクエスト処理性能を示します。</p>
+
+<p><strong>図1: レスポンス時間の変化</strong>
+<img src="/images/2025-08-18-gpt-oss/benchmark_response_time_h100.png" alt="benchmark_response_time_h100" /></p>
+
+<p><strong>図2: 秒間リクエスト数の変化</strong>
+<img src="/images/2025-08-18-gpt-oss/benchmark_rps_h100.png" alt="benchmark_rps_h100" /></p>
+
+<p>これらの図は、リクエスト並列数、入力トークン数、Reasoning effort の各条件を組み合わせた場合におけるレスポンス時間の中央値および秒間リクエスト数（RPS）の変化を表しています。
+図より、以下の傾向が読み取れます。</p>
+
+<ul>
+  <li><strong>リクエスト並列数の増加による影響</strong>: 並列数の増加に伴い、いずれの条件においてもレスポンス時間は増加し、RPSは緩やかに上昇しました。特に低～中程度の負荷条件（Reasoning effort が low〜medium、かつ20bモデル）では、vLLMの並列処理機構が有効に機能している様子が見られました。</li>
+  <li><strong>Reasoning effortの影響</strong>: Reasoning effortの設定値をlowからhighに上げると、レスポンス時間が顕著に増加し、RPSは低下しました。これはモデル内部の推論負荷が増すことで、並列化による効果が打ち消されやすくなるためと考えられます。</li>
+  <li><strong>モデルサイズの影響</strong>: gpt-oss-120bはgpt-oss-20bに比べ、全体的にレスポンス時間が長く、RPSが低い傾向にありました。ただしその差は2倍以上にはならず、モデル規模の拡大に比して処理性能の低下は比較的緩やかであることが確認されました。</li>
+  <li><strong>入力トークン数の影響</strong>: 入力トークン数を増加させても、処理性能への影響は相対的に小さく、Reasonig effortやモデルサイズに比べて副次的な要因にとどまりました。</li>
+</ul>
+
+<p>これらの傾向から、H100 環境では推論負荷の低い条件下でvLLMの並列処理機構の恩恵が大きく表れる一方、推論負荷が高い場合（Reasoning effort high × 120bなど）には並列化の効果が限定的であることが示されました。</p>
+
+<hr />
+
+<h3 id="section-3">出力トークン数の影響分析</h3>
+
+<p>レスポンス時間の比較では、gpt-oss-20bとgpt-oss-120bの差は2倍未満にとどまっていました。
+これをトークン出力あたりの時間の差とみなせるならば、モデルサイズよりも出力トークン数が処理性能に与える影響を検証することが重要と考え、追加分析を行いました。</p>
+
+<p>ここで、Reasoning effortの設定によってReasoning部分の出力トークン数が変化することを踏まえ、モデルごとの出力傾向を確認します。
+まず、出力トークン数の生成傾向をモデル別およびReasoning effortごとに比較するため、4000トークンの入力に対応するプロンプトのうち500パターンについて出力トークン数の統計を求めました。
+結果を図3に示します。</p>
+
+<p><strong>図3: 出力トークン数の変化</strong>
+<img src="/images/2025-08-18-gpt-oss/count_tokens_boxplot.png" alt="count_tokens_boxplot" /></p>
+
+<p>このプロットでは最小値、最大値、平均値、中央値を示しています。
+平均値の観点では、両モデルともReasoning effortがlowおよびmediumの場合に大きな差はなく、highの場合に出力量が増加しました。
+モデル同士を比較すると、各Reasoning effortにおいてほぼ同程度の出力量が得られ、必ずしも120b が多いわけではなく、場合によっては 20b が上回ることもありました。
+一方で、大きな出力量への上振れは20bの方が顕著でした。
+すなわち、本評価条件においては、モデル間のレスポンス時間差は出力量そのものではなく、トークンあたりの推論時間に起因すると考えて良さそうです。</p>
+
+<p>続いて、出力トークン数とレスポンス時間の関係を分析するため、出力トークン数を 100, 200, 400, 800 に制限して同一条件下でベンチマークを行いました（並列数 1、Reasoning effort medium、入力トークン数 4000）。
+結果を図4に示します。</p>
+
+<p><strong>図4: 出力トークン数制限によるレスポンス時間の変化</strong>
+<img src="/images/2025-08-18-gpt-oss/benchmark_output_token.png" alt="benchmark_output_token" /></p>
+
+<p>結果から、リクエスト処理性能は出力トークン数に強く依存することが明らかとなり、レスポンス時間の抑制には出力トークン数の制御が有効であると分かりました。
+さらに、リクエスト処理性能と推論精度を両立する観点からは、小さいモデルでReasoning effortをhighにするよりも、大きいモデルでmediumを用いたり、最大出力長を適切に制御する方が応答性能の安定化に寄与すると考えられます。</p>
+
+<hr />
+
+<h3 id="a100l4">A100およびL4環境におけるリクエスト処理性能</h3>
+
+<p>以下の図5〜8にA100上でgpt-oss-120bを、L4上でgpt-oss-20bをそれぞれ実行した結果を示します。
+なお、先に述べたとおり入力トークン数の影響は相対的に小さいため、本評価では入力トークン数を4000に固定してベンチマークを実施しました。
+また、比較のためH100上での同条件の結果も併記しています。</p>
+
+<p><strong>図5: A100とH100でのレスポンス時間の比較</strong>
+<img src="/images/2025-08-18-gpt-oss/benchmark_response_time_a100_vs_h100.png" alt="benchmark_response_time_a100_vs_h100" /></p>
+
+<p><strong>図6: A100とH100での秒間リクエスト数の比較</strong>
+<img src="/images/2025-08-18-gpt-oss/benchmark_rps_a100_vs_h100.png" alt="benchmark_rps_a100_vs_h100" /></p>
+
+<p><strong>図7: L4とH100でのレスポンス時間の比較</strong>
+<img src="/images/2025-08-18-gpt-oss/benchmark_response_time_l4_vs_h100.png" alt="benchmark_response_time_l4_vs_h100" /></p>
+
+<p><strong>図8: L4とH100での秒間リクエスト数の比較</strong>
+<img src="/images/2025-08-18-gpt-oss/benchmark_rps_l4_vs_h100.png" alt="benchmark_rps_l4_vs_h100" /></p>
+
+<p>結果として、A100およびL4環境はいずれもモデルの推論実行は可能でしたが、H100と比較して応答時間が大幅に長く、並列数を増加させてもスループットはほとんど改善しませんでした。
+すなわち、これらの環境は少数リクエストの処理には利用可能である一方、大規模な並列処理やサービス用途でのgpt-ossの安定運用には適さないと考えられます。</p>
+
+<h2 id="section-4">まとめ</h2>
+
+<p>本報告では、言語モデルgpt-ossを対象として、GPU環境や推論サーバー構成がリクエスト処理性能に与える影響を評価しました。
+その結果、サービス用途での安定運用にはH100以上の環境が望ましく、また適切な推論サーバーを導入することで並列数の増加に応じたスループット向上が可能であることを確認しました。
+さらに、リクエスト処理性能の改善には、モデルサイズのみならずReasoning effortの選定や出力トークン数の制御が有用であることを明らかにしました。
+これらの結論は、提供元の推奨やモデルの推論機序に照らせば妥当なものである一方、実測によって裏付けられたことで、導入に際して根拠ある選定基準を得ることができました。</p>
+
+<p>ペパボ研究所では、研究開発組織としての立場から、今後も研究に加えてこのような実応用を見据えた評価を報告し、導入や運用に関する知見も公開していきたいと考えています。</p>
+
+<h2 id="appendix">Appendix</h2>
+
+<p>以下に、本評価に関連する具体的な手順等を記載します。</p>
+
+<h3 id="section-5">推論サーバーの構築手順</h3>
+
+<p>NVIDIAドライバのインストール</p>
+
+<div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>dpkg <span class="nt">-i</span> cuda-keyring_1.1-1_all.deb
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>apt update
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> linux-headers-<span class="si">$(</span><span class="nb">uname</span> <span class="nt">-r</span><span class="si">)</span> cuda-toolkit-12-8 cuda-drivers-570
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>reboot
+</code></pre></div>
+<p>Python環境とvLLMのインストール</p>
+
+<div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>curl <span class="nt">-LsSf</span> https://astral.sh/uv/install.sh | sh
+<span class="gp">$</span><span class="w"> </span><span class="nb">source</span> <span class="nv">$HOME</span>/.local/bin/env
+<span class="gp">$</span><span class="w"> </span>uv venv <span class="nt">--python</span> 3.12 <span class="nt">--seed</span>
+<span class="gp">$</span><span class="w"> </span><span class="nb">source</span> .venv/bin/activate
+<span class="gp">$</span><span class="w"> </span>uv pip <span class="nb">install</span> <span class="nt">--pre</span> <span class="nv">vllm</span><span class="o">==</span>0.10.1+gptoss <span class="nt">--extra-index-url</span> https://wheels.vllm.ai/gpt-oss/ <span class="nt">--extra-index-url</span> https://download.pytorch.org/whl/nightly/cu128 <span class="nt">--index-strategy</span> unsafe-best-match
+</code></pre></div>
+<p>gpt-ossモデルのサービング</p>
+
+<div class="highlight"><pre class="highlight console"><code><span class="gp">#</span><span class="w"> </span>H100
+<span class="gp">$</span><span class="w"> </span>vllm serve openai/gpt-oss-120b <span class="nt">--max-model-len</span><span class="o">=</span>100000 <span class="nt">--async-scheduling</span>
+<span class="gp">#</span><span class="w"> </span>A100, L4
+<span class="gp">$</span><span class="w"> </span><span class="nv">VLLM_ATTENTION_BACKEND</span><span class="o">=</span>TRITON_ATTN_VLLM_V1 vllm serve openai/gpt-oss-120b <span class="nt">--max-model-len</span><span class="o">=</span>100000 <span class="nt">--async-scheduling</span>
+</code></pre></div>
+<h3 id="section-6">トラブルシューティング</h3>
+
+<p>Spotインスタンスの停止後、次の起動時にOSがGPUを認識しなくなる現象が発生しました。
+原因は、OSのバージョンアップにより、バージョンに対応するヘッダーファイルが見つからなくなるためです。
+この場合、<code>sudo apt install linux-headers-$(uname -r)</code>を実行後、再起動により再度認識されるようになります。</p>
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2025/08/18/gpt-oss/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          三宅悠介
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員、博士（情報科学）、プリンシパルエンジニア
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2026-06-15" class="article__time">2026-06-15</time></div>
+          <a href="/article/2026/06/15/typst/">Typstのすゝめ：コーディングエージェント時代のスライド・ポスター作成</a>
+        </li>
+        <li>
+          <div><time datetime="2026-06-09" class="article__time">2026-06-09</time></div>
+          <a href="/article/2026/06/09/jsai2026/">第40回人工知能学会全国大会（JSAI2026）で適応的スパムフィルタのための軽量な類似メッセージカウンタについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2026-04-02" class="article__time">2026-04-02</time></div>
+          <a href="/article/2026/04/02/inside-turboquant/">TurboQuantの気持ち</a>
+        </li>
+        <li>
+          <div><time datetime="2025-10-23" class="article__time">2025-10-23</time></div>
+          <a href="/article/2025/10/23/vector-attr/">ベクトル検索のフィルタを用いた機械学習モデルとの統合</a>
+        </li>
+        <li>
+          <div><time datetime="2025-09-04" class="article__time">2025-09-04</time></div>
+          <a href="/article/2025/09/04/fit2025/">第24回情報科学技術フォーラム（FIT2025）のトップコンファレンスセッションにてCOMPSAC 2024で採択された論文について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-08-18" class="article__time">2025-08-18</time></div>
+          <a href="/article/2025/08/18/gpt-oss/">gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較</a>
+        </li>
+        <li>
+          <div><time datetime="2025-07-28" class="article__time">2025-07-28</time></div>
+          <a href="/article/2025/07/28/iot70/">情報処理学会第70回インターネットと運用技術研究会で不確実性下における目的と手段の統合的探索に向けた連続腕バンディットの応用について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-06-27" class="article__time">2025-06-27</time></div>
+          <a href="/article/2025/06/27/dicomo2025/">マルチメディア、分散、協調とモバイル(DICOMO2025)シンポジウムの招待講演として、なめらかなシステムについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-03-25" class="article__time">2025-03-25</time></div>
+          <a href="/article/2025/03/25/inside-vector-search/">ベクトル検索システムの勉強会を開催しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+<div class="footer" id="__pepabo-footer-container">
+</div>
+
+<script type="text/javascript" charset="UTF-8" src="https://asset.pepabo.com/pepabo-footer/pepabo-footer.js" async="async"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>
