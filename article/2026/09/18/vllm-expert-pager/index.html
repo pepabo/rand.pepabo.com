@@ -1,0 +1,716 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+
+      <meta property="og:type" content="blog" />
+        <meta property="og:image" content="https://rand.pepabo.com/images/ogpimage.png" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/article/feed.xml" />
+
+
+    <title>VRAMに収まらないMoEモデルを階層ページングでサービングするvLLMプラグイン - ペパボ研究所ブログ</title>
+    <meta property="description" content="ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（@monochromegane）です。
+VRAMに収まらない規模のMixture-of-Experts（MoE）モデルを手元のGPUで動かすために、2つのvLLMプラグインを..." />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="VRAMに収まらないMoEモデルを階層ページングでサービングするvLLMプラグイン - ペパボ研究所ブログ" />
+    <meta property="og:description" content="ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（@monochromegane）です。
+VRAMに収まらない規模のMixture-of-Experts（MoE）モデルを手元のGPUで動かすために、2つのvLLMプラグインを..." />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-6f071514.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=709754052488816";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.svg" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <article class="article">
+      <div class="article__inner">
+        <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2026/09/18/vllm-expert-pager/">VRAMに収まらないMoEモデルを階層ページングでサービングするvLLMプラグイン</a>
+  </h1>
+
+  <time datetime="2026-09-18" class="article__time">
+    2026-09-18
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+        <div class="article__body">
+          <p>ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。
+VRAMに収まらない規模のMixture-of-Experts（MoE）モデルを手元のGPUで動かすために、2つのvLLMプラグインを開発しました。
+本記事では、その仕組みと性能について紹介します。</p>
+
+<h2 id="section">はじめに</h2>
+
+<p>高性能なオープンウェイトモデルが相次いで公開され、これを自組織の環境で動かす選択肢が広がっています。</p>
+
+<p>一方で、規模の大きなモデルを動かすためのGPUの確保は難しいままです。
+例えばMoEモデルである<a href="https://huggingface.co/Qwen/Qwen3.6-35B-A3B-FP8">Qwen3.6-35B-A3B-FP8</a>は、40のMoE層それぞれに256のエキスパートを持ち、エキスパートの重みだけで約30GiBに達します。
+トークンごとに使われるエキスパートは一部だけですが、どれが選ばれるかは事前にわからないため、すべてをVRAMに常駐させることになります。</p>
+
+<p>そこで、VRAMに収まらない重みをホストRAMとSSDへ退避して、必要な分だけをVRAMに出し入れする仕組みを、<a href="https://docs.vllm.ai/en/stable/">vLLM</a>のプラグインとして実装しました。
+本記事で紹介するのは次の2つです。</p>
+
+<ul>
+  <li><a href="https://github.com/monochromegane/vllm-expert-pager">vllm-expert-pager</a>：MoEのエキスパート重みをVRAM/RAM/SSDの3階層でページングする</li>
+  <li><a href="https://github.com/monochromegane/vllm-ngram-pager">vllm-ngram-pager</a>：<a href="https://huggingface.co/Qwen/Qwen3.8-Flash-Next-FP8">Qwen3.8-Flash-Next-FP8</a>のn-gram埋め込みテーブルをSSD上のモデルファイルから直接読み出す</li>
+</ul>
+
+<p>vllm-expert-pagerでは、同程度のVRAM使用量におけるvLLM標準のオフロード機能と比べて、デコード速度が5.8倍となりました。
+また、2つを併用することで、より大きなモデルであるQwen3.8-Flash-Next-FP8を、RTX 4090（VRAM 24GB）の1枚で動かせることを確認しました。</p>
+
+<p>以降では、既存の対処法との位置づけを整理したうえで、プラグインの主要な機能と推論性能の評価結果を示します。</p>
+
+<h2 id="section-1">取り組みの位置づけ</h2>
+
+<p>VRAMに収まらないモデルを動かす方法は、重みのデータ量を減らすか、重みの置き場所を工夫するかに分かれます。</p>
+
+<p>データ量を減らす方法の代表が量子化です。
+効果は大きい一方で、ビット数を減らすほど精度が劣化します。
+また、低ビットの量子化モデルは、モデルの提供元ではなく第三者が公開したものが多くなります。
+元のモデルの公開からの時間差や、再配布にあたってのライセンスの扱いも、運用上は考慮が必要です。
+そこで本記事では、提供元が公式に配布する量子化としてFP8を前提とし、置き場所の工夫に取り組みます。</p>
+
+<p>置き場所の工夫は、配置を起動時に決めてしまう方式と、実行時に入れ替える方式に分かれます。
+起動時に決める方式の例が、vLLMの<code>--cpu-offload-gb</code>です。
+VRAMに収まらない分をホストRAMへ置き、必要になるたびに転送します。
+どの重みをVRAMに残すかは起動時に決まり、使われ方に応じて入れ替えることはありません。
+退避先もホストRAMまでです。</p>
+
+<p>実行時に入れ替える方式は、よく使われるエキスパートをVRAMに残し、退避先をSSDまで広げます。
+antirez氏による<a href="https://github.com/antirez/ds4">DS4</a>や、kishida氏による<a href="https://github.com/kishida/questwend">QuestWend</a>がこれにあたります。
+いずれも実行時の使われ方に応じてVRAM上のエキスパートを入れ替え、収まらない分をSSDから読み出します。
+ただし、これらは推論エンジンそのものとして実装されているため、採用するとサービングの部分もそのエンジンのものになります。
+リクエストのスケジューリングやメモリ管理、新しいモデルへの対応まで、vLLMに積み重ねられてきた実装は使わないことになります。</p>
+
+<p>本記事の取り組みは、次の3つを同時に満たすことを目指しました。</p>
+
+<ul>
+  <li>提供元が公式に配布するFP8の重みをそのまま使う</li>
+  <li>使われ方に応じてVRAMの内容を入れ替え、退避先をSSDまで広げる</li>
+  <li>サービングはvLLMに任せ、重みの置き場所だけを担うプラグインとして実装する</li>
+</ul>
+
+<p>以降では、FP8のモデルを対象とするプラグインとして、VRAMとSSDをどう使うかという仕組みを中心に説明し、その評価を示します。</p>
+
+<h2 id="section-2">プラグインの仕組み</h2>
+
+<p>vllm-expert-pagerによるエキスパート重みの階層ページングの全体像を、図1に示します。</p>
+
+<p><strong>図1: エキスパート重みの階層ページング</strong>
+<img src="/images/2026-09-18-vllm-expert-pager/tiers.svg" alt="tiers" /></p>
+
+<p>なお、この3階層は、VRAM、ホストRAM、SSDの順に容量が大きく、読み出しに時間がかかることを前提としています。</p>
+
+<h3 id="section-3">エキスパート重みの階層ページング</h3>
+
+<p>MoEモデルでは、トークンごとに使われるエキスパートはごく一部であり、直前に選ばれたものが再び選ばれやすいという偏りがあります。
+vllm-expert-pagerは、この偏りをキャッシュの局所性とみなし、エキスパートの重みをVRAMとホストRAMに分けて管理します。
+VRAMを主記憶、ホストRAMをその退避先に見立てた、OSの仮想記憶におけるページングに相当します。</p>
+
+<p>各MoE層は、VRAMとホストRAMのそれぞれに、自分専用のスロット群を持ちます。
+1つのスロットが1つのエキスパートの重みを保持し、どちらの階層もLRUで管理します。
+スロット数はMoE層ごとに設定できます。
+必要なエキスパートがVRAMになければ、RAMのスロットから複製します。</p>
+
+<p>なお、プレフィル時のように、1ステップで必要なエキスパートがスロット数を超える場合は、その層に限り、必要な分をすべて収める作業用バッファへ切り替えます。</p>
+
+<h3 id="ssd">SSD階層</h3>
+
+<p>ホストRAMにもすべてのエキスパートが収まらない場合は、退避先としてSSDも使います。
+起動時に、すべての層のすべてのエキスパートを収めたページングファイルをSSDへ書き出しておきます。
+必要なエキスパートがRAMにもなければ、ホスト側のスレッドがこのファイルから読み出し、RAMのスロットへ載せます。</p>
+
+<h3 id="section-4">重みの圧縮</h3>
+
+<p>SSD階層を使う構成では、RAMとSSDに置く重みを可逆圧縮できます。
+FP8の値は指数部に偏りがあるため、エキスパートの重み行列の行ごとに指数部をハフマン符号化し、VRAMへ複製した直後にGPU側で展開します。
+これにより、RAMとSSDの使用量が1割ほど減り、同じRAM容量でより多くのエキスパートを保持できます。
+一方で展開のオーバーヘッドがかかるため、設定で無効にもできます。
+容量と速度のどちらを取るかは、後述の評価で構成ごとに示します。</p>
+
+<h3 id="n-gram">n-gramテーブルのページング</h3>
+
+<p>Qwen3.8-Flash-Nextには、エキスパートの重みとは別に、VRAMを圧迫する要素としてn-gram埋め込みテーブルがあります。
+vllm-ngram-pagerプラグインは、このテーブルをVRAMに載せず、SSD上のモデルファイルをmmapして、各ステップで必要になった行だけを集めます。
+一度の転送量が少ないため、現状はvllm-expert-pagerのような独自のLRU管理を持たず、OSのページキャッシュをそのままRAM階層として使っています。</p>
+
+<h2 id="section-5">評価</h2>
+
+<h3 id="section-6">環境と方法</h3>
+
+<p>評価にはRTX 4090（VRAM 24GB）を用い、WSL2上のvLLM 0.29.0で測定しました。
+ホストRAMは64GBで、WSL2から見えるのは約54GBです。
+クライアントには<code>vllm bench serve</code>を用い、<code>random</code>データセットで並列数1、入力1024トークン、出力256トークン、4プロンプトの条件としています。
+出力は<code>--ignore-eos</code>で256トークンに固定し、<code>--temperature 0</code>を指定しました。
+構成ごとにキャッシュを暖めるための実行を1回挟んだうえで2回計測し、2回目の結果を採用しました。
+指標には、出力トークンあたりの時間（TPOT）、最初のトークンまでの時間（TTFT）、および秒間出力トークン数（tok/s）を用いています。</p>
+
+<p>各表の使用量は、いずれもエキスパートの重みに使った分で、起動時のログから求めました。
+VRAM使用量は、vLLMが報告する重みのGPUメモリ使用量から、エキスパート以外の重みの分を引いた値です。
+エキスパート以外の重みは、35Bではすべてのエキスパートをホストへ退避した<code>--cpu-offload-gb 32</code>の実測値4.25GiB、Qwen3.8-Flash-Next-FP8ではスロット数の異なる2つの構成から求めた約9.7GiBです。
+RAM使用量とSSD使用量は、プラグインが起動時に出力する確保量とページングファイルのサイズです。</p>
+
+<p>なお、表3のQwen3.8-Flash-Next-FP8のみ、vLLM 0.29.0では起動できない（<a href="https://github.com/vllm-project/vllm/pull/55341">vllm-project/vllm#55341</a>で修正済み）ため、当該修正を含むmainのビルド（<code>0.28.1rc1.dev583+g114abd1c1</code>）で測定しました。</p>
+
+<h3 id="section-7">階層ページングの効果</h3>
+
+<p>Qwen3.6-35B-A3B-FP8を<code>--max-model-len 4096 --max-num-seqs 1</code>で起動し、vLLM標準の<code>--cpu-offload-gb</code>と比較しました。
+比較対象を揃えるため、<code>--cpu-offload-gb</code>には退避対象をエキスパート重みに限る<code>--cpu-offload-params w13_weight w2_weight</code>を併せて指定しています。
+結果を表1に示します。
+表中の<code>CACHE_SLOTS</code>と<code>RAM_SLOTS</code>は、それぞれVRAM階層とRAM階層の、MoE層あたりのスロット数です。</p>
+
+<p><strong>表1: Qwen3.6-35B-A3B-FP8における推論性能</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>構成</th>
+      <th>VRAM使用量</th>
+      <th>RAM使用量</th>
+      <th>SSD使用量</th>
+      <th>TPOT</th>
+      <th>TTFT</th>
+      <th>tok/s</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--cpu-offload-gb 32</code></td>
+      <td>0 GiB</td>
+      <td>30 GiB</td>
+      <td>未使用</td>
+      <td>90.1 ms</td>
+      <td>2719 ms</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <td><code>--cpu-offload-gb 17</code></td>
+      <td>13.0 GiB</td>
+      <td>17 GiB</td>
+      <td>未使用</td>
+      <td>54.0 ms</td>
+      <td>1694 ms</td>
+      <td>16.6</td>
+    </tr>
+    <tr>
+      <td><code>CACHE_SLOTS=32</code>, <code>RAM_SLOTS=256</code></td>
+      <td>4.1 GiB</td>
+      <td>30.4 GiB</td>
+      <td>未使用</td>
+      <td>17.4 ms</td>
+      <td>964 ms</td>
+      <td>47.4</td>
+    </tr>
+    <tr>
+      <td><code>CACHE_SLOTS=102</code>, <code>RAM_SLOTS=256</code></td>
+      <td>12.3 GiB</td>
+      <td>30.4 GiB</td>
+      <td>未使用</td>
+      <td>9.3 ms</td>
+      <td>779 ms</td>
+      <td>81.2</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>同程度のVRAM使用量にあたる<code>CACHE_SLOTS=102</code>と<code>--cpu-offload-gb 17</code>を比べると、デコード速度は5.8倍となりました。
+すべてのエキスパートをホストへ退避した<code>--cpu-offload-gb 32</code>に対しては9.7倍です。
+VRAM使用量を4.1GiBに抑えた<code>CACHE_SLOTS=32</code>でも、<code>--cpu-offload-gb 17</code>の3.1倍が出ています。</p>
+
+<h3 id="ssd-1">SSD階層のコスト</h3>
+
+<p>続いて、RAM階層のスロット数をエキスパート数より少なくし、残りをSSDから読み出す構成を測定しました。
+結果を表2に示します。</p>
+
+<p><strong>表2: SSD階層を使う場合の性能</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>構成</th>
+      <th>VRAM使用量</th>
+      <th>RAM使用量</th>
+      <th>SSD使用量</th>
+      <th>TPOT</th>
+      <th>TTFT</th>
+      <th>tok/s</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CACHE_SLOTS=32</code>, <code>RAM_SLOTS=256</code></td>
+      <td>4.1 GiB</td>
+      <td>30.4 GiB</td>
+      <td>未使用</td>
+      <td>17.4 ms</td>
+      <td>964 ms</td>
+      <td>47.4</td>
+    </tr>
+    <tr>
+      <td><code>CACHE_SLOTS=32</code>, <code>RAM_SLOTS=128</code></td>
+      <td>4.1 GiB</td>
+      <td>15.4 GiB</td>
+      <td>30.0 GiB</td>
+      <td>22.9 ms</td>
+      <td>2492 ms</td>
+      <td>30.7</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>エキスパートのRAM使用量を30.4GiBから15.4GiBへ半減させる代償として、TPOTが5.5ms増加しました。
+さらに、TTFTは964msから2492msへ大きく増加しています。
+これは、プレフィルではRAMに存在しないエキスパートをほぼすべてSSDから読み出すことになるためと考えられます。</p>
+
+<p>35BではエキスパートがすべてホストRAMに収まるためSSD階層を使う必要はありませんが、次に示すQwen3.8-Flash-Next-FP8のように、ホストRAMにも収まらない規模のモデルでは必要になります。</p>
+
+<h3 id="n-gram-1">n-gramテーブルのページングによる実行</h3>
+
+<p>2つのプラグインを併用し、Qwen3.8-Flash-Next-FP8をRTX 4090の1枚で実行しました。
+このモデルは48層それぞれに512のエキスパートを持ち、エキスパートの重みが112.5GiB、n-gram埋め込みテーブルが47.7GiBあります。
+いずれもVRAMには収まりません。
+そこで、エキスパートの重みはvllm-expert-pagerがホストRAMとSSDに、n-gram埋め込みテーブルはvllm-ngram-pagerがSSD上のモデルファイルに置いたまま実行します。
+この構成では、重みの圧縮も有効にしています。
+結果を表3に示します。</p>
+
+<p><strong>表3: Qwen3.8-Flash-Next-FP8における推論性能</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>構成</th>
+      <th>VRAM使用量</th>
+      <th>RAM使用量</th>
+      <th>SSD使用量</th>
+      <th>TPOT</th>
+      <th>TTFT</th>
+      <th>tok/s</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CACHE_SLOTS=46</code>, <code>RAM_SLOTS=232</code></td>
+      <td>10.7 GiB</td>
+      <td>45.4 GiB</td>
+      <td>99.0 GiB</td>
+      <td>60.7 ms</td>
+      <td>4978 ms</td>
+      <td>12.5</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>比較対象となる構成がないため絶対値のみですが、VRAM 24GBの1枚で、112.5GiBのエキスパート重みを持つモデルがサービングできています。
+スロット数は、このホストRAMで確保できる上限です。
+これは、n-gramテーブルのページキャッシュとして使う分を残す必要があるためです。</p>
+
+<h3 id="section-8">重みの圧縮の効果</h3>
+
+<p>最後に、RAMとSSDに置く重みの圧縮について、2つのモデルで効果を比べました。
+スロット数は、圧縮なしでもホストRAMに収まる値に揃えました。
+35Bは<code>CACHE_SLOTS=32</code>, <code>RAM_SLOTS=128</code>、Flash-Nextは<code>CACHE_SLOTS=38</code>, <code>RAM_SLOTS=192</code>です。
+結果を表4に示します。</p>
+
+<p><strong>表4: 圧縮の有無による違い</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>構成</th>
+      <th>VRAM使用量</th>
+      <th>RAM使用量</th>
+      <th>SSD使用量</th>
+      <th>TPOT</th>
+      <th>TTFT</th>
+      <th>tok/s</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Qwen3.6-35B-A3B-FP8、圧縮なし</td>
+      <td>4.1 GiB</td>
+      <td>15.4 GiB</td>
+      <td>30.0 GiB</td>
+      <td>22.9 ms</td>
+      <td>2492 ms</td>
+      <td>30.7</td>
+    </tr>
+    <tr>
+      <td>Qwen3.6-35B-A3B-FP8、圧縮あり</td>
+      <td>4.2 GiB</td>
+      <td>13.7 GiB</td>
+      <td>26.7 GiB</td>
+      <td>24.3 ms</td>
+      <td>2318 ms</td>
+      <td>30.1</td>
+    </tr>
+    <tr>
+      <td>Qwen3.8-Flash-Next-FP8、圧縮なし</td>
+      <td>8.7 GiB</td>
+      <td>42.8 GiB</td>
+      <td>112.5 GiB</td>
+      <td>67.4 ms</td>
+      <td>6214 ms</td>
+      <td>10.9</td>
+    </tr>
+    <tr>
+      <td>Qwen3.8-Flash-Next-FP8、圧縮あり</td>
+      <td>9.0 GiB</td>
+      <td>37.6 GiB</td>
+      <td>99.0 GiB</td>
+      <td>67.3 ms</td>
+      <td>5551 ms</td>
+      <td>11.3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>容量の削減はどちらのモデルでも同程度で、RAMとSSDの使用量がいずれも1割強減りました。
+VRAM使用量だけはわずかに増えますが、これは展開に使う符号表をVRAMに常駐させるためです。
+読み出すバイト数が減るため、TTFTもどちらも短くなっています。</p>
+
+<p>一方で、デコード速度への影響はモデルによって異なりました。
+35BではTPOTが1.4ms（6%）増えるのに対し、Flash-Nextではほとんど変わりません。
+Flash-Nextはデコード時間の大半がSSDの読み出し待ちであり、展開の処理がその待ち時間の内側で終わるためと考えられます。</p>
+
+<p>したがって、ホストRAMが先に足りなくなる場合やSSDの読み出し待ちが支配的な場合は圧縮を有効にし、RAMに余裕があってデコード速度を優先するなら無効にする、という使い分けが良さそうです。</p>
+
+<h2 id="section-9">まとめ</h2>
+
+<p>本記事では、VRAMに収まらない重みを階層的にページングすることで、規模の大きなMoEモデルを手元のGPUでサービングする取り組みを紹介しました。
+提供元が配布するFP8の重みをそのまま用い、使われ方に応じてVRAMの内容を入れ替えながら、退避先をSSDまで広げています。
+サービングはvLLMに任せ、プラグインが担うのは重みの置き場所だけであるため、vLLMの実装をそのまま使えます。
+現時点での制約として、複数GPUへの分散には対応していません。
+また、vllm-expert-pagerが対象とするのはFP8で保存されたQwen系のMoEモデルであり、SSD階層は<code>O_DIRECT</code>を用いるためLinuxが必要です。</p>
+
+<p>いずれのプラグインもMITライセンスで公開しています。よければ使ってみてください。
+ペパボ研究所では、研究開発組織としての立場から、今後もこのような実応用を見据えた取り組みとその知見を公開していきたいと考えています。</p>
+
+
+
+          <hr />
+          <h2>【PR】パートナー積極採用中！</h2>
+          <p>ペパボ研究所では、新しいパートナーを求めています。詳細については、<a href="/">当研究所のトップページ</a>をご覧ください。</p>
+        </div>
+
+        <div class="social-buttons-wrapper">
+  <div class="container">
+    <div class="social-buttons">
+      <div class="hatena-bookmark">
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-noballoon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+          <img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"/>
+        </a>
+        <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+
+      <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="pepaken">Tweet</a>
+        <script>!function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        }(document, 'script', 'twitter-wjs');</script>
+      </div>
+
+      <div class="fb-share-button" data-href="/article/2026/09/18/vllm-expert-pager/" data-layout="button"></div>
+
+      <div class="pocket">
+        <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en"></a>
+        <script type="text/javascript">!function (d, i) {
+          if (!d.getElementById(i)) {
+            var j = d.createElement("script");
+            j.id = i;
+            j.src = "https://widgets.getpocket.com/v1/j/btn.js?v=1";
+            var w = d.getElementById(i);
+            d.body.appendChild(j);
+          }
+        }(document, "pocket-btn-js");</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="article__footer">
+
+  <h2 class="article__title">
+    書いた人
+  </h2>
+
+
+      <div class="article__footer__wrap">
+        <div class="article__author-image">
+          <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+        </div>
+
+        <div class="article__author-name">
+          三宅悠介
+        </div>
+
+        <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">              <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">              <i class="fa fa-github-square fa-fw"></i>
+</a>        </div>
+      </div>
+
+      <p class="article__author-description">
+        ペパボ研究所研究員、博士（情報科学）、シニア・プリンシパルエンジニア
+      </p>
+
+
+</div>
+
+      </div>
+    </article>
+  </div>
+
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2026-09-18" class="article__time">2026-09-18</time></div>
+          <a href="/article/2026/09/18/vllm-expert-pager/">VRAMに収まらないMoEモデルを階層ページングでサービングするvLLMプラグイン</a>
+        </li>
+        <li>
+          <div><time datetime="2026-06-15" class="article__time">2026-06-15</time></div>
+          <a href="/article/2026/06/15/typst/">Typstのすゝめ：コーディングエージェント時代のスライド・ポスター作成</a>
+        </li>
+        <li>
+          <div><time datetime="2026-06-09" class="article__time">2026-06-09</time></div>
+          <a href="/article/2026/06/09/jsai2026/">第40回人工知能学会全国大会（JSAI2026）で適応的スパムフィルタのための軽量な類似メッセージカウンタについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2026-04-02" class="article__time">2026-04-02</time></div>
+          <a href="/article/2026/04/02/inside-turboquant/">TurboQuantの気持ち</a>
+        </li>
+        <li>
+          <div><time datetime="2025-10-23" class="article__time">2025-10-23</time></div>
+          <a href="/article/2025/10/23/vector-attr/">ベクトル検索のフィルタを用いた機械学習モデルとの統合</a>
+        </li>
+        <li>
+          <div><time datetime="2025-09-04" class="article__time">2025-09-04</time></div>
+          <a href="/article/2025/09/04/fit2025/">第24回情報科学技術フォーラム（FIT2025）のトップコンファレンスセッションにてCOMPSAC 2024で採択された論文について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-08-18" class="article__time">2025-08-18</time></div>
+          <a href="/article/2025/08/18/gpt-oss/">gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較</a>
+        </li>
+        <li>
+          <div><time datetime="2025-07-28" class="article__time">2025-07-28</time></div>
+          <a href="/article/2025/07/28/iot70/">情報処理学会第70回インターネットと運用技術研究会で不確実性下における目的と手段の統合的探索に向けた連続腕バンディットの応用について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-06-27" class="article__time">2025-06-27</time></div>
+          <a href="/article/2025/06/27/dicomo2025/">マルチメディア、分散、協調とモバイル(DICOMO2025)シンポジウムの招待講演として、なめらかなシステムについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+<div class="footer" id="__pepabo-footer-container">
+</div>
+
+<script type="text/javascript" charset="UTF-8" src="https://asset.pepabo.com/pepabo-footer/pepabo-footer.js" async="async"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+  </body>
+</html>
