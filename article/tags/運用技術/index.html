@@ -1,0 +1,969 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+      <meta property="og:type" content="blog" />
+
+    <title>運用技術 に関する記事一覧 - ペパボ研究所ブログ</title>
+    <meta property="description" content="GMOペパボの研究開発に関するブログ / 運用技術 に関する記事一覧" />
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MZ6KFZR');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P8WMGG');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@pepabo">
+
+    <meta property="og:title" content="運用技術 に関する記事一覧 - ペパボ研究所ブログ" />
+    <meta property="og:description" content="GMOペパボの研究開発に関するブログ / 運用技術 に関する記事一覧" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" integrity="sha384-MI32KR77SgI9QAPUs+6R7leEOwtop70UsjEtFEezfKnMjXWx15NENsZpfDgq8m8S" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/all-c50c6522.css" rel="stylesheet" />
+    <script src="/javascripts/application.js"></script>
+    <link href="/images/favicon.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZ6KFZR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P8WMGG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <header class="header">
+  <div class="header__inner">
+<a href="/article" class="header__logo-link">        <h1 class="header__logo">
+          <img src="/images/pepaken_blog.svg" alt="ペパ研ブログ" />
+        </h1>
+</a>
+<a href="" class="header__icon-link js-drawer--trigger">        <i class="fa fa-bars header__icon"></i>
+</a>  </div>
+</header>
+
+
+    <div class="wrapper">
+        <div class="main" role="main">
+    <h1 class="archive__header">#運用技術 に関する記事一覧</h1>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2026/09/18/vllm-expert-pager/">VRAMに収まらないMoEモデルを階層ページングでサービングするvLLMプラグイン</a>
+  </h1>
+
+  <time datetime="2026-09-18" class="article__time">
+    2026-09-18
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。
+VRAMに収まらない規模のMixture-of-Experts（MoE）モデルを手元のGPUで動かすために、2つのvLLMプラグインを開発しました。
+本記事では、その仕組みと性能について紹介します。</p>
+
+<h2 id="section">はじめに</h2>
+
+<p>高性能なオープンウェイトモデルが相次いで公開され、これを自組織の環境で動かす選択肢が広がっています。</p>
+
+<p>一方で、規模の大きなモデルを動かすためのGPUの確保は難しいままです。
+例え...</p>
+      </p>
+
+<a href="/article/2026/09/18/vllm-expert-pager/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            三宅悠介
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員、博士（情報科学）、シニア・プリンシパルエンジニア
+        </p>
+
+    </div>
+  </div>
+</article>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2026/06/09/jsai2026/">第40回人工知能学会全国大会（JSAI2026）で適応的スパムフィルタのための軽量な類似メッセージカウンタについて発表しました</a>
+  </h1>
+
+  <time datetime="2026-06-09" class="article__time">
+    2026-06-09
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員／シニア・プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。
+2026年6月9日に開催された、<a href="https://www.ai-gakkai.or.jp/jsai2026/">第40回人工知能学会全国大会</a>（JSAI2026）で、ペパボ研究所から<a href="https://pub.confit.atlas.jp/ja/event/jsai2026/presentation/2L1-GS-10t-05">発表</a>を行いましたので論文とスライドと共に紹介します。</p>
+
+<h2 id="section">適応的スパムフィルタのための軽量な類似メッセージカウンタ</h2>
+
+<p>本研究では、メッセージ機能を有する情報システムにおいて、スパム検知のための機械学習モデルの再学習・反映までの時間差を補う、軽量な類似メッセージカウンタを提案しました。機械学習モデ...</p>
+      </p>
+
+<a href="/article/2026/06/09/jsai2026/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            三宅悠介
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員、博士（情報科学）、シニア・プリンシパルエンジニア
+        </p>
+
+    </div>
+  </div>
+</article>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2025/10/23/vector-attr/">ベクトル検索のフィルタを用いた機械学習モデルとの統合</a>
+  </h1>
+
+  <time datetime="2025-10-23" class="article__time">
+    2025-10-23
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。
+本記事では、ベクトル検索システムに機械学習モデルで算出した指標を組み合わせることで、検索結果を柔軟に制御し、サービス指標に沿った最適化を実現するアプローチについて紹介します。</p>
+
+<h2 id="section">はじめに</h2>
+
+<p>情報システムとAIの統合において、互いの知識を効率的に引き出すための、ベクトル検索システムの重要性が増しています。ベクトル検索は、画像やテキストなどの多様なデータを高次元の埋め込みベクトル空間に写像し、その距離に...</p>
+      </p>
+
+<a href="/article/2025/10/23/vector-attr/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            三宅悠介
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員、博士（情報科学）、プリンシパルエンジニア
+        </p>
+
+    </div>
+  </div>
+</article>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2025/09/04/fit2025/">第24回情報科学技術フォーラム（FIT2025）のトップコンファレンスセッションにてCOMPSAC 2024で採択された論文について発表をしました</a>
+  </h1>
+
+  <time datetime="2025-09-04" class="article__time">
+    2025-09-04
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。
+2025年9月3日から5日にかけて開催されている、<a href="https://www.ipsj.or.jp/event/fit/fit2025/index.html">第24回情報科学技術フォーラム</a>（FIT2025）の<a href="https://www.gakkai-web.net/fit/program_web/data/html/event/TCS2-2.html">トップコンファレンスセッション</a>で、ペパボ研究所から発表を行いました。</p>
+
+<p>トップコンファレンスセッションは、各分野におけるトップレベルの国際会議や学術雑誌で近年採録された論文の著者が研究内容を紹介するもので、分野横断的に優れた研究を効率的に把握できる貴重な機会です。</p>
+
+<h2 id="section">重み付き逐次ガウス過程回帰モデルを...</h2>
+      </p>
+
+<a href="/article/2025/09/04/fit2025/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            三宅悠介
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員、博士（情報科学）、プリンシパルエンジニア
+        </p>
+
+    </div>
+  </div>
+</article>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2025/08/18/gpt-oss/">gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較</a>
+  </h1>
+
+  <time datetime="2025-08-18" class="article__time">
+    2025-08-18
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。</p>
+
+<p>2025年8月、OpenAIよりオープンウェイトモデルとして<a href="https://openai.com/ja-JP/index/introducing-gpt-oss/">gpt-oss</a>が公開されました。
+これらのモデルは、軽量ながら既存の強力なモデルに匹敵する性能を示しており、gpt-oss-120bはo4-miniと、gpt-oss-20bはo3-mini と同水準のベンチマーク結果を達成したと報告されています。
+また、これらはApache 2.0ライセンスのもとで提供され、単一GPUで効率的な推論が可...</p>
+      </p>
+
+<a href="/article/2025/08/18/gpt-oss/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            三宅悠介
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員、博士（情報科学）、プリンシパルエンジニア
+        </p>
+
+    </div>
+  </div>
+</article>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2025/07/28/iot70/">情報処理学会第70回インターネットと運用技術研究会で不確実性下における目的と手段の統合的探索に向けた連続腕バンディットの応用について発表をしました</a>
+  </h1>
+
+  <time datetime="2025-07-28" class="article__time">
+    2025-07-28
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。
+2025年7月28日に開催された、<a href="https://www.iot.ipsj.or.jp/meeting/70-program/">第70回インターネットと運用技術研究会</a>（IOT70）で、ペパボ研究所から発表を行いましたので論文（研究会予稿）とスライドと共に紹介します。</p>
+
+<h2 id="section">不確実性下における目的と手段の統合的探索に向けた連続腕バンディットの応用</h2>
+
+<p>本研究では、情報システムの運用において、あらかじめ定まった目的に従うのではなく、状況に応じて目的自体も含めて適切な判断を構成していくという視点から、意...</p>
+      </p>
+
+<a href="/article/2025/07/28/iot70/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            三宅悠介
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員、博士（情報科学）、プリンシパルエンジニア
+        </p>
+
+    </div>
+  </div>
+</article>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2025/06/27/dicomo2025/">マルチメディア、分散、協調とモバイル(DICOMO2025)シンポジウムの招待講演として、なめらかなシステムについて発表しました</a>
+  </h1>
+
+  <time datetime="2025-06-27" class="article__time">
+    2025-06-27
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅（<a href="https://x.com/monochromegane">@monochromegane</a>）です。
+2025年6月25日から3日間に渡って開催された、<a href="http://dicomo.org/">マルチメディア、分散、協調とモバイル（DICOMO2025）シンポジウム</a>で、ペパボ研究所から招待講演を行いましたので発表資料と共に紹介します。</p>
+
+<h2 id="section">なめらかなシステムと運用維持の終わらぬ未来</h2>
+
+<p>ペパボ研究所では、情報システムに関わる利用者（ユーザー、開発運用者）が、その関わりにおいて不便さや面倒さを感じない未来のシステムを「なめらかなシステム」と名付け...</p>
+      </p>
+
+<a href="/article/2025/06/27/dicomo2025/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            三宅悠介
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員、博士（情報科学）、プリンシパルエンジニア
+        </p>
+
+    </div>
+  </div>
+</article>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2024/07/05/compsac2024/">IEEE COMPSAC 2024で重み付き逐次ガウス過程回帰モデルを用いた多腕バンディット方策について発表しました</a>
+  </h1>
+
+  <time datetime="2024-07-05" class="article__time">
+    2024-07-05
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅(<a href="https://twitter.com/monochromegane">@monochromegane</a>)です。
+2024年7月2日から4日に渡って大阪で開催された<a href="https://ieeecompsac.computer.org/2024/">IEEE COMPSAC 2024</a>において、<strong>Online Nonstationary and Nonlinear Bandits with Recursive Weighted Gaussian Process</strong>という標題で、フルペーパー採択論文の発表を行ってきました。発表資料と共に内容を紹介します。</p>
+
+<h2 id="ieee-compsac-2024">IEEE COMPSAC 2024</h2>
+
+<p><img src="/images/2024-07-05-compsac2024/compsac2024.jpg" alt="compsac2024"></p>
+
+<p>IEEE...</p>
+      </p>
+
+<a href="/article/2024/07/05/compsac2024/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            三宅悠介
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員、プリンシパルエンジニア
+        </p>
+
+    </div>
+  </div>
+</article>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2023/10/10/smc2023/">IEEE SMC 2023でメタ推薦システムに適した、状態空間モデルを用いた多腕バンディット方策について発表しました</a>
+  </h1>
+
+  <time datetime="2023-10-10" class="article__time">
+    2023-10-10
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+      <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員／プリンシパルエンジニアの三宅(<a href="https://twitter.com/monochromegane">@monochromegane</a>)です。
+2023年10月1日から4日に渡ってハワイで開催された<a href="https://ieeesmc2023.org/">IEEE SMC 2023</a>において、<strong>Contextual and Nonstationary Multi-armed Bandits Using the Linear Gaussian State Space Model for the Meta-Recommender System</strong>という標題で発表を行ってきました。発表資料と共に内容を紹介します...</p>
+      </p>
+
+<a href="/article/2023/10/10/smc2023/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/cd3d2cb2dadf5488935fe0ddaea7938a?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            三宅悠介
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/monochromegane" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/monochromegane" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員、プリンシパルエンジニア
+        </p>
+
+    </div>
+  </div>
+</article>
+
+  <article class="article">
+  <div class="article__inner">
+    <div class="article__header">
+  <div class="article__topic">
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+  <h1 class="article__title">
+    <a href="/article/2023/09/20/appsscript-cloudrun-certification/">スプレッドシートでCloud Runを活用：Apps ScriptからCloud Runへの認証方法</a>
+  </h1>
+
+  <time datetime="2023-09-20" class="article__time">
+    2023-09-20
+  </time>
+
+  <div class="article__topic article__topic--pc">
+      <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+  </div>
+
+</div>
+
+
+    <div class="article__body">
+      <p class="article__summary">
+        <p>ペパボ研究所 研究員の酒井（<a href="https://twitter.com/tshk_sakai">@tshk_sakai</a>）です。
+今回は、Google Sheets（以下、スプレッドシートと書きます）でCloud Runを活用するため、<a href="https://openid.net/developers/how-connect-works/">OpenID Connect</a>仕様のIDトークンを用いて、Google Apps Script（以下、Apps Scriptと書きます）からCloud Runへの認証を行う方法についてご紹介します。</p>
+
+<h2 id="section">背景</h2>
+
+<p>業務において、スプレッドシートの情報を元に、処理を行い、その処理結果をシートへ反映したいことがあります。
+この場合、スプ...</p>
+      </p>
+
+<a href="/article/2023/09/20/appsscript-cloudrun-certification/" class="article__more">        この記事をもっと読む <i class="fa fa-angle-double-right"></i>
+</a>    </div>
+
+    <div class="article__footer">
+
+        <div class="article__footer__wrap">
+          <div class="article__author-image">
+            <img src="//www.gravatar.com/avatar/beaabf8cbdb4078dbb3f3fc1247057d1?size=80" alt="" />
+          </div>
+
+          <div class="article__author-name">
+            酒井敏彦
+          </div>
+
+          <div class="article__author-links">
+<a href="https://twitter.com/https://twitter.com/tshk_sakai" class="article__author-link article__author-link--twitter" target="_blank">                <i class="fa fa-twitter-square fa-fw"></i>
+</a>
+
+<a href="https://github.com/ToshihikoSakai" class="article__author-link article__author-link--github" target="_blank">                <i class="fa fa-github-square fa-fw"></i>
+</a>          </div>
+        </div>
+
+        <p class="article__author-description">
+          ペパボ研究所研究員。
+        </p>
+
+    </div>
+  </div>
+</article>
+
+
+  <div class="pager">
+  <p class="page-prev">
+  </p>
+
+    <p class="page-numbers">
+      <span class="page-number">1/5</span>ページ目
+    </p>
+
+  <p class="page-next">
+<a href="/article/tags/%E9%81%8B%E7%94%A8%E6%8A%80%E8%A1%93/page/2/">        進む <i class="fa fa-arrow-right"></i>
+</a>  </p>
+</div>
+
+
+  </div>
+  <aside class="sidebar js-drawer">
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">最新の記事</h2>
+    <ul class="newpost">
+        <li>
+          <div><time datetime="2026-09-18" class="article__time">2026-09-18</time></div>
+          <a href="/article/2026/09/18/vllm-expert-pager/">VRAMに収まらないMoEモデルを階層ページングでサービングするvLLMプラグイン</a>
+        </li>
+        <li>
+          <div><time datetime="2026-06-15" class="article__time">2026-06-15</time></div>
+          <a href="/article/2026/06/15/typst/">Typstのすゝめ：コーディングエージェント時代のスライド・ポスター作成</a>
+        </li>
+        <li>
+          <div><time datetime="2026-06-09" class="article__time">2026-06-09</time></div>
+          <a href="/article/2026/06/09/jsai2026/">第40回人工知能学会全国大会（JSAI2026）で適応的スパムフィルタのための軽量な類似メッセージカウンタについて発表しました</a>
+        </li>
+        <li>
+          <div><time datetime="2026-04-02" class="article__time">2026-04-02</time></div>
+          <a href="/article/2026/04/02/inside-turboquant/">TurboQuantの気持ち</a>
+        </li>
+        <li>
+          <div><time datetime="2025-10-23" class="article__time">2025-10-23</time></div>
+          <a href="/article/2025/10/23/vector-attr/">ベクトル検索のフィルタを用いた機械学習モデルとの統合</a>
+        </li>
+        <li>
+          <div><time datetime="2025-09-04" class="article__time">2025-09-04</time></div>
+          <a href="/article/2025/09/04/fit2025/">第24回情報科学技術フォーラム（FIT2025）のトップコンファレンスセッションにてCOMPSAC 2024で採択された論文について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-08-18" class="article__time">2025-08-18</time></div>
+          <a href="/article/2025/08/18/gpt-oss/">gpt-ossモデルのサービングにおけるリクエスト処理性能評価 ― NVIDIA H100・A100・L4の比較</a>
+        </li>
+        <li>
+          <div><time datetime="2025-07-28" class="article__time">2025-07-28</time></div>
+          <a href="/article/2025/07/28/iot70/">情報処理学会第70回インターネットと運用技術研究会で不確実性下における目的と手段の統合的探索に向けた連続腕バンディットの応用について発表をしました</a>
+        </li>
+        <li>
+          <div><time datetime="2025-06-27" class="article__time">2025-06-27</time></div>
+          <a href="/article/2025/06/27/dicomo2025/">マルチメディア、分散、協調とモバイル(DICOMO2025)シンポジウムの招待講演として、なめらかなシステムについて発表しました</a>
+        </li>
+      <li>
+        <a href="/article/">[記事一覧へ]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">注目トピック</h2>
+    <ul class="topics">
+        <li class="topic">
+          <a href="/article/tags/機械学習/" class="tag-color2">機械学習</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/運用技術/" class="tag-color14">運用技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ペパ研/" class="tag-color16">ペパ研</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/研究会/" class="tag-color1">研究会</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/国際会議/" class="tag-color6">国際会議</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/博士課程/" class="tag-color2">博士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/iot/" class="tag-color3">IoT</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/データ分析/" class="tag-color16">データ分析</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/修士課程/" class="tag-color14">修士課程</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/visual-analytics/" class="tag-color1">Visual Analytics</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/無線技術/" class="tag-color1">無線技術</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ソフトウェア工学/" class="tag-color3">ソフトウェア工学</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/共同研究/" class="tag-color8">共同研究</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/プレスリリース/" class="tag-color2">プレスリリース</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ランダムネス/" class="tag-color13">ランダムネス</a>
+        </li>
+        <li class="topic">
+          <a href="/article/tags/ブロックチェーン/" class="tag-color13">ブロックチェーン</a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__sections">
+    <h2 class="sidebar__title">リンク</h2>
+    <ul class="information">
+      <li>
+        <a href="http://pepabo.com/" target="_blank">GMO ペパボ株式会社</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/" target="_blank">採用情報 TOP</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/" target="_blank">キャリア採用 / アルバイト採用</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/career/engineer/" target="_blank">エンジニアの働き方</a>
+      </li>
+      <li>
+        <a href="http://pepabo.com/recruit/interview/" target="_blank">スタッフインタビュー</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wantedly-visit-button" data-visit-button-id="NtxFvhsaYHVms7dC4IhX9Q" data-width="220" data-height="60"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://platform.wantedly.com/visit_buttons/script.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, "script", "wantedly-visit-buttons-wjs"));
+</script>
+
+</aside>
+
+
+    </div>
+
+    <footer class="footer">
+  <div class="credit">
+    <p class="credit__logo"><a href="/">ペパボ研究所</a></p>
+    <ul class="credit__links">
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/overview/" target="_blank">
+          会社概要
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/company/privacy/" target="_blank">
+          プライバシーポリシー
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/recruit/" target="_blank">
+          採用情報
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/faq/" target="_blank">
+          よくあるご質問
+        </a>
+      </li>
+      <li class="credit__link">
+        <a href="https://pepabo.com/contact/" target="_blank">
+          お問い合わせ
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+<div class="footer" id="__pepabo-footer-container">
+</div>
+
+<script type="text/javascript" charset="UTF-8" src="https://asset.pepabo.com/pepabo-footer/pepabo-footer.js" async="async"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cache.img.gmo.jp/gmo/header/script.min.js" id="gmoheadertag" async="async"></script>
+
+    <div class="overlay"></div>
+    <!-- ロリポップ！デプロイナウ バッジ ここから -->
+<style>
+  .dn-badge {
+    position: fixed; right: 16px; bottom: 16px; z-index: 1000;
+    display: block; overflow: hidden; box-sizing: border-box;
+    width: var(--dn-w-default, auto); height: 20px; margin: 0; padding: 0; border: 0; border-radius: 4px;
+    background: #04132b; color: #fff;
+    font-family: "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, Meiryo, sans-serif; font-weight: 700; font-size: 10px; line-height: 12px; letter-spacing: 0;
+    white-space: nowrap; text-decoration: none;
+    transition: width .4s cubic-bezier(.4, .4, 0, 1), height .4s cubic-bezier(.4, .4, 0, 1);
+  }
+  /* 掲載先サイトのリンク色（a:hover など）に負けないよう、状態ごとに指定する */
+  a.dn-badge:link, a.dn-badge:visited, a.dn-badge:hover, a.dn-badge:focus, a.dn-badge:active {
+    color: #fff; text-decoration: none; opacity: 1;
+  }
+  .dn-badge__layer {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    display: inline-flex; align-items: center; gap: 3px;
+    transition: opacity .3s cubic-bezier(.4, .4, 0, 1);
+  }
+  /* 掲載先サイトの CSS に左右されないよう、中身の見た目をリセットする */
+  .dn-badge span {
+    margin: 0; padding: 0; border: 0;
+    font: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; text-decoration: none;
+  }
+  .dn-badge__layer--hover { opacity: 0; }
+  .dn-badge__icon { display: block; width: 9.91922px; height: 12px; max-width: none; margin: 0; padding: 0; border: 0; flex-shrink: 0; }
+  @media (hover: hover) {
+    .dn-badge:hover { width: var(--dn-w-hover, auto); height: 32px; }
+    .dn-badge:hover .dn-badge__layer--default { opacity: 0; }
+    .dn-badge:hover .dn-badge__layer--hover { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dn-badge, .dn-badge__layer { transition: none; }
+  }
+</style>
+<a class="dn-badge" href="https://lolipop.jp/deploy-now/?utm_source=rand.pepabo.com&amp;utm_medium=badge&amp;utm_campaign=deploy-now-badge" target="_blank" rel="noopener" aria-label="Powered by ロリポップ！デプロイナウ">
+  <span class="dn-badge__layer dn-badge__layer--default" aria-hidden="true">
+    <span>Powered by デプロイナウ</span>
+    <img class="dn-badge__icon" src="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjkuOTE5MjIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCA5LjkxOTIyIDEyIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBpZD0iR3JvdXAiPgo8ZyBpZD0iVmVjdG9yIj4KPC9nPgo8cGF0aCBpZD0iVmVjdG9yXzIiIGQ9Ik05LjE3ODc0IDkuMTA5NDVDOS4xNzg3NCA5LjU2MDAzIDguOTM5OTEgOS45NzY1IDguNTUwNDUgMTAuMjAxMkw1LjkwMzQyIDExLjczNjVDNS4yOTY1OSAxMi4wODc4IDQuNTQ5MjcgMTIuMDg3OCAzLjk0MjQ0IDExLjczNjVMMS4yOTU0MSAxMC4yMDEyQzAuOTA3MTIxIDkuOTc1MzIgMC42NjcxMjEgOS41NTk2NCAwLjY2NzEyMSA5LjEwOTQ1VjguODcxNDJDMC42NjcxMjEgOC43NTE4MSAwLjc5ODI0MyA4LjY3NTM0IDAuOTAwMDk2IDguNzM4NDhDMS4xODY5MyA4LjkxNjEyIDEuNTI0MSA5LjAxOTI2IDEuODg2MjQgOS4wMTkyNkMyLjMwMTg1IDkuMDE5MjYgMi42ODYyNSA4Ljg4MjQgMi45OTcyNyA4LjY1MjZDMy4wODg1OSA4LjU4NTE1IDMuMjE5NzEgOC42MTY5MSAzLjI3Mzk1IDguNzE2OTFDMy41OTIgOS4zMDIzOSA0LjIxMDE1IDkuNzAwNDIgNC45MjE1NyA5LjcwMDQyQzUuNjMyOTggOS43MDA0MiA2LjI3MjU5IDkuMjg4NjcgNi41ODU1NyA4LjY4NTE0QzYuNjMyNCA4LjU5NDE3IDYuNzQxMjggOC41NTg0OCA2LjgzMzc2IDguNjAyNEM3LjA2OTQ3IDguNzE1NzMgNy4zMzc5NiA4Ljc2Nzg5IDcuNjIxNjcgOC43Njc4OUM4LjMwMTg2IDguNzY3ODkgOS4xODQ5OSA4LjA3NDE3IDkuMjM4MDYgNy4xMzI2MkM5LjMwNDAxIDUuOTY1OTcgOC40MTc3NyA1LjI0NzE1IDcuMzkyOTggNS4yNDcxNUM0LjYzMzE4IDUuMjQ3MTUgMy4zODk4NiA3LjgzNDU3IDEuNzA5NDYgOC4yMjk4NkMwLjYxNjc3OSA4LjQ4NjMyIC0wLjE4ODI5NSA3LjY3NzMyIDAuMTE5NjA4IDYuMDE5M0MwLjc0NjczMSAyLjY0MjQ4IDQuMTUzMTcgLTAuMzE4NjUgNS41MDkyNyAwLjAyNzYxOTNDNi40ODQxIDAuMjc3MDI4IDUuMzA3MTMgMi4wMzM4NyA2LjE1NDc0IDIuMzEzNDdDMTAuMzQ5MSAzLjY5ODU1IDEwLjUwOTUgNy40NDMyIDkuMTc3OTYgOC41NjM1OFY5LjEwOTA2SDkuMTc5MTNMOS4xNzg3NCA5LjEwOTQ1WiIgZmlsbD0id2hpdGUiLz4KPC9nPgo8L3N2Zz4K" width="9.91922" height="12" alt="">
+  </span>
+  <span class="dn-badge__layer dn-badge__layer--hover" aria-hidden="true">
+    <span>デプロイナウであなたのサイトも公開しよう</span>
+    <img class="dn-badge__icon" src="data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjkuOTE5MjIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCA5LjkxOTIyIDEyIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBpZD0iR3JvdXAiPgo8ZyBpZD0iVmVjdG9yIj4KPC9nPgo8cGF0aCBpZD0iVmVjdG9yXzIiIGQ9Ik05LjE3ODc0IDkuMTA5NDVDOS4xNzg3NCA5LjU2MDAzIDguOTM5OTEgOS45NzY1IDguNTUwNDUgMTAuMjAxMkw1LjkwMzQyIDExLjczNjVDNS4yOTY1OSAxMi4wODc4IDQuNTQ5MjcgMTIuMDg3OCAzLjk0MjQ0IDExLjczNjVMMS4yOTU0MSAxMC4yMDEyQzAuOTA3MTIxIDkuOTc1MzIgMC42NjcxMjEgOS41NTk2NCAwLjY2NzEyMSA5LjEwOTQ1VjguODcxNDJDMC42NjcxMjEgOC43NTE4MSAwLjc5ODI0MyA4LjY3NTM0IDAuOTAwMDk2IDguNzM4NDhDMS4xODY5MyA4LjkxNjEyIDEuNTI0MSA5LjAxOTI2IDEuODg2MjQgOS4wMTkyNkMyLjMwMTg1IDkuMDE5MjYgMi42ODYyNSA4Ljg4MjQgMi45OTcyNyA4LjY1MjZDMy4wODg1OSA4LjU4NTE1IDMuMjE5NzEgOC42MTY5MSAzLjI3Mzk1IDguNzE2OTFDMy41OTIgOS4zMDIzOSA0LjIxMDE1IDkuNzAwNDIgNC45MjE1NyA5LjcwMDQyQzUuNjMyOTggOS43MDA0MiA2LjI3MjU5IDkuMjg4NjcgNi41ODU1NyA4LjY4NTE0QzYuNjMyNCA4LjU5NDE3IDYuNzQxMjggOC41NTg0OCA2LjgzMzc2IDguNjAyNEM3LjA2OTQ3IDguNzE1NzMgNy4zMzc5NiA4Ljc2Nzg5IDcuNjIxNjcgOC43Njc4OUM4LjMwMTg2IDguNzY3ODkgOS4xODQ5OSA4LjA3NDE3IDkuMjM4MDYgNy4xMzI2MkM5LjMwNDAxIDUuOTY1OTcgOC40MTc3NyA1LjI0NzE1IDcuMzkyOTggNS4yNDcxNUM0LjYzMzE4IDUuMjQ3MTUgMy4zODk4NiA3LjgzNDU3IDEuNzA5NDYgOC4yMjk4NkMwLjYxNjc3OSA4LjQ4NjMyIC0wLjE4ODI5NSA3LjY3NzMyIDAuMTE5NjA4IDYuMDE5M0MwLjc0NjczMSAyLjY0MjQ4IDQuMTUzMTcgLTAuMzE4NjUgNS41MDkyNyAwLjAyNzYxOTNDNi40ODQxIDAuMjc3MDI4IDUuMzA3MTMgMi4wMzM4NyA2LjE1NDc0IDIuMzEzNDdDMTAuMzQ5MSAzLjY5ODU1IDEwLjUwOTUgNy40NDMyIDkuMTc3OTYgOC41NjM1OFY5LjEwOTA2SDkuMTc5MTNMOS4xNzg3NCA5LjEwOTQ1WiIgZmlsbD0id2hpdGUiLz4KPC9nPgo8L3N2Zz4K" width="9.91922" height="12" alt="">
+  </span>
+</a>
+<script>
+  (function () {
+    // 幅を滑らかに伸ばすため、通常時とホバー時の中身の幅を測って CSS 変数に入れる
+    var badge = document.querySelector('.dn-badge');
+    if (!badge) return;
+    function measure() {
+      badge.style.setProperty('--dn-w-default', badge.querySelector('.dn-badge__layer--default').offsetWidth + 16 + 'px');
+      badge.style.setProperty('--dn-w-hover', badge.querySelector('.dn-badge__layer--hover').offsetWidth + 16 + 'px');
+    }
+    measure();
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(measure);
+      badge.querySelectorAll('.dn-badge__layer').forEach(function (l) { ro.observe(l); });
+    }
+  })();
+</script>
+<!-- ロリポップ！デプロイナウ バッジ ここまで -->
+
+  </body>
+</html>
